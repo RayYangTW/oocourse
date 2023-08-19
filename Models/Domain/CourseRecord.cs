@@ -10,6 +10,7 @@ namespace personal_project.Models.Domain
     public long id { get; set; }
     public string? roomId { get; set; }
 
+    // FK
     public long ChatRecordId { get; set; }
     public ChatRecord? chatRecord { get; set; }
 

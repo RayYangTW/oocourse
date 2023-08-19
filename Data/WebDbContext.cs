@@ -21,12 +21,15 @@ namespace personal_project.Data
     // Teacher related
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<TeacherApplication> TeacherApplications { get; set; }
-    public DbSet<TeacherAvailableTime> TeacherAvailableTimes { get; set; }
+    public DbSet<Course> Courses { get; set; }
 
     // Course related
     public DbSet<CourseCategory> CourseCategories { get; set; }
     public DbSet<ChatRecord> ChatRecords { get; set; }
     public DbSet<CourseRecord> CourseRecords { get; set; }
     public DbSet<Comment> Comments { get; set; }
+
+    // Order related
+    public DbSet<Booking> Bookings { get; set; }
   }
 }

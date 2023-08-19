@@ -128,6 +128,7 @@ namespace personal_project.Migrations
                     email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     category = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     language = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    country = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     experience = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     certification = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -172,7 +173,7 @@ namespace personal_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeacherAvailableTimes",
+                name: "Courses",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
@@ -184,14 +185,41 @@ namespace personal_project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeacherAvailableTimes", x => x.id);
+                    table.PrimaryKey("PK_Courses", x => x.id);
                     table.ForeignKey(
-                        name: "FK_TeacherAvailableTimes_Teachers_teacherId",
+                        name: "FK_Courses_Teachers_teacherId",
                         column: x => x.teacherId,
                         principalTable: "Teachers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    bookingTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    userId = table.Column<long>(type: "bigint", nullable: true),
+                    courseId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookings", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Courses_courseId",
+                        column: x => x.courseId,
+                        principalTable: "Courses",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_courseId",
+                table: "Bookings",
+                column: "courseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseRecords_ChatRecordId",
@@ -199,29 +227,36 @@ namespace personal_project.Migrations
                 column: "ChatRecordId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Courses_teacherId",
+                table: "Courses",
+                column: "teacherId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Profiles_userId",
                 table: "Profiles",
-                column: "userId");
+                column: "userId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeacherApplications_userId",
                 table: "TeacherApplications",
-                column: "userId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeacherAvailableTimes_teacherId",
-                table: "TeacherAvailableTimes",
-                column: "teacherId");
+                column: "userId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teachers_userId",
                 table: "Teachers",
-                column: "userId");
+                column: "userId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Bookings");
+
             migrationBuilder.DropTable(
                 name: "Comments");
 
@@ -238,7 +273,7 @@ namespace personal_project.Migrations
                 name: "TeacherApplications");
 
             migrationBuilder.DropTable(
-                name: "TeacherAvailableTimes");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "ChatRecords");

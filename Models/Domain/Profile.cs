@@ -14,6 +14,7 @@ namespace personal_project.Models.Domain
     public string? gender { get; set; }
     public string? interest { get; set; }
 
+    // FK
     public long userId { get; set; }
     public User? user { get; set; }
 
