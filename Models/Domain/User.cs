@@ -14,9 +14,9 @@ namespace personal_project.Models.Domain
     public string? role { get; set; } = "user";
 
 
-    // one to one
-    public TeacherApplication? teacherApplication { get; set; }
-    public Teacher? teacher { get; set; }
-    public Profile? profile { get; set; }
+    // // one to one
+    // public TeacherApplication? teacherApplication { get; set; }
+    // public Teacher? teacher { get; set; }
+    // public Profile? profile { get; set; }
   }
 }
