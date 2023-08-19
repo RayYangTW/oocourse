@@ -15,7 +15,11 @@ namespace personal_project.Models.Domain
     public string? courseLocation { get; set; }
     public string? courseRemider { get; set; }
 
+    // FK
     public long userId { get; set; }
     public User? user { get; set; }
+
+    // one to one
+    public Course? course { get; set; }
   }
 }

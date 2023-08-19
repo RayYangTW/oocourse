@@ -22,6 +22,33 @@ namespace personal_project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("personal_project.Models.Domain.Booking", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("bookingTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("courseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("userId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("courseId");
+
+                    b.ToTable("Bookings");
+                });
+
             modelBuilder.Entity("personal_project.Models.Domain.ChatRecord", b =>
                 {
                     b.Property<long>("id")
@@ -76,6 +103,34 @@ namespace personal_project.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.Course", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("endTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isBooked")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("startTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("teacherId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("teacherId")
+                        .IsUnique();
+
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("personal_project.Models.Domain.CourseCategory", b =>
@@ -143,7 +198,8 @@ namespace personal_project.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("userId")
+                        .IsUnique();
 
                     b.ToTable("Profiles");
                 });
@@ -179,7 +235,8 @@ namespace personal_project.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("userId")
+                        .IsUnique();
 
                     b.ToTable("Teachers");
                 });
@@ -196,6 +253,9 @@ namespace personal_project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("certification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("country")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("description")
@@ -224,36 +284,10 @@ namespace personal_project.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("userId")
+                        .IsUnique();
 
                     b.ToTable("TeacherApplications");
-                });
-
-            modelBuilder.Entity("personal_project.Models.Domain.TeacherAvailableTime", b =>
-                {
-                    b.Property<long>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
-
-                    b.Property<DateTime>("endTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("isBooked")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("startTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("teacherId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("teacherId");
-
-                    b.ToTable("TeacherAvailableTimes");
                 });
 
             modelBuilder.Entity("personal_project.Models.Domain.User", b =>
@@ -281,10 +315,32 @@ namespace personal_project.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("personal_project.Models.Domain.Booking", b =>
+                {
+                    b.HasOne("personal_project.Models.Domain.Course", "course")
+                        .WithMany("bookings")
+                        .HasForeignKey("courseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("course");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.Course", b =>
+                {
+                    b.HasOne("personal_project.Models.Domain.Teacher", "teacher")
+                        .WithOne("course")
+                        .HasForeignKey("personal_project.Models.Domain.Course", "teacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("teacher");
+                });
+
             modelBuilder.Entity("personal_project.Models.Domain.CourseRecord", b =>
                 {
                     b.HasOne("personal_project.Models.Domain.ChatRecord", "chatRecord")
-                        .WithMany()
+                        .WithMany("courseRecords")
                         .HasForeignKey("ChatRecordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -295,8 +351,8 @@ namespace personal_project.Migrations
             modelBuilder.Entity("personal_project.Models.Domain.Profile", b =>
                 {
                     b.HasOne("personal_project.Models.Domain.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
+                        .WithOne("profile")
+                        .HasForeignKey("personal_project.Models.Domain.Profile", "userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -306,8 +362,8 @@ namespace personal_project.Migrations
             modelBuilder.Entity("personal_project.Models.Domain.Teacher", b =>
                 {
                     b.HasOne("personal_project.Models.Domain.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
+                        .WithOne("teacher")
+                        .HasForeignKey("personal_project.Models.Domain.Teacher", "userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -317,23 +373,36 @@ namespace personal_project.Migrations
             modelBuilder.Entity("personal_project.Models.Domain.TeacherApplication", b =>
                 {
                     b.HasOne("personal_project.Models.Domain.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
+                        .WithOne("teacherApplication")
+                        .HasForeignKey("personal_project.Models.Domain.TeacherApplication", "userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("personal_project.Models.Domain.TeacherAvailableTime", b =>
+            modelBuilder.Entity("personal_project.Models.Domain.ChatRecord", b =>
                 {
-                    b.HasOne("personal_project.Models.Domain.Teacher", "teacher")
-                        .WithMany()
-                        .HasForeignKey("teacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("courseRecords");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.Course", b =>
+                {
+                    b.Navigation("bookings");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.Teacher", b =>
+                {
+                    b.Navigation("course");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.User", b =>
+                {
+                    b.Navigation("profile");
 
                     b.Navigation("teacher");
+
+                    b.Navigation("teacherApplication");
                 });
 #pragma warning restore 612, 618
         }

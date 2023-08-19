@@ -12,5 +12,8 @@ namespace personal_project.Models.Domain
     public DateTime createdTime { get; set; }
     public long userId { get; set; }
     public long teacherId { get; set; }
+
+    // one to many
+    public ICollection<CourseRecord> courseRecords { get; set; } = new List<CourseRecord>();
   }
 }
