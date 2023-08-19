@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" type="text/css" />
+</head>
+
+<body>
+  <div class="roomCreate">
+    <label for="name">Room Name:</label>
+    <input type="text" id="roomNameTxt" />
+    <button id="createRoomBtn">Create</button>
+  </div>
+  
+  <div>
+    <table id="roomTable" class="display" style="width:100%;">
+      <thead>
+        <tr>
+          <th>Room ID</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="borderLine"></div>
+  
+  <div>
+    <div class="connectionStatus">
+      <p id="connectionStatusMessage">*You can create your own room or join the other room.</p>
+    </div>
+    <h5>Video chat</h5>
+    <div class="videoArea">
+      <video id="localVideo" autoplay playsinline></video>
+      <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+  
+    <h5>File sharing</h5>
+    <div id="fileShare">
+      <input type="file" id="fileInput">
+      <button id="sendFileBtn" class="sendFileBtn">Send</button>
+    </div>
+    <table id="fileTable" class="fileTable">
+      <thead>
+        <tr>
+          <th>Received Files</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</body>
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+  integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+<!-- SignalR -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script>
+
+<script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+
+<script src="../js/test.js"></script>
+</html>
