@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace personal_project.Models.Domain.FormModels
+namespace personal_project.Models.Domain
 {
   public class TeacherApplicationFormModel
   {

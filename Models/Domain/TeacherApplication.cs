@@ -17,7 +17,7 @@ namespace personal_project.Models.Domain
     public string? location { get; set; }
     public string? experience { get; set; }
     public string? description { get; set; }
-    public bool isApproved { get; set; } = false;
+    public Boolean isApproved { get; set; } = false;
 
     public ICollection<Certification> certifications { get; set; } = new List<Certification>();
     [NotMapped]
