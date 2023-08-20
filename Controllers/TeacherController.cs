@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using personal_project.Data;
 using personal_project.Helpers;
 using personal_project.Models.Domain;
-using personal_project.Models.Domain.FormModels;
 
 namespace personal_project.Controllers
 {
@@ -44,7 +43,7 @@ namespace personal_project.Controllers
     string filesLocateDomain = "https://d3n4wxuzv8xzhg.cloudfront.net/";
     string fileToS3Path = "teacher/certification/";
 
-    // POST: teacher/application
+    // POST: api/teacher/application
     [Authorize]
     [HttpPost("application")]
     public async Task<IActionResult> ApplyForTeacherRole([FromForm] TeacherApplicationFormModel application)
