@@ -1,9 +1,11 @@
 using System.Text;
+using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using personal_project.Data;
+using personal_project.Helpers;
 using personal_project.Hubs;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -24,14 +26,18 @@ builder.Services.AddSwaggerGen(options =>
   });
   options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-// AutoMapper
-builder.Services.AddAutoMapper(typeof(Program));
 
 // Connect SQL Server
 DotNetEnv.Env.Load(); // use DotNetEnv to load .env
 var connectionString = System.Environment.GetEnvironmentVariable("CONNECTION_STRING_LOCAL");
 builder.Services.AddDbContext<WebDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+// AWS S3
+builder.Services.AddAWSService<IAmazonS3>();
+
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
 
 // Add SignalR
 builder.Services.AddSignalR();
@@ -53,7 +59,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
   });
 
-
+// DI service
+builder.Services.AddScoped<GetUserDataFromJWTHelper>();
 
 
 var app = builder.Build();

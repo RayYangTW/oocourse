@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,7 +19,7 @@ using personal_project.Models.User;
 namespace personal_project.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
+  [Route("api/[controller]")]
   public class UserController : ControllerBase
   {
     private readonly ILogger<UserController> _logger;
@@ -33,6 +34,7 @@ namespace personal_project.Controllers
       _mapper = mapper;
     }
 
+    [AllowAnonymous]
     [HttpPost("signup")]
     public async Task<IActionResult> Signup(BaseUser signupUser)
     {
@@ -81,6 +83,7 @@ namespace personal_project.Controllers
 
     }
 
+    [AllowAnonymous]
     [HttpPost("signin")]
     public async Task<IActionResult> Signin(SigninUser signinUser)
     {
