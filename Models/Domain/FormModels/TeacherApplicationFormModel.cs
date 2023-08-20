@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace personal_project.Models.Domain
+namespace personal_project.Models.Domain.FormModels
 {
-  public class TeacherApplication
+  public class TeacherApplicationFormModel
   {
-    public long id { get; set; }
     public string? name { get; set; }
     public string? email { get; set; }
     public string? category { get; set; }
@@ -17,14 +16,7 @@ namespace personal_project.Models.Domain
     public string? location { get; set; }
     public string? experience { get; set; }
     public string? description { get; set; }
-    public bool isApproved { get; set; } = false;
-
-    public ICollection<Certification> certifications { get; set; } = new List<Certification>();
     [NotMapped]
     public List<IFormFile>? certificationFiles { get; set; }
-
-    // FK
-    public long userId { get; set; }
-    //public User? user { get; set; }
   }
 }

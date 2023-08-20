@@ -59,6 +59,46 @@ namespace personal_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Profiles",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    nickname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    interest = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profiles", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeacherApplications",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    category = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    language = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    experience = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isApproved = table.Column<bool>(type: "bit", nullable: false),
+                    userId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeacherApplications", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -95,56 +135,23 @@ namespace personal_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Profiles",
+                name: "Certification",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    nickname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    interest = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    userId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Profiles", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Profiles_Users_userId",
-                        column: x => x.userId,
-                        principalTable: "Users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TeacherApplications",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    category = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    language = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    experience = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     certification = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isApproved = table.Column<bool>(type: "bit", nullable: false),
-                    userId = table.Column<long>(type: "bigint", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    TeacherApplicationid = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeacherApplications", x => x.id);
+                    table.PrimaryKey("PK_Certification", x => x.id);
                     table.ForeignKey(
-                        name: "FK_TeacherApplications_Users_userId",
-                        column: x => x.userId,
-                        principalTable: "Users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Certification_TeacherApplications_TeacherApplicationid",
+                        column: x => x.TeacherApplicationid,
+                        principalTable: "TeacherApplications",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -222,6 +229,11 @@ namespace personal_project.Migrations
                 column: "courseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Certification_TeacherApplicationid",
+                table: "Certification",
+                column: "TeacherApplicationid");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CourseRecords_ChatRecordId",
                 table: "CourseRecords",
                 column: "ChatRecordId");
@@ -233,22 +245,9 @@ namespace personal_project.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Profiles_userId",
-                table: "Profiles",
-                column: "userId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeacherApplications_userId",
-                table: "TeacherApplications",
-                column: "userId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Teachers_userId",
                 table: "Teachers",
-                column: "userId",
-                unique: true);
+                column: "userId");
         }
 
         /// <inheritdoc />
@@ -256,6 +255,9 @@ namespace personal_project.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Bookings");
+
+            migrationBuilder.DropTable(
+                name: "Certification");
 
             migrationBuilder.DropTable(
                 name: "Comments");
@@ -270,10 +272,10 @@ namespace personal_project.Migrations
                 name: "Profiles");
 
             migrationBuilder.DropTable(
-                name: "TeacherApplications");
+                name: "Courses");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "TeacherApplications");
 
             migrationBuilder.DropTable(
                 name: "ChatRecords");
