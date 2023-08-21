@@ -11,7 +11,9 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/form.css" />
+    <link rel="stylesheet" href="../css/user-profile.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -32,16 +34,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item">
-              <a class="nav-link mx-2" href="teacher/application.html"
+              <a class="nav-link mx-2" href="../teacher/application.html"
                 ><i class="fas fa-heart pe-2"></i>成為教師</a
-              >
-            </li>
-            <li class="nav-item ms-3">
-              <a
-                id="login-link"
-                class="btn btn-black btn-rounded"
-                href="user/signin.html"
-                >登入</a
               >
             </li>
           </ul>
@@ -49,41 +43,22 @@
       </div>
     </nav>
 
-    <!-- Campaign -->
-    <div class="campaign">
-      <img src="./assets/images/homepage-image.jpg" alt="snowboarding" />
-      <!-- <div class="loading">
-        <img src="./assets/icons/loading.gif" alt="loading" />
-      </div> -->
-    </div>
+    <!-- Links -->
 
-    <!-- Search bar -->
-    <div class="search-bar-container">
-      <div class="main-search-input-wrap">
-        <div class="main-search-input fl-wrap">
-          <div class="main-search-input-item">
-            <input type="text" value="" placeholder="輸入關鍵字..." />
-          </div>
-          <button class="main-search-button">搜尋</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Communication -->
-    <div class="communication-container row">
-      <div class="com-paragraph col-6">
-        <h3>這是第一段文字</h3>
-        <h3>這是第二段文字</h3>
-        <h3>這是第三段文字</h3>
-      </div>
-
-      <div class="com-images col-6">
-        <img src="./assets/images/communication.jpg" alt="teaching" />
-      </div>
+    <div class="links-container">
+      <a href="#" class="my-appointment"
+        ><button type="button" class="btn btn-policy">我的預約課程</button></a
+      >
+      <a href="#" class="my-member-profile"
+        ><button type="button" class="btn btn-policy">我的會員資料</button></a
+      >
+      <a href="#" class="signout"
+        ><button type="button" class="btn btn-policy">登出</button></a
+      >
     </div>
 
     <!-- Footer -->
-    <footer class="footer text-center text-lg-start">
+    <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
       <div class="text-center p-3">© 2023 Copyright: RayChen</div>
     </footer>
@@ -100,6 +75,13 @@
     integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
     crossorigin="anonymous"
   ></script>
+  <!-- axios -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
+    integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
   <!-- js file -->
-  <script src="js/index.js"></script>
+  <script src="../js/user-profile.js"></script>
 </html>
