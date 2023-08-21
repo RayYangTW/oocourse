@@ -33,3 +33,7 @@
   margin-bottom: 25px;
   padding: 10px 20px;
 }
+
+.form-container .form-label {
+  margin-left: 21px;
+}

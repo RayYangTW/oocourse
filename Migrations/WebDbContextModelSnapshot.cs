@@ -275,6 +275,9 @@ namespace personal_project.Migrations
                     b.Property<string>("country")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("createdTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
@@ -295,6 +298,12 @@ namespace personal_project.Migrations
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("updatedTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("userId")
                         .HasColumnType("bigint");
