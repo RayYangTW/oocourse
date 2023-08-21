@@ -105,6 +105,10 @@ namespace personal_project.Controllers
         var newBaseUser = _mapper.Map<BaseUser>(user);
         var jwt = CreateJWT(newBaseUser);
 
+        // Get user role from JWT
+        var readJwt = new JwtSecurityTokenHandler().ReadJwtToken(jwt);
+        var userRole = readJwt.Claims.FirstOrDefault(a => a.Type == "role")?.Value;
+
         //// Return response data
         return Ok(new
         {
@@ -114,7 +118,8 @@ namespace personal_project.Controllers
           {
             id = user.id,
             email = user.email,
-            provider = user.provider
+            provider = user.provider,
+            role = userRole
           }
         });
       }

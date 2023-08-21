@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Title</title>
+    <title>登入</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -11,7 +11,8 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/user-signin.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -32,15 +33,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item">
-              <a class="nav-link mx-2" href="teacher/application.html"
+              <a class="nav-link mx-2" href="../teacher/application.html"
                 ><i class="fas fa-heart pe-2"></i>成為教師</a
               >
             </li>
             <li class="nav-item ms-3">
-              <a
-                id="login-link"
-                class="btn btn-black btn-rounded"
-                href="user/signin.html"
+              <a class="btn btn-black btn-rounded" href="../user/signin.html"
                 >登入</a
               >
             </li>
@@ -49,41 +47,36 @@
       </div>
     </nav>
 
-    <!-- Campaign -->
-    <div class="campaign">
-      <img src="./assets/images/homepage-image.jpg" alt="snowboarding" />
-      <!-- <div class="loading">
-        <img src="./assets/icons/loading.gif" alt="loading" />
-      </div> -->
-    </div>
-
-    <!-- Search bar -->
-    <div class="search-bar-container">
-      <div class="main-search-input-wrap">
-        <div class="main-search-input fl-wrap">
-          <div class="main-search-input-item">
-            <input type="text" value="" placeholder="輸入關鍵字..." />
-          </div>
-          <button class="main-search-button">搜尋</button>
+    <!-- Form -->
+    <div class="form-container">
+      <h1 class="text-center">登入</h1>
+      <form id="signin-form">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control item"
+            id="email"
+            placeholder="電子信箱"
+          />
         </div>
-      </div>
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control item"
+            id="password"
+            placeholder="密碼"
+          />
+        </div>
+        <div class="form-group text-center">
+          <button type="submit" class="btn btn-block signin">登入</button>
+          <a href="../user/signup.html"
+            ><button type="button" class="btn btn-block signup">註冊</button></a
+          >
+        </div>
+      </form>
     </div>
-
-    <!-- Communication -->
-    <div class="communication-container row">
-      <div class="com-paragraph col-6">
-        <h3>這是第一段文字</h3>
-        <h3>這是第二段文字</h3>
-        <h3>這是第三段文字</h3>
-      </div>
-
-      <div class="com-images col-6">
-        <img src="./assets/images/communication.jpg" alt="teaching" />
-      </div>
-    </div>
-
     <!-- Footer -->
-    <footer class="footer text-center text-lg-start">
+    <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
       <div class="text-center p-3">© 2023 Copyright: RayChen</div>
     </footer>
@@ -100,6 +93,13 @@
     integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
     crossorigin="anonymous"
   ></script>
+  <!-- axios -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
+    integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
   <!-- js file -->
-  <script src="js/index.js"></script>
+  <script src="../js/user-signin.js"></script>
 </html>
