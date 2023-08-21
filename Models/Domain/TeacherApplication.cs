@@ -17,7 +17,10 @@ namespace personal_project.Models.Domain
     public string? location { get; set; }
     public string? experience { get; set; }
     public string? description { get; set; }
+    public DateTime createdTime { get; set; } = DateTime.Now;
+    public DateTime updatedTime { get; set; } = DateTime.Now;
     public Boolean isApproved { get; set; } = false;
+    public string? status { get; set; } = "unapproved";
 
     public ICollection<Certification> certifications { get; set; } = new List<Certification>();
     [NotMapped]
