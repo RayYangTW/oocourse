@@ -3,7 +3,7 @@ $(document).ready(function () {
   const userRole = localStorage.getItem("role");
   if (userRole === "teacher") {
     const newLink = $("<a>", {
-      href: "#",
+      href: "/teacher/portal.html",
       class: "course-management",
     }).append(
       $("<button>", {

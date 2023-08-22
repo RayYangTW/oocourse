@@ -137,22 +137,22 @@ namespace personal_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
 
-                    b.Property<DateTime>("endTime")
+                    b.Property<DateTime?>("endTime")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isBooked")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("startTime")
+                    b.Property<double?>("price")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("startTime")
                         .HasColumnType("datetime2");
 
                     b.Property<long>("teacherId")
                         .HasColumnType("bigint");
 
                     b.HasKey("id");
-
-                    b.HasIndex("teacherId")
-                        .IsUnique();
 
                     b.ToTable("Courses");
                 });
@@ -233,10 +233,10 @@ namespace personal_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
 
-                    b.Property<string>("avatar")
+                    b.Property<string>("courseCategory")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("courseCategory")
+                    b.Property<string>("courseImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("courseLocation")
@@ -245,7 +245,7 @@ namespace personal_project.Migrations
                     b.Property<string>("courseName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("courseRemider")
+                    b.Property<string>("courseReminder")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("courseWay")
@@ -255,8 +255,6 @@ namespace personal_project.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("id");
-
-                    b.HasIndex("userId");
 
                     b.ToTable("Teachers");
                 });
@@ -356,17 +354,6 @@ namespace personal_project.Migrations
                         .HasForeignKey("TeacherApplicationid");
                 });
 
-            modelBuilder.Entity("personal_project.Models.Domain.Course", b =>
-                {
-                    b.HasOne("personal_project.Models.Domain.Teacher", "teacher")
-                        .WithOne("course")
-                        .HasForeignKey("personal_project.Models.Domain.Course", "teacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("teacher");
-                });
-
             modelBuilder.Entity("personal_project.Models.Domain.CourseRecord", b =>
                 {
                     b.HasOne("personal_project.Models.Domain.ChatRecord", "chatRecord")
@@ -378,17 +365,6 @@ namespace personal_project.Migrations
                     b.Navigation("chatRecord");
                 });
 
-            modelBuilder.Entity("personal_project.Models.Domain.Teacher", b =>
-                {
-                    b.HasOne("personal_project.Models.Domain.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("personal_project.Models.Domain.ChatRecord", b =>
                 {
                     b.Navigation("courseRecords");
@@ -397,11 +373,6 @@ namespace personal_project.Migrations
             modelBuilder.Entity("personal_project.Models.Domain.Course", b =>
                 {
                     b.Navigation("bookings");
-                });
-
-            modelBuilder.Entity("personal_project.Models.Domain.Teacher", b =>
-                {
-                    b.Navigation("course");
                 });
 
             modelBuilder.Entity("personal_project.Models.Domain.TeacherApplication", b =>
