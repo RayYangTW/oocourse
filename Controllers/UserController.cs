@@ -6,6 +6,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Util;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using personal_project.Data;
+using personal_project.Helpers;
 using personal_project.Models.Domain;
 using personal_project.Models.User;
 
@@ -25,14 +29,20 @@ namespace personal_project.Controllers
     private readonly ILogger<UserController> _logger;
     private readonly WebDbContext _db;
     private readonly IMapper _mapper;
+    private readonly IAmazonS3 _s3Client;
 
-
-    public UserController(ILogger<UserController> logger, WebDbContext db, IMapper mapper)
+    public UserController(ILogger<UserController> logger, WebDbContext db, IMapper mapper, IAmazonS3 s3Client)
     {
       _logger = logger;
       _db = db;
       _mapper = mapper;
+      _s3Client = s3Client;
     }
+
+    // Global variables
+    string bucketName = "teach-web-s3-bucket";
+    string filesLocateDomain = "https://d3n4wxuzv8xzhg.cloudfront.net/";
+    string fileToS3Path = "user/profile/avatar";
 
     [AllowAnonymous]
     [HttpPost("signup")]
@@ -62,6 +72,24 @@ namespace personal_project.Controllers
 
       // store it
       await _db.Users.AddAsync(newUser);
+      await _db.SaveChangesAsync();
+
+      // To set default value for profile
+      var userId = await _db.Users
+                    .Where(data => data.email == signupUser.email)
+                    .Select(data => data.id)
+                    .SingleOrDefaultAsync();
+
+      var newProfile = new Models.Domain.Profile
+      {
+        userId = userId,
+        name = "",
+        nickname = "",
+        gender = "",
+        interest = ""
+      };
+
+      await _db.Profiles.AddAsync(newProfile);
       await _db.SaveChangesAsync();
 
       //// To create JWT
@@ -136,7 +164,8 @@ namespace personal_project.Controllers
       // Get user from Profiles
       var profile = await _db.Profiles.FirstOrDefaultAsync(p => p.userId == user.id);
       if (profile is null)
-        return NotFound("Profile not found for the user.");
+        // return NotFound("Profile not found for the user.");
+        return Ok(new { test = 123 });
 
       return Ok(new
       {
@@ -149,7 +178,7 @@ namespace personal_project.Controllers
     }
 
     [HttpPost("profile")]
-    public async Task<IActionResult> UploadProfile(Models.Domain.Profile userProfile)
+    public async Task<IActionResult> UploadProfile([FromForm] Models.Domain.Profile userProfile)
     {
       var user = await GetUserFromJWTAsync();
       if (user is null)
@@ -184,7 +213,7 @@ namespace personal_project.Controllers
     }
 
     [HttpPut("profile")]
-    public async Task<IActionResult> UpdateProfile(Models.Domain.Profile userProfile)
+    public async Task<IActionResult> UpdateProfile([FromForm] Models.Domain.Profile userProfile)
     {
       var user = await GetUserFromJWTAsync();
       if (user is null)
@@ -196,9 +225,37 @@ namespace personal_project.Controllers
 
       existingProfile.name = userProfile.name;
       existingProfile.nickname = userProfile.nickname;
-      existingProfile.avatar = userProfile.avatar;
       existingProfile.gender = userProfile.gender;
       existingProfile.interest = userProfile.interest;
+
+      //處理單張照片上傳
+      var uploadAvatar = userProfile.avatarFile;
+      if (uploadAvatar != null)
+      {
+        var ext = System.IO.Path.GetExtension(uploadAvatar.FileName);
+        var bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName);
+        if (!bucketExists)
+        {
+          var bucketRequest = new PutBucketRequest()
+          {
+            BucketName = bucketName,
+            UseClientRegion = true
+          };
+          await _s3Client.PutBucketAsync(bucketRequest);
+        }
+        else
+        {
+          var fileToS3 = fileToS3Path + GenerateFilenameHelper.GenerateFileRandomName() + ext;
+          var objectRequest = new PutObjectRequest()
+          {
+            BucketName = bucketName,
+            Key = fileToS3,
+            InputStream = uploadAvatar.OpenReadStream()
+          };
+          await _s3Client.PutObjectAsync(objectRequest);
+          existingProfile.avatar = filesLocateDomain + fileToS3;
+        }
+      }
 
       await _db.SaveChangesAsync();
       return Ok(existingProfile);
