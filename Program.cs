@@ -62,6 +62,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // DI service
 builder.Services.AddScoped<GetUserDataFromJWTHelper>();
 
+// Cors
+builder.Services.AddCors(options =>
+    {
+      options.AddPolicy("AllowAll", builder =>
+      {
+        builder.AllowAnyOrigin()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader();
+      });
+    });
 
 var app = builder.Build();
 
@@ -85,5 +95,7 @@ app.MapHub<ChatHub>("/chatHub");
 app.MapHub<VideoChatHub>("/videoChatHub");
 app.MapHub<VideoHub>("/videoHub");
 app.MapHub<TestHub>("/testHub");
+
+app.UseCors("AllowAll");
 
 app.Run();

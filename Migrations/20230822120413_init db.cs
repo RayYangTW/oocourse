@@ -59,6 +59,23 @@ namespace personal_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    startTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    endTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    price = table.Column<double>(type: "float", nullable: true),
+                    isBooked = table.Column<bool>(type: "bit", nullable: false),
+                    teacherId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Profiles",
                 columns: table => new
                 {
@@ -102,6 +119,25 @@ namespace personal_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Teachers",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    courseImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    courseName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    courseWay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    courseCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    courseLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    courseReminder = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teachers", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -138,73 +174,6 @@ namespace personal_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Certification",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    certification = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
-                    TeacherApplicationid = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Certification", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Certification_TeacherApplications_TeacherApplicationid",
-                        column: x => x.TeacherApplicationid,
-                        principalTable: "TeacherApplications",
-                        principalColumn: "id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Teachers",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    courseName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    courseWay = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    courseCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    courseLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    courseRemider = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    userId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teachers", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Teachers_Users_userId",
-                        column: x => x.userId,
-                        principalTable: "Users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    startTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    endTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    isBooked = table.Column<bool>(type: "bit", nullable: false),
-                    teacherId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Courses_Teachers_teacherId",
-                        column: x => x.teacherId,
-                        principalTable: "Teachers",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
@@ -226,6 +195,26 @@ namespace personal_project.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Certification",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    certification = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    TeacherApplicationid = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Certification", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Certification_TeacherApplications_TeacherApplicationid",
+                        column: x => x.TeacherApplicationid,
+                        principalTable: "TeacherApplications",
+                        principalColumn: "id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_courseId",
                 table: "Bookings",
@@ -240,17 +229,6 @@ namespace personal_project.Migrations
                 name: "IX_CourseRecords_ChatRecordId",
                 table: "CourseRecords",
                 column: "ChatRecordId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Courses_teacherId",
-                table: "Courses",
-                column: "teacherId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Teachers_userId",
-                table: "Teachers",
-                column: "userId");
         }
 
         /// <inheritdoc />
@@ -275,6 +253,12 @@ namespace personal_project.Migrations
                 name: "Profiles");
 
             migrationBuilder.DropTable(
+                name: "Teachers");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "Courses");
 
             migrationBuilder.DropTable(
@@ -282,12 +266,6 @@ namespace personal_project.Migrations
 
             migrationBuilder.DropTable(
                 name: "ChatRecords");
-
-            migrationBuilder.DropTable(
-                name: "Teachers");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

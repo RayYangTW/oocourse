@@ -1,0 +1,33 @@
+.links-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.links-container > a {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+}
+
+.links-container > a > button {
+  font-size: xx-large;
+}
+
+.links-container .course-information {
+  background-color: #85ccfbff;
+}
+
+.links-container .my-course {
+  background-color: #85ccfbff;
+}
+
+.links-container .my-dashboard {
+  background-color: #85ccfbff;
+}
+
+.links-container .signout {
+  background-color: rgb(105, 226, 163);
+}

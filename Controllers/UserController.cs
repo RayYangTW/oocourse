@@ -42,7 +42,7 @@ namespace personal_project.Controllers
     // Global variables
     string bucketName = "teach-web-s3-bucket";
     string filesLocateDomain = "https://d3n4wxuzv8xzhg.cloudfront.net/";
-    string fileToS3Path = "user/profile/avatar";
+    string fileToS3Path = "user/profile/avatar/";
 
     [AllowAnonymous]
     [HttpPost("signup")]

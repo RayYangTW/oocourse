@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using personal_project.Data;
 using personal_project.Helpers;
 using personal_project.Models.Domain;
+using personal_project.Models.FormModels;
 
 namespace personal_project.Controllers
 {
@@ -41,7 +43,8 @@ namespace personal_project.Controllers
     // Global variables
     string bucketName = "teach-web-s3-bucket";
     string filesLocateDomain = "https://d3n4wxuzv8xzhg.cloudfront.net/";
-    string fileToS3Path = "teacher/certification/";
+    string certificationFileToS3Path = "teacher/certification/";
+    string courseImageFileToS3Path = "teacher/course/images/";
 
     // POST: api/teacher/application
     [Authorize]
@@ -88,7 +91,7 @@ namespace personal_project.Controllers
               }
               else
               {
-                var fileToS3 = fileToS3Path + GenerateFilenameHelper.GenerateFileRandomName() + application.name + ext;
+                var fileToS3 = certificationFileToS3Path + GenerateFilenameHelper.GenerateFileRandomName() + application.name + ext;
                 var objectRequest = new PutObjectRequest()
                 {
                   BucketName = bucketName,
@@ -116,6 +119,81 @@ namespace personal_project.Controllers
         });
       }
       return Ok(newApplication);
+    }
+
+    //POST: api/teacher/publishCourse
+    [Authorize]
+    [HttpPost("publishCourse")]
+    public async Task<IActionResult> PublishCourse([FromForm] TeacherPublishCourseFormModel course)
+    {
+      var teacher = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (teacher is null)
+        return BadRequest("Missing authorization token.");
+
+      var newTeacher = new Teacher
+      {
+        courseName = course.courseName,
+        courseCategory = course.courseCategory,
+        courseLocation = course.courseLocation,
+        courseWay = course.courseWay,
+        courseReminder = course.courseReminder,
+        userId = teacher.id
+      };
+
+      //處理單張照片上傳
+      var uploadCourseImage = course.courseImageFile;
+      if (uploadCourseImage != null)
+      {
+        var ext = System.IO.Path.GetExtension(uploadCourseImage.FileName);
+        var bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName);
+        if (!bucketExists)
+        {
+          var bucketRequest = new PutBucketRequest()
+          {
+            BucketName = bucketName,
+            UseClientRegion = true
+          };
+          await _s3Client.PutBucketAsync(bucketRequest);
+        }
+        else
+        {
+          var fileToS3 = courseImageFileToS3Path + GenerateFilenameHelper.GenerateFileRandomName() + ext;
+          var objectRequest = new PutObjectRequest()
+          {
+            BucketName = bucketName,
+            Key = fileToS3,
+            InputStream = uploadCourseImage.OpenReadStream()
+          };
+          await _s3Client.PutObjectAsync(objectRequest);
+          newTeacher.courseImage = filesLocateDomain + fileToS3;
+        }
+      }
+
+      try
+      {
+        // Process course's data
+        foreach (var courseData in course.courses)
+        {
+          var newCourse = new Course
+          {
+            startTime = courseData.startTime,
+            endTime = courseData.endTime,
+            price = courseData.price,
+            teacherId = teacher.id
+          };
+          await _db.Courses.AddAsync(newCourse);
+        }
+
+        await _db.Teachers.AddAsync(newTeacher);
+        await _db.SaveChangesAsync();
+
+        return Ok(newTeacher);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+
     }
   }
 }
