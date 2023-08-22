@@ -1,33 +1,30 @@
-.links-container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.links-container > a {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  border-radius: 15px;
-}
-
-.links-container > a > button {
-  font-size: xx-large;
-}
-
-.links-container .my-appointment {
-  background-color: #85ccfbff;
-}
-
-.links-container .my-member-profile {
-  background-color: #85ccfbff;
-}
-
-.links-container .course-management {
-  background-color: #4a8cffff;
-}
-
-.links-container .signout {
+.form-container .modify {
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
   background-color: rgb(105, 226, 163);
+  border: none;
+  color: white;
+  margin-top: 20px;
+}
+
+.avatar-container {
+  width: 300px; /* 調整寬度和高度來控制圓形的大小 */
+  height: 300px;
+  border-radius: 50%; /* 設定圓角半徑為元素寬度的一半，使元素變成圓形 */
+  overflow: hidden; /* 隱藏超出元素範圍的內容 */
+  margin: 0 auto; /* 居中元素 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-container img {
+  max-width: 100%; /* 限制圖片最大寬度為容器的寬度 */
+  height: auto; /* 自動根據寬度調整高度，以保持圖片比例 */
+}
+
+@media (max-width: 576px) {
+  .form-container form {
+    padding: 50px 20px;
+  }
 }
