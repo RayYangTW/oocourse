@@ -5,6 +5,8 @@ const applicationForm = $("#teacher-application-form");
 
 applicationForm.submit((e) => {
   e.preventDefault();
+  const jwt = localStorage.getItem("JWT");
+  console.log(jwt);
 
   let formData = new FormData();
   formData.append("name", $("#name").val());
@@ -25,9 +27,11 @@ applicationForm.submit((e) => {
 
   const config = {
     headers: {
+      Authorization: `Bearer ${jwt}`,
       "Content-Type": "multipart/form-data",
     },
   };
+
   axios
     .post(host + endpoint, formData, config)
     .then((response) => {
@@ -38,7 +42,7 @@ applicationForm.submit((e) => {
     })
     .catch((err) => {
       console.log("failed");
-      console.log(err);
+      console.error(err);
       alert("資料上傳失敗！請注意是否都有填寫正確。");
     });
 });

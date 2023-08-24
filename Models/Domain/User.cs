@@ -16,7 +16,12 @@ namespace personal_project.Models.Domain
 
     // // one to one
     // public TeacherApplication? teacherApplication { get; set; }
-    // public Teacher? teacher { get; set; }
-    // public Profile? profile { get; set; }
+    public Profile? profile { get; set; }
+
+    // one to many
+    public ICollection<Booking> bookings { get; set; } = new List<Booking>();
+    public ICollection<ChatRecord> chatRecords { get; set; } = new List<ChatRecord>();
+    public ICollection<Comment> comments { get; set; } = new List<Comment>();
+
   }
 }

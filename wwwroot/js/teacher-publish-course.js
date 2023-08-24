@@ -61,6 +61,7 @@ $("#teacher-application-form").submit((e) => {
   formData.append("courseCategory", $("#course-category").val());
   formData.append("courseLocation", $("#course-location").val());
   formData.append("courseWay", $("#course-way").val());
+  formData.append("courseLanguage", $("#course-language").val());
   formData.append("courseReminder", $("#course-reminder").val());
   formData.append("courseImageFile", $("#course-image")[0].files[0]);
 
@@ -113,6 +114,7 @@ $("#teacher-application-form").submit((e) => {
     .then((response) => {
       if (response.status === 200) {
         alert("刊登成功！");
+        location.reload();
       } else {
         return new Error("刊登失敗！");
       }

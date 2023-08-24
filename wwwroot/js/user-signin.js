@@ -41,9 +41,11 @@ $("#signin-form").submit(function (event) {
       localStorage.setItem("role", userRole);
       // Go back to last page and refresh
       alert("登入成功");
-      location.href = document.referrer;
+      location.href = "/";
     })
     .catch((error) => {
+      alert("登入失敗");
       console.log("錯誤", error);
+      console.log("錯誤", error.response.data);
     });
 });

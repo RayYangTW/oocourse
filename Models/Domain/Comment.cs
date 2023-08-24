@@ -13,7 +13,10 @@ namespace personal_project.Models.Domain
     public DateTime createdTime { get; set; } = DateTime.Now;
     public DateTime updatedTime { get; set; } = DateTime.Now;
 
+    //FK
     public long userId { get; set; }
+    public User? user { get; set; }
     public long teacherId { get; set; }
+    public Teacher? teacher { get; set; }
   }
 }

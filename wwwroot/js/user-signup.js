@@ -43,7 +43,7 @@ $("#signup-form").submit(function (event) {
       const JWT = responseData.access_token;
       localStorage.setItem("JWT", JWT);
       alert("註冊成功");
-      location.href = document.referrer;
+      location.href = "/";
     })
     .catch((err) => console.log("錯誤", err));
 });
