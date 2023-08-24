@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Title</title>
+    <title>首頁</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -20,15 +20,17 @@
         <a class="navbar-brand" href="/">LOGO</a>
         <ul class="navbar-nav ms-auto align-items-center">
           <li class="nav-item">
-            <a class="nav-link mx-2" href="teacher/application.html"
+            <a
+              class="nav-link mx-2 teacher-application-link"
+              href="./application/form.html"
               ><i class="fas fa-heart pe-2"></i>成為教師</a
             >
           </li>
           <li class="nav-item ms-3">
             <a
-              id="login-link"
+              id="signin-link"
               class="btn btn-black btn-rounded"
-              href="user/signin.html"
+              href="./user/signin.html"
               >登入</a
             >
           </li>
@@ -45,23 +47,31 @@
     </div>
 
     <!-- Search bar -->
-    <div class="search-bar-container">
-      <div class="main-search-input-wrap">
-        <div class="main-search-input fl-wrap">
-          <div class="main-search-input-item">
-            <input type="text" value="" placeholder="輸入關鍵字..." />
+    <form id="searchForm">
+      <div class="search-bar-container">
+        <div class="main-search-input-wrap">
+          <div class="main-search-input fl-wrap">
+            <div class="main-search-input-item">
+              <input
+                id="main-search-input"
+                class="main-search-input"
+                type="text"
+                value=""
+                placeholder="輸入關鍵字..."
+              />
+            </div>
+            <button class="main-search-button">搜尋</button>
           </div>
-          <button class="main-search-button">搜尋</button>
         </div>
       </div>
-    </div>
+    </form>
 
     <!-- Communication -->
     <div class="communication-container row">
       <div class="com-paragraph col-6">
-        <h3>這是第一段文字</h3>
-        <h3>這是第二段文字</h3>
-        <h3>這是第三段文字</h3>
+        <h3>線上學習，隨時隨地。</h3>
+        <h3>隨時學習，隨地進步。</h3>
+        <h3>專業教練，助您超越。</h3>
       </div>
 
       <div class="com-images col-6">
@@ -70,7 +80,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer text-center text-lg-start">
+    <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
       <div class="text-center p-3">© 2023 Copyright: RayChen</div>
     </footer>
@@ -89,4 +99,6 @@
   ></script>
   <!-- js file -->
   <script src="js/index.js"></script>
+  <script src="js/apply-to-become-teacher.js"></script>
+  <script src="js/check-user-login-status.js"></script>
 </html>

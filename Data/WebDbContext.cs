@@ -21,6 +21,7 @@ namespace personal_project.Data
     // Teacher related
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<TeacherApplication> TeacherApplications { get; set; }
+    public DbSet<Certification> Certifications { get; set; }
     public DbSet<Course> Courses { get; set; }
 
     // Course related
@@ -31,5 +32,13 @@ namespace personal_project.Data
 
     // Order related
     public DbSet<Booking> Bookings { get; set; }
+
+    // protected override void OnModelCreating(ModelBuilder modelBuilder)
+    // {
+    //   modelBuilder.Entity<User>()
+    //       .HasOne(e => e.teacherApplication)
+    //       .WithOne(e => e.user)
+    //       .HasForeignKey<TeacherApplication>(e => e.id);
+    // }
   }
 }

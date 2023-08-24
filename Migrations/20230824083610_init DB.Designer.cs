@@ -12,8 +12,8 @@ using personal_project.Data;
 namespace personal_project.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20230822120413_init db")]
-    partial class initdb
+    [Migration("20230824083610_init DB")]
+    partial class initDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,8 @@ namespace personal_project.Migrations
 
                     b.HasIndex("courseId");
 
+                    b.HasIndex("userId");
+
                     b.ToTable("Bookings");
                 });
 
@@ -63,17 +65,17 @@ namespace personal_project.Migrations
                     b.Property<long?>("TeacherApplicationid")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("certification")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("userId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("id");
 
                     b.HasIndex("TeacherApplicationid");
 
-                    b.ToTable("Certification");
+                    b.ToTable("Certifications");
                 });
 
             modelBuilder.Entity("personal_project.Models.Domain.ChatRecord", b =>
@@ -97,6 +99,10 @@ namespace personal_project.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("id");
+
+                    b.HasIndex("teacherId");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("ChatRecords");
                 });
@@ -129,6 +135,10 @@ namespace personal_project.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("teacherId");
+
+                    b.HasIndex("userId");
+
                     b.ToTable("Comments");
                 });
 
@@ -149,6 +159,9 @@ namespace personal_project.Migrations
                     b.Property<double?>("price")
                         .HasColumnType("float");
 
+                    b.Property<string>("roomId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("startTime")
                         .HasColumnType("datetime2");
 
@@ -156,6 +169,8 @@ namespace personal_project.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("id");
+
+                    b.HasIndex("teacherId");
 
                     b.ToTable("Courses");
                 });
@@ -225,6 +240,9 @@ namespace personal_project.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("userId")
+                        .IsUnique();
+
                     b.ToTable("Profiles");
                 });
 
@@ -240,6 +258,9 @@ namespace personal_project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("courseImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("courseLanguage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("courseLocation")
@@ -311,6 +332,8 @@ namespace personal_project.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("userId");
+
                     b.ToTable("TeacherApplications");
                 });
 
@@ -347,7 +370,13 @@ namespace personal_project.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("personal_project.Models.Domain.User", "user")
+                        .WithMany("bookings")
+                        .HasForeignKey("userId");
+
                     b.Navigation("course");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("personal_project.Models.Domain.Certification", b =>
@@ -355,6 +384,55 @@ namespace personal_project.Migrations
                     b.HasOne("personal_project.Models.Domain.TeacherApplication", null)
                         .WithMany("certifications")
                         .HasForeignKey("TeacherApplicationid");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.ChatRecord", b =>
+                {
+                    b.HasOne("personal_project.Models.Domain.Teacher", "teacher")
+                        .WithMany("chatRecords")
+                        .HasForeignKey("teacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("personal_project.Models.Domain.User", "user")
+                        .WithMany("chatRecords")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("teacher");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.Comment", b =>
+                {
+                    b.HasOne("personal_project.Models.Domain.Teacher", "teacher")
+                        .WithMany("comments")
+                        .HasForeignKey("teacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("personal_project.Models.Domain.User", "user")
+                        .WithMany("comments")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("teacher");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.Course", b =>
+                {
+                    b.HasOne("personal_project.Models.Domain.Teacher", "teacher")
+                        .WithMany("courses")
+                        .HasForeignKey("teacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("teacher");
                 });
 
             modelBuilder.Entity("personal_project.Models.Domain.CourseRecord", b =>
@@ -368,6 +446,28 @@ namespace personal_project.Migrations
                     b.Navigation("chatRecord");
                 });
 
+            modelBuilder.Entity("personal_project.Models.Domain.Profile", b =>
+                {
+                    b.HasOne("personal_project.Models.Domain.User", "user")
+                        .WithOne("profile")
+                        .HasForeignKey("personal_project.Models.Domain.Profile", "userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.TeacherApplication", b =>
+                {
+                    b.HasOne("personal_project.Models.Domain.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("personal_project.Models.Domain.ChatRecord", b =>
                 {
                     b.Navigation("courseRecords");
@@ -378,9 +478,29 @@ namespace personal_project.Migrations
                     b.Navigation("bookings");
                 });
 
+            modelBuilder.Entity("personal_project.Models.Domain.Teacher", b =>
+                {
+                    b.Navigation("chatRecords");
+
+                    b.Navigation("comments");
+
+                    b.Navigation("courses");
+                });
+
             modelBuilder.Entity("personal_project.Models.Domain.TeacherApplication", b =>
                 {
                     b.Navigation("certifications");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.User", b =>
+                {
+                    b.Navigation("bookings");
+
+                    b.Navigation("chatRecords");
+
+                    b.Navigation("comments");
+
+                    b.Navigation("profile");
                 });
 #pragma warning restore 612, 618
         }

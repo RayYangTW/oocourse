@@ -13,6 +13,8 @@ using personal_project.Data;
 using personal_project.Helpers;
 using personal_project.Models.Domain;
 using personal_project.Models.FormModels;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace personal_project.Controllers
 {
@@ -55,6 +57,8 @@ namespace personal_project.Controllers
       if (user is null)
         return BadRequest("Missing authorization token.");
 
+      long userId = user.id;
+
       var newApplication = new TeacherApplication
       {
         name = application.name,
@@ -66,7 +70,8 @@ namespace personal_project.Controllers
         experience = application.experience,
         description = application.description,
         isApproved = false,
-        userId = user.id
+        certifications = new List<Certification>(),
+        user = user
       };
 
       try
@@ -101,13 +106,15 @@ namespace personal_project.Controllers
                 await _s3Client.PutObjectAsync(objectRequest);
                 var newCertifications = new Certification
                 {
-                  certification = filesLocateDomain + fileToS3
+                  certification = filesLocateDomain + fileToS3,
+                  userId = user.id
                 };
                 newApplication.certifications.Add(newCertifications);
               }
             }
           }
         }
+        // user.teacherApplication = newApplication;
         await _db.TeacherApplications.AddAsync(newApplication);
         await _db.SaveChangesAsync();
       }
@@ -126,8 +133,8 @@ namespace personal_project.Controllers
     [HttpPost("publishCourse")]
     public async Task<IActionResult> PublishCourse([FromForm] TeacherPublishCourseFormModel course)
     {
-      var teacher = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
-      if (teacher is null)
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
         return BadRequest("Missing authorization token.");
 
       var newTeacher = new Teacher
@@ -137,7 +144,7 @@ namespace personal_project.Controllers
         courseLocation = course.courseLocation,
         courseWay = course.courseWay,
         courseReminder = course.courseReminder,
-        userId = teacher.id
+        userId = user.id
       };
 
       //處理單張照片上傳
@@ -171,6 +178,13 @@ namespace personal_project.Controllers
 
       try
       {
+        await _db.Teachers.AddAsync(newTeacher);
+        await _db.SaveChangesAsync();
+
+        var teacher = await _db.Teachers
+                        .Where(data => data.userId == user.id)
+                        .FirstOrDefaultAsync();
+
         // Process course's data
         foreach (var courseData in course.courses)
         {
@@ -179,12 +193,10 @@ namespace personal_project.Controllers
             startTime = courseData.startTime,
             endTime = courseData.endTime,
             price = courseData.price,
-            teacherId = teacher.id
           };
-          await _db.Courses.AddAsync(newCourse);
+          // await _db.Courses.AddAsync(newCourse);
+          teacher.courses.Add(newCourse);
         }
-
-        await _db.Teachers.AddAsync(newTeacher);
         await _db.SaveChangesAsync();
 
         return Ok(newTeacher);
@@ -193,7 +205,6 @@ namespace personal_project.Controllers
       {
         return BadRequest(ex.Message);
       }
-
     }
   }
 }

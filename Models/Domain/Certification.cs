@@ -12,7 +12,7 @@ namespace personal_project.Models.Domain
     public string? certification { get; set; }
     [NotMapped]
     public IFormFile? certificationFile { get; set; }
-    public long UserId { get; set; } // FK
-    // public User? user { get; set; } // navigation
+    public long userId { get; set; } // FK
+
   }
 }

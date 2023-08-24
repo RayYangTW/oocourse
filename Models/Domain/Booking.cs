@@ -10,9 +10,10 @@ namespace personal_project.Models.Domain
     public long id { get; set; }
     public string? status { get; set; }
     public DateTime bookingTime { get; set; }
-    public long? userId { get; set; }
 
     // FK
+    public long? userId { get; set; }
+    public User? user { get; set; }
     public long courseId { get; set; }
     public Course? course { get; set; }
 

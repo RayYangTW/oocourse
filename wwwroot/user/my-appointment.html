@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>教師入口</title>
+    <title>我的預約課程</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -13,31 +13,29 @@
     />
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
-    <link rel="stylesheet" href="../css/teacher-portal.css" />
+    <link rel="stylesheet" href="../css/admin-teacher-applications.css" />
   </head>
   <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container">
         <a class="navbar-brand" href="/">LOGO</a>
-        <ul class="navbar-nav ms-auto align-items-center"></ul>
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a
+              class="nav-link mx-2 teacher-application-link"
+              href="../application/form.html"
+              ><i class="fas fa-heart pe-2"></i>成為教師</a
+            >
+          </li>
+        </ul>
       </div>
     </nav>
 
-    <!-- Links -->
-
-    <div class="links-container">
-      <a href="./publish-course.html" class="course-information"
-        ><button type="button" class="btn btn-policy">刊登資訊</button></a
-      >
-      <a href="#" class="my-course"
-        ><button type="button" class="btn btn-policy">我的授課</button></a
-      >
-      <a href="#" class="my-dashboard"
-        ><button type="button" class="btn btn-policy">後台數據</button></a
-      >
+    <!-- Table -->
+    <div class="table-container">
+      <h2 class="text-center">教師資格申請單</h2>
     </div>
-
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -64,5 +62,6 @@
     referrerpolicy="no-referrer"
   ></script>
   <!-- js file -->
-  <script src="../js/user-portal.js"></script>
+  <script src="../js/admin-teacher-applications.js"></script>
+  <script src="../js/apply-to-become-teacher.js"></script>
 </html>

@@ -19,7 +19,7 @@ namespace personal_project.Models.Domain
 
     // FK
     public long userId { get; set; }
-    // public User? user { get; set; }
+    public User? user { get; set; }
 
   }
 }
