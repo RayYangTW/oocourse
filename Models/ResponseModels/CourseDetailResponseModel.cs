@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace personal_project.Models.Domain
+namespace personal_project.Models.ResponseModels
 {
-  public class Teacher
+  public class CourseDetailResponseModel
   {
     public long id { get; set; }
     public string? courseImage { get; set; }
@@ -16,14 +15,15 @@ namespace personal_project.Models.Domain
     public string? courseCategory { get; set; }
     public string? courseLocation { get; set; }
     public string? courseReminder { get; set; }
+    public List<CourseTimeData>? courseTimeDatas { get; set; }
+  }
 
-    public long userId { get; set; }
-
-
-    // one to many
-    public ICollection<ChatRecord> chatRecords { get; set; } = new List<ChatRecord>();
-    public ICollection<Comment> comments { get; set; } = new List<Comment>();
-
-    public ICollection<Course> courses { get; set; } = new List<Course>();
+  public class CourseTimeData
+  {
+    public DateTime? startTime { get; set; }
+    public DateTime? endTime { get; set; }
+    public double? price { get; set; }
+    public bool isBooked { get; set; }
+    public string? roomId { get; set; }
   }
 }

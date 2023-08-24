@@ -6,6 +6,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using personal_project.Data;
+using personal_project.Models.ResponseModels;
+using static personal_project.Models.Dtos.CourseDetailDto;
 
 namespace personal_project.Controllers
 {
@@ -53,6 +55,48 @@ namespace personal_project.Controllers
       {
         return NoContent();
       }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetCourseDetail(long id)
+    {
+      try
+      {
+        var afterThreeHours = DateTime.Now.AddHours(3);
+        var courseData = await _db.Teachers
+                            .Where(data => data.id == id)
+                            .Include(data => data.courses
+                                                  .Where(data => data.startTime >= afterThreeHours))
+                            .FirstOrDefaultAsync();
+
+        if (courseData != null)
+        {
+          var resultDto = _mapper.Map<CourseDetailDTO>(courseData);
+          foreach (var course in resultDto.courses)
+          {
+            course.startTime = ConvertToCustomFormat(course.startTime);
+            course.endTime = ConvertToCustomFormat(course.endTime);
+          }
+          return Ok(resultDto);
+        }
+        return NoContent();
+      }
+      catch (Exception ex)
+      {
+        System.Console.WriteLine(ex);
+        return StatusCode(500);
+      }
+    }
+
+
+    public static string ConvertToCustomFormat(string originalDate)
+    {
+      if (DateTime.TryParse(originalDate, out DateTime parsedDate))
+      {
+        return parsedDate.ToString("yyyy/MM/dd - HH:mm");
+      }
+      System.Console.WriteLine("轉換失敗...");
+      return originalDate;  // 如果轉換失敗，則回傳原始日期。
     }
   }
 }

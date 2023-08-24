@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace personal_project.Models.Domain
@@ -16,6 +17,7 @@ namespace personal_project.Models.Domain
 
     // FK
     public long teacherId { get; set; }
+    [JsonIgnore]
     public Teacher? teacher { get; set; }
 
     // one to many
