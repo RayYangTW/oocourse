@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using personal_project.Data;
 using personal_project.Helpers;
+using personal_project.Models.Dtos;
 using personal_project.Models.ResponseModels;
 using static personal_project.Models.Dtos.CourseDetailDto;
 
@@ -19,13 +20,15 @@ namespace personal_project.Controllers
     private readonly ILogger<CourseController> _logger;
     private readonly WebDbContext _db;
     private readonly IMapper _mapper;
+    private readonly GetUserDataFromJWTHelper _jwtHelper;
 
 
-    public CourseController(ILogger<CourseController> logger, WebDbContext db, IMapper mapper)
+    public CourseController(ILogger<CourseController> logger, WebDbContext db, IMapper mapper, GetUserDataFromJWTHelper jwtHelper)
     {
       _logger = logger;
       _db = db;
       _mapper = mapper;
+      _jwtHelper = jwtHelper;
     }
 
     [HttpGet("search/all")]
@@ -58,8 +61,8 @@ namespace personal_project.Controllers
       }
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetCourseDetail(long id)
+    [HttpGet("search/{id}")]
+    public async Task<IActionResult> GetSearchCourseDetail(long id)
     {
       try
       {
@@ -89,6 +92,28 @@ namespace personal_project.Controllers
         System.Console.WriteLine(ex);
         return StatusCode(500);
       }
+    }
+
+    [HttpGet("{roomId}")]
+    public async Task<IActionResult> GetCourseDetailByRoomId(string roomId)
+    {
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      var courseData = await _db.Courses
+                            .Where(data => data.roomId == roomId)
+                            .Include(data => data.teacher)
+                            .FirstOrDefaultAsync();
+
+      if (courseData is null)
+        return BadRequest("User has no booking course");
+
+      var responseData = _mapper.Map<BookingDetailDto>(courseData);
+      responseData.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(responseData.startTime);
+      responseData.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(responseData.endTime);
+
+      return Ok(responseData);
     }
   }
 }

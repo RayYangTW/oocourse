@@ -39,7 +39,7 @@ $(document).ready(() => {
   const urlParams = new URLSearchParams(window.location.search);
   const searchKeyword = urlParams.get("keyword");
 
-  if (searchKeyword && searchKeyword.length > 0) {
+  if (searchKeyword !== null && searchKeyword.length > 0) {
     axios
       .get(host + endpoint + `?keyword=${searchKeyword}`)
       .then((response) => {

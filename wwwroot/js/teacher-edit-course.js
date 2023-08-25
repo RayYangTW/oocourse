@@ -14,9 +14,10 @@ const courseFormContainer = document.querySelector(".course-form-container");
 
 function renderForm(course) {
   courseFormContainer.innerHTML = `
-    <h1 class="text-center">刊登課程</h1>
+    <h1 class="text-center">編輯課程、增加時段</h1>
     <form id="teacher-application-form" enctype="multipart/form-data">
         <div class="form-group">
+          <label for="course-name" class="form-label">課程名稱</label>
           <input
             type="text"
             class="form-control item"
@@ -26,6 +27,7 @@ function renderForm(course) {
           />
         </div>
         <div class="form-group">
+          <label for="course-category" class="form-label">課程分類</label>
           <input
             type="text"
             class="form-control item"
@@ -35,6 +37,7 @@ function renderForm(course) {
           />
         </div>
         <div class="form-group">
+          <label for="course-way" class="form-label">授課方式</label>
           <input
             type="text"
             class="form-control item"
@@ -44,6 +47,7 @@ function renderForm(course) {
           />
         </div>
         <div class="form-group">
+          <label for="course-language" class="form-label">授課語言</label>
           <input
             type="text"
             class="form-control item"
@@ -53,6 +57,7 @@ function renderForm(course) {
           />
         </div>
         <div class="form-group">
+          <label for="course-location" class="form-label">授課地點</label>
           <input
             type="text"
             class="form-control item"
@@ -62,6 +67,7 @@ function renderForm(course) {
           />
         </div>
         <div class="form-group">
+          <label for="course-intro" class="form-label">課程詳細介紹</label>
           <textarea
             type="text"
             class="form-control item"
@@ -70,6 +76,7 @@ function renderForm(course) {
           >${course.courseIntro}</textarea>
         </div>
         <div class="form-group">
+          <label for="course-reminder" class="form-label">課程注意事項</label>
           <textarea
             type="text"
             class="form-control item"
@@ -126,7 +133,7 @@ function renderForm(course) {
           </div>
         </div>
         <div class="form-group text-center btn-container">
-          <button type="submit" class="btn btn-block publish">刊登課程</button>
+          <button type="submit" class="btn btn-block publish">送出</button>
         </div>
       </form>
   `;

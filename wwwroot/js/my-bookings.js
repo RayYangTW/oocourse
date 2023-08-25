@@ -38,7 +38,7 @@ function generateBookingsHTML(booking) {
       <td>${booking.courseName}</td>
       <td>${booking.startTime}</td>
       <td>${booking.endTime}</td>
-      <td><a href="${host}/lesson.html?id=${booking.roomId}" class="lesson-link">課程</a></td>
+      <td><a href="${host}/course.html?id=${booking.roomId}" class="course-link">課程</a></td>
     </tr>
   `;
 }

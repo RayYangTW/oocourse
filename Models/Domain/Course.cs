@@ -17,7 +17,6 @@ namespace personal_project.Models.Domain
 
     // FK
     public long teacherId { get; set; }
-    [JsonIgnore]
     public Teacher? teacher { get; set; }
 
     // one to many

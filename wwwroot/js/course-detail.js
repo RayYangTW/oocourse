@@ -1,5 +1,5 @@
 const host = "http://localhost:5202";
-const endpoint = "/api/course/";
+const endpoint = "/api/course/search/";
 
 // ====================== Course ======================
 // Get the course container element
