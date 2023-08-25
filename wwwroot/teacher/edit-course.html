@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>教師入口</title>
+    <title>刊登課程</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -13,7 +13,6 @@
     />
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
-    <link rel="stylesheet" href="../css/teacher-portal.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -24,25 +23,8 @@
       </div>
     </nav>
 
-    <!-- Links -->
-
-    <div class="links-container">
-      <a href="./publish-course.html" class="publish-course"
-        ><button type="button" class="btn btn-policy">刊登新課程</button></a
-      >
-      <a href="./edit-course.html" class="edit-course"
-        ><button type="button" class="btn btn-policy">
-          編輯課程、增加時段
-        </button></a
-      >
-      <a href="#" class="my-course"
-        ><button type="button" class="btn btn-policy">我的授課</button></a
-      >
-      <a href="#" class="my-dashboard"
-        ><button type="button" class="btn btn-policy">後台數據</button></a
-      >
-    </div>
-
+    <!-- Form -->
+    <div class="course-form-container"></div>
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -69,5 +51,5 @@
     referrerpolicy="no-referrer"
   ></script>
   <!-- js file -->
-  <script src="../js/user-portal.js"></script>
+  <script src="../js/teacher-edit-course.js"></script>
 </html>

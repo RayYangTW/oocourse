@@ -257,6 +257,9 @@ namespace personal_project.Migrations
                     b.Property<string>("courseImage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("courseIntro")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("courseLanguage")
                         .HasColumnType("nvarchar(max)");
 

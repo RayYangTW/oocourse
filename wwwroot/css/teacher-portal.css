@@ -16,7 +16,7 @@
   font-size: xx-large;
 }
 
-.links-container .course-information {
+.links-container .publish-course {
   background-color: #85ccfbff;
 }
 
@@ -25,6 +25,10 @@
 }
 
 .links-container .my-dashboard {
+  background-color: #85ccfbff;
+}
+
+.links-container .edit-course {
   background-color: #85ccfbff;
 }
 

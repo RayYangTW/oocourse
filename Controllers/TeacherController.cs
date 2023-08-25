@@ -1,3 +1,4 @@
+using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace personal_project.Controllers
     {
       var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
       if (user is null)
-        return BadRequest("Missing authorization token.");
+        return BadRequest("Can't find user.");
 
       long userId = user.id;
 
@@ -135,7 +136,7 @@ namespace personal_project.Controllers
     {
       var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
       if (user is null)
-        return BadRequest("Missing authorization token.");
+        return BadRequest("Can't find user.");
 
       var newTeacher = new Teacher
       {
@@ -143,6 +144,7 @@ namespace personal_project.Controllers
         courseCategory = course.courseCategory,
         courseLocation = course.courseLocation,
         courseWay = course.courseWay,
+        courseIntro = course.courseIntro,
         courseReminder = course.courseReminder,
         userId = user.id
       };
@@ -200,6 +202,106 @@ namespace personal_project.Controllers
         await _db.SaveChangesAsync();
 
         return Ok(newTeacher);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
+    [HttpPut("updateCourse")]
+    public async Task<IActionResult> UpdateCourse([FromForm] TeacherPublishCourseFormModel course)
+    {
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      var existingTeacherData = await _db.Teachers.FirstOrDefaultAsync(data => data.userId == user.id);
+
+      if (existingTeacherData is null)
+        return NotFound("No course data for the teacher");
+
+      existingTeacherData.courseName = course.courseName;
+      existingTeacherData.courseCategory = course.courseCategory;
+      existingTeacherData.courseLocation = course.courseLocation;
+      existingTeacherData.courseWay = course.courseWay;
+      existingTeacherData.courseIntro = course.courseIntro;
+      existingTeacherData.courseReminder = course.courseReminder;
+
+      //處理單張照片上傳
+      var uploadCourseImage = course.courseImageFile;
+      if (uploadCourseImage != null)
+      {
+        var ext = System.IO.Path.GetExtension(uploadCourseImage.FileName);
+        var bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName);
+        if (!bucketExists)
+        {
+          var bucketRequest = new PutBucketRequest()
+          {
+            BucketName = bucketName,
+            UseClientRegion = true
+          };
+          await _s3Client.PutBucketAsync(bucketRequest);
+        }
+        else
+        {
+          var fileToS3 = courseImageFileToS3Path + GenerateFilenameHelper.GenerateFileRandomName() + ext;
+          var objectRequest = new PutObjectRequest()
+          {
+            BucketName = bucketName,
+            Key = fileToS3,
+            InputStream = uploadCourseImage.OpenReadStream()
+          };
+          await _s3Client.PutObjectAsync(objectRequest);
+          existingTeacherData.courseImage = filesLocateDomain + fileToS3;
+        }
+      }
+      try
+      {
+        await _db.SaveChangesAsync();
+
+        var teacher = await _db.Teachers
+                        .Where(data => data.userId == user.id)
+                        .FirstOrDefaultAsync();
+
+        // Process course's data
+        foreach (var courseData in course.courses)
+        {
+          var newCourse = new Course
+          {
+            startTime = courseData.startTime,
+            endTime = courseData.endTime,
+            price = courseData.price,
+          };
+          // await _db.Courses.AddAsync(newCourse);
+          teacher.courses.Add(newCourse);
+        }
+        await _db.SaveChangesAsync();
+
+        return Ok(existingTeacherData);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
+
+    [HttpGet("getTeacherFormData")]
+    public async Task<IActionResult> GetTeacherFormData()
+    {
+      try
+      {
+        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+        if (user is null)
+          return BadRequest("Can't find user.");
+
+        var formData = await _db.Teachers
+                            .Where(data => data.userId == user.id)
+                            .FirstOrDefaultAsync();
+        if (formData is not null)
+          return Ok(formData);
+        return NoContent();
       }
       catch (Exception ex)
       {

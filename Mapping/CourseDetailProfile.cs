@@ -12,7 +12,9 @@ namespace personal_project.Mapping
     public CourseDetailProfile()
     {
       CreateMap<Teacher, CourseDetailDTO>()
-       .ForMember(dest => dest.courses, opt => opt.MapFrom(src => src.courses));
+       .ForMember(
+          dest => dest.courses,
+          opt => opt.MapFrom(src => src.courses));
 
       CreateMap<Course, CourseDTO>();
     }

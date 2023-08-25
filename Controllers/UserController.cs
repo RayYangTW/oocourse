@@ -159,7 +159,7 @@ namespace personal_project.Controllers
     {
       var user = await GetUserFromJWTAsync();
       if (user is null)
-        return BadRequest("Missing authorization token.");
+        return BadRequest("Can't find user.");
 
       // Get user from Profiles
       var profile = await _db.Profiles.FirstOrDefaultAsync(p => p.userId == user.id);
@@ -182,7 +182,7 @@ namespace personal_project.Controllers
     {
       var user = await GetUserFromJWTAsync();
       if (user is null)
-        return BadRequest("Missing authorization token.");
+        return BadRequest("Can't find user.");
 
       var existingProfile = await _db.Profiles.FirstOrDefaultAsync(p => p.userId == user.id);
 
@@ -217,7 +217,7 @@ namespace personal_project.Controllers
     {
       var user = await GetUserFromJWTAsync();
       if (user is null)
-        return BadRequest("Missing authorization token.");
+        return BadRequest("Can't find user.");
 
       var existingProfile = await _db.Profiles.FirstOrDefaultAsync(p => p.userId == user.id);
       if (existingProfile is null)

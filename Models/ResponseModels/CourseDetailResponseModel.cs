@@ -14,6 +14,7 @@ namespace personal_project.Models.ResponseModels
     public string? courseLanguage { get; set; }
     public string? courseCategory { get; set; }
     public string? courseLocation { get; set; }
+    public string? courseIntro { get; set; }
     public string? courseReminder { get; set; }
     public List<CourseTimeData>? courseTimeDatas { get; set; }
   }

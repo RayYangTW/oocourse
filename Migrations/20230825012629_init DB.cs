@@ -36,6 +36,7 @@ namespace personal_project.Migrations
                     courseLanguage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     courseCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     courseLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    courseIntro = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     courseReminder = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userId = table.Column<long>(type: "bigint", nullable: false)
                 },

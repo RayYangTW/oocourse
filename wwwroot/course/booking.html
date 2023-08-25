@@ -13,6 +13,7 @@
     />
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/course-detail.css" />
+    <link rel="stylesheet" href="../css/booking.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -39,8 +40,37 @@
       </div>
     </nav>
 
-    <!-- Courses -->
-    <div class="course-container"></div>
+    <!-- Booking -->
+    <div class="booking-container">
+      <div class="background">
+        <div class="row">
+          <div class="course-image-section col-4">
+            <img src="../assets/images/homepage-image.jpg" alt="" />
+          </div>
+          <div class="course-information-section col-8">
+            <div class="booking-info">
+              <h3>預約資訊：</h3>
+              <ul>
+                <li>開始時間：</li>
+                <li>結束時間：</li>
+                <li>價格：</li>
+              </ul>
+            </div>
+            <div class="course-detail">
+              <ul>
+                <li>課程名稱：</li>
+                <li>上課方式：</li>
+                <li>上課地點：</li>
+                <li>注意事項：</li>
+              </ul>
+            </div>
+            <div class="submit-button-container">
+              <button class="btn submit">確認</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
@@ -68,7 +98,7 @@
     referrerpolicy="no-referrer"
   ></script>
   <!-- js file -->
-  <script src="../js/course-detail.js"></script>
+  <script src="../js/booking.js"></script>
   <script src="../js/apply-to-become-teacher.js"></script>
   <script src="../js/check-user-login-status.js"></script>
 </html>
