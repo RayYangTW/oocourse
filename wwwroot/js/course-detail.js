@@ -9,44 +9,50 @@ const courseContainer = document.querySelector(".course-container");
 function getCourseHTML(course) {
   return `
   <div class="course-info-container">
-        <div class="image-section">
-          <img src="../assets/images/communication.jpg" alt="" />
-        </div>
-        <div class="course-detail-section">
-          <p>課程名稱：${course.courseName}</p>
-          <p>課程類別：${course.courseCategory}</p>
-          <p>課程地點：${course.courseLocation}</p>
-          <p>課程使用語言：${course.courseLanguage}</p>
-          <p>授課方式：${course.courseWay}</p>
-          <p>課程注意事項：${course.courseReminder}</p>
-        </div>
-      </div>
-      <div class="course-available-time">
-        <table class="table table-hover">
-          <thead>
+    <div class="image-section">
+      <img src="${course.courseImage}" alt="${course.courseName}" />
+    </div>
+    <div class="course-detail-section">
+      <p>課程名稱：${course.courseName}</p>
+      <p>課程類別：${course.courseCategory}</p>
+      <p>課程地點：${course.courseLocation}</p>
+      <p>課程使用語言：${course.courseLanguage}</p>
+      <p>授課方式：${course.courseWay}</p>
+    </div>
+    <div class="course-intro-section">
+      <p>課程介紹：${course.courseIntro}</p>
+      <p>課程注意事項：${course.courseReminder}</p>
+    </div>
+  </div>
+  <div class="course-available-time-container">
+    <div class="title-section">
+      <h3>可預約時段</h3>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>開始時間</th>
+          <th>結束時間</th>
+          <th>價格</th>
+          <th>預約</th>
+        </tr>
+      </thead>
+      <tbody>            
+        ${course.courses
+          .map(
+            (courseDetail) => `
             <tr>
-              <th>開始時間</th>
-              <th>結束時間</th>
-              <th>價格</th>
-              <th>預約</th>
+            <td>${courseDetail.startTime}</td>
+            <td>${courseDetail.endTime}</td>
+            <td>${courseDetail.price}</td>
+            <td><a href="booking.html?courseId=${courseDetail.id}" class="booking-link">預約</a></td>
             </tr>
-          </thead>
-          <tbody>            
-            ${course.courses
-              .map(
-                (courseDetail) => `
-                <tr>
-                <td>${courseDetail.startTime}</td>
-                <td>${courseDetail.endTime}</td>
-                <td>${courseDetail.price}</td>
-                <td><a href="booking.html/${courseDetail.id}" class="booking-link">預約</a></td>
-                </tr>
-            `
-              )
-              .join("")}
-          </tbody>
-        </table>
-      </div>
+        `
+          )
+          .join("")}
+      </tbody>
+    </table>
+  </div>
   `;
 }
 

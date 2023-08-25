@@ -62,6 +62,7 @@ $("#teacher-application-form").submit((e) => {
   formData.append("courseLocation", $("#course-location").val());
   formData.append("courseWay", $("#course-way").val());
   formData.append("courseLanguage", $("#course-language").val());
+  formData.append("courseIntro", $("#course-intro").val());
   formData.append("courseReminder", $("#course-reminder").val());
   formData.append("courseImageFile", $("#course-image")[0].files[0]);
 

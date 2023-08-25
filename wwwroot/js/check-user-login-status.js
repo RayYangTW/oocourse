@@ -6,9 +6,9 @@ $(document).ready(function () {
 
   if (jwtToken) {
     signinLink.text("Profile");
-    signinLink.attr("href", "user/portal.html");
+    signinLink.attr("href", "http://localhost:5202/user/portal.html");
   } else {
     signinLink.text("登入");
-    signinLink.attr("href", "user/signin.html");
+    signinLink.attr("href", "http://localhost:5202/user/signin.html");
   }
 });

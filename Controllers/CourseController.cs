@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using personal_project.Data;
+using personal_project.Helpers;
 using personal_project.Models.ResponseModels;
 using static personal_project.Models.Dtos.CourseDetailDto;
 
@@ -66,6 +67,7 @@ namespace personal_project.Controllers
         var courseData = await _db.Teachers
                             .Where(data => data.id == id)
                             .Include(data => data.courses
+                                                  .Where(data => data.isBooked == false)
                                                   .Where(data => data.startTime >= afterThreeHours))
                             .FirstOrDefaultAsync();
 
@@ -74,9 +76,10 @@ namespace personal_project.Controllers
           var resultDto = _mapper.Map<CourseDetailDTO>(courseData);
           foreach (var course in resultDto.courses)
           {
-            course.startTime = ConvertToCustomFormat(course.startTime);
-            course.endTime = ConvertToCustomFormat(course.endTime);
+            course.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.startTime);
+            course.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.endTime);
           }
+          resultDto.courses = resultDto.courses.OrderBy(course => course.startTime).ToList();
           return Ok(resultDto);
         }
         return NoContent();
@@ -86,17 +89,6 @@ namespace personal_project.Controllers
         System.Console.WriteLine(ex);
         return StatusCode(500);
       }
-    }
-
-
-    public static string ConvertToCustomFormat(string originalDate)
-    {
-      if (DateTime.TryParse(originalDate, out DateTime parsedDate))
-      {
-        return parsedDate.ToString("yyyy/MM/dd - HH:mm");
-      }
-      System.Console.WriteLine("轉換失敗...");
-      return originalDate;  // 如果轉換失敗，則回傳原始日期。
     }
   }
 }
