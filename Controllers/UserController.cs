@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using personal_project.Data;
 using personal_project.Helpers;
 using personal_project.Models.Domain;
+using personal_project.Models.Dtos;
 using personal_project.Models.User;
 
 namespace personal_project.Controllers
@@ -259,6 +260,31 @@ namespace personal_project.Controllers
 
       await _db.SaveChangesAsync();
       return Ok(existingProfile);
+    }
+
+    [HttpGet("bookings")]
+    public async Task<IActionResult> GetBookings()
+    {
+      var user = await GetUserFromJWTAsync();
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      var bookingsData = await _db.Bookings
+                              .Where(data => data.userId == user.id)
+                              .Include(data => data.course)
+                              .Include(data => data.course.teacher)
+                              .ToListAsync();
+
+      var responseData = _mapper.Map<List<BookingsResponseDto>>(bookingsData);
+
+      foreach (var booking in responseData)
+      {
+        booking.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(booking.startTime);
+        booking.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(booking.endTime);
+      }
+      responseData = responseData.OrderBy(data => data.startTime).ToList();
+
+      return Ok(responseData);
     }
 
     /********************************************************
