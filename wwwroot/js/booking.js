@@ -62,12 +62,11 @@ function submitBooking() {
   const submitBtn = document.querySelector(".submit");
 
   submitBtn.addEventListener("click", () => {
-    console.log("我被按下了");
     console.log(config);
     axios
       .post(host + endpoint + courseId, "", config)
       .then(() => {
-        alert("預定成功！");
+        alert("預訂成功！");
         location.href = "/";
       })
       .catch((err) => console.log(err));
