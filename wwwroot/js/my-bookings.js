@@ -81,6 +81,7 @@ function renderErrorPage(error) {
 axios
   .get(host + endpoint, config)
   .then((response) => {
+    console.log(response);
     const booking = response.data;
     renderMyBookings(booking);
   })

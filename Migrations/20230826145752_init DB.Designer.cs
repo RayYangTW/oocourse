@@ -12,7 +12,7 @@ using personal_project.Data;
 namespace personal_project.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20230825012629_init DB")]
+    [Migration("20230826145752_init DB")]
     partial class initDB
     {
         /// <inheritdoc />
@@ -149,6 +149,9 @@ namespace personal_project.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<string>("courseLink")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("endTime")
                         .HasColumnType("datetime2");

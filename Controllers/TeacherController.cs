@@ -139,6 +139,13 @@ namespace personal_project.Controllers
       if (user is null)
         return BadRequest("Can't find user.");
 
+      var existingTeacherData = await _db.Teachers
+                                      .Where(data => data.userId == user.id)
+                                      .AnyAsync();
+
+      if (existingTeacherData)
+        return StatusCode(403, "Teacher already has own course, please don't repeat publish.");
+
       var newTeacher = new Teacher
       {
         courseName = course.courseName,
@@ -268,18 +275,21 @@ namespace personal_project.Controllers
         // Process course's data
         foreach (var courseData in course.courses)
         {
-          var newCourse = new Course
+          if (courseData.startTime is not null && courseData.endTime is not null)
           {
-            startTime = courseData.startTime,
-            endTime = courseData.endTime,
-            price = courseData.price,
-          };
-          // await _db.Courses.AddAsync(newCourse);
-          teacher.courses.Add(newCourse);
+            var newCourse = new Course
+            {
+              startTime = courseData.startTime,
+              endTime = courseData.endTime,
+              price = courseData.price,
+            };
+            // await _db.Courses.AddAsync(newCourse);
+            teacher.courses.Add(newCourse);
+          }
         }
         await _db.SaveChangesAsync();
 
-        return Ok(existingTeacherData);
+        return Ok();
       }
       catch (Exception ex)
       {

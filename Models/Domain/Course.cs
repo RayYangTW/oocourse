@@ -14,6 +14,7 @@ namespace personal_project.Models.Domain
     public double? price { get; set; }
     public bool isBooked { get; set; } = false;
     public string? roomId { get; set; } = null;
+    public string? courseLink { get; set; } = null;
 
     // FK
     public long teacherId { get; set; }

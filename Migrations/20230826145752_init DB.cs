@@ -72,6 +72,7 @@ namespace personal_project.Migrations
                     price = table.Column<double>(type: "float", nullable: true),
                     isBooked = table.Column<bool>(type: "bit", nullable: false),
                     roomId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    courseLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     teacherId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>

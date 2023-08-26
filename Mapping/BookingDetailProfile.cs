@@ -16,6 +16,7 @@ namespace personal_project.Mapping
         .ForMember(dest => dest.endTime, opt => opt.MapFrom(src => src.endTime))
         .ForMember(dest => dest.price, opt => opt.MapFrom(src => src.price))
         .ForMember(dest => dest.roomId, opt => opt.MapFrom(src => src.roomId))
+        .ForMember(dest => dest.courseLink, opt => opt.MapFrom(src => src.courseLink))
         .ForMember(dest => dest.courseImage, opt => opt.MapFrom(src => src.teacher.courseImage))
         .ForMember(dest => dest.courseName, opt => opt.MapFrom(src => src.teacher.courseName))
         .ForMember(dest => dest.courseWay, opt => opt.MapFrom(src => src.teacher.courseWay))

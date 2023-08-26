@@ -69,6 +69,11 @@ function submitBooking() {
         alert("預訂成功！");
         location.href = "/";
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 403) {
+          alert("該課程已被預訂，請重新選購。");
+        }
+        console.log(err);
+      });
   });
 }

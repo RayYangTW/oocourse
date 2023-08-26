@@ -16,6 +16,7 @@ namespace personal_project.Models.Dtos
     public string? endTime { get; set; }
     public double price { get; set; }
     public string? roomId { get; set; }
+    public string? courseLink { get; set; }
 
   }
 }

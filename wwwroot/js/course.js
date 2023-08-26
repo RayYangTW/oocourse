@@ -44,7 +44,7 @@ function renderCourseDetail(course) {
               </ul>
             </div>
             <div class="room-link-container">
-              <a href="./course/online.html?id=${course.roomId}"
+              <a href="${course.courseLink}"
                 ><button class="btn room-link">進入課程</button></a
               >
             </div>
