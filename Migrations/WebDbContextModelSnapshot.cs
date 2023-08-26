@@ -147,6 +147,9 @@ namespace personal_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
 
+                    b.Property<string>("courseLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("endTime")
                         .HasColumnType("datetime2");
 

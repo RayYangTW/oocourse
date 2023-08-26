@@ -113,6 +113,7 @@ $("#teacher-application-form").submit((e) => {
   axios
     .post(host + endpoint, formData, config)
     .then((response) => {
+      console.log(response);
       if (response.status === 200) {
         alert("刊登成功！");
         location.reload();
@@ -120,5 +121,11 @@ $("#teacher-application-form").submit((e) => {
         return new Error("刊登失敗！");
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      if (err.response.status === 403) {
+        alert("已有課程刊登中，請勿重複刊登，若要更動請至編輯課程。");
+      }
+      location.href = "./edit-course.html";
+      console.log(err);
+    });
 });

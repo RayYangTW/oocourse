@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +21,15 @@ namespace personal_project.Controllers
     private readonly WebDbContext _db;
     private readonly IMapper _mapper;
     private readonly GetUserDataFromJWTHelper _jwtHelper;
+    private readonly IConfiguration _config;
 
-    public BookingController(ILogger<BookingController> logger, WebDbContext db, IMapper mapper, GetUserDataFromJWTHelper jwtHelper)
+    public BookingController(ILogger<BookingController> logger, WebDbContext db, IMapper mapper, GetUserDataFromJWTHelper jwtHelper, IConfiguration config)
     {
       _logger = logger;
       _db = db;
       _mapper = mapper;
       _jwtHelper = jwtHelper;
+      _config = config;
     }
 
     [HttpGet("{courseId}")]
@@ -71,6 +74,7 @@ namespace personal_project.Controllers
 
         var courseData = await _db.Courses
                                 .Where(data => data.id == courseId)
+                                .Include(data => data.teacher)
                                 .FirstOrDefaultAsync();
         if (courseData is null)
           return NotFound("Not found the course data.");
@@ -90,8 +94,17 @@ namespace personal_project.Controllers
 
         // update isBooked field
         courseData.isBooked = true;
+
         courseData.roomId = newRoomId;
 
+        if (courseData.teacher.courseWay.Contains("實體") || courseData.teacher.courseWay.Contains("線下"))
+        {
+          courseData.courseLink = _config["Host"] + "course/offline.html?id=" + newRoomId;
+        }
+        else
+        {
+          courseData.courseLink = _config["Host"] + "course/online.html?id=" + newRoomId;
+        }
         // Save to db
         await _db.SaveChangesAsync();
 
