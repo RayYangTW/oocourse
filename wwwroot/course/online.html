@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>進入課程</title>
+    <title>線上教學</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -12,7 +12,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../css/index.css" />
-    <link rel="stylesheet" href="../css/course.css" />
+    <link rel="stylesheet" href="../css/online-course.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -39,33 +39,43 @@
       </div>
     </nav>
 
-    <!-- Course -->
-    <div class="course-container">
-      <div class="background">
+    <!-- Main -->
+    <main>
+      <section class="room-main-page-container">
         <div class="row">
-          <div class="course-image-section col-4">
-            <img src="../assets/images/homepage-image.jpg" alt="" />
-          </div>
-          <div class="course-information-section col-8">
-            <div class="course-detail">
-              <ul>
-                <li>課程名稱：</li>
-                <li>開始時間：</li>
-                <li>結束時間：</li>
-                <li>上課方式：</li>
-                <li>上課地點：</li>
-                <li>注意事項：</li>
-              </ul>
+          <div class="left-section col-8">
+            <div class="roomId-container">
+              <h3>房間:xxxssss</h3>
             </div>
-            <div class="room-link-container">
-              <a href="./online.html"
-                ><button class="btn room-link">進入課程</button></a
-              >
+            <div class="video-container">
+              <div class="video-grid"></div>
+              <div class="button-container">
+                <button id="toggleCam" class="btn btn-primary">開關鏡頭</button>
+                <button id="toggleMic" class="btn btn-primary">
+                  開關麥克風
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- message -->
+          <div class="right-section col-4">
+            <div class="chat-container">
+              <div class="chat-content" id="chat-content"></div>
+              <div class="input-section">
+                <div
+                  class="chat-input"
+                  id="chat-input"
+                  contenteditable="true"
+                ></div>
+                <button type="button" class="btn btn-primary send-btn">
+                  發送訊息
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
@@ -92,8 +102,12 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   ></script>
-  <!-- js file -->
-  <script src="../js/course.js"></script>
+  <!-- SignalR -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script>
+  <!-- Peerjs -->
+  <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+  <!-- Js Files -->
+  <script src="../js/online-course.js"></script>
   <script src="../js/apply-to-become-teacher.js"></script>
   <script src="../js/check-user-login-status.js"></script>
 </html>

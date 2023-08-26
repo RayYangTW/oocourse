@@ -1,7 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
-const roomId = urlParams.get("roomId");
-const title = $(".roomIdContainer")[0];
-title.innerHTML = `<h3>房間ID: ${roomId}</h3>`;
+const roomId = urlParams.get("id");
+const title = $(".roomId-container")[0];
+title.innerHTML = `<h5>房間ID: ${roomId}</h5>`;
 
 const Peers = {};
 let userId = null;
@@ -154,7 +154,7 @@ micBtn.addEventListener("click", () => {
 *******************************/
 
 // 禁止發送文字訊息，直到建立連接
-$("#sendButton").hide();
+$(".send-btn").hide();
 
 // 連接服務
 const chatConn = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
@@ -164,7 +164,7 @@ chatConn
   .start()
   .then(function () {
     // 連接成功顯示發送按鈕
-    $("#sendButton").show();
+    $(".send-btn").show();
   })
   .catch(function (err) {
     // 連接失敗返回錯誤訊息
@@ -172,8 +172,8 @@ chatConn
   });
 
 // 發送消息
-$("#sendButton").click(function () {
-  const user = userId;
+$(".send-btn").click(function () {
+  const user = "xxx";
   const message = $("#chat-input").text();
   if (message !== null && message.length > 0) {
     chatConn.invoke("SendMessage", user, message).catch(function (err) {
@@ -184,6 +184,6 @@ $("#sendButton").click(function () {
 
 // 接收消息
 chatConn.on("ReceiveMessage", function (user, message, time) {
-  $("#chat-content").append(`<p>用戶 ${user} 於 ${time} : ${message}</p><br>`);
+  $("#chat-content").append(`<p>${user} : ${message}</p>`);
   $("#chat-content").animate({ scrollTop: 100000 });
 });

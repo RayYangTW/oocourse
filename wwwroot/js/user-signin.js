@@ -39,7 +39,6 @@ $("#signin-form").submit(function (event) {
       localStorage.setItem("JWT", JWT);
       const userRole = responseData.user.role;
       localStorage.setItem("role", userRole);
-      // Go back to last page and refresh
       alert("登入成功");
       location.href = "/";
     })

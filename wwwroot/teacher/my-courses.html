@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>進入課程</title>
+    <title>我的授課</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -12,7 +12,9 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../css/index.css" />
-    <link rel="stylesheet" href="../css/course.css" />
+    <link rel="stylesheet" href="../css/form.css" />
+    <link rel="stylesheet" href="../css/admin-teacher-applications.css" />
+    <link rel="stylesheet" href="../css/user-my-bookings.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -27,46 +29,12 @@
               ><i class="fas fa-heart pe-2"></i>成為教師</a
             >
           </li>
-          <li class="nav-item ms-3">
-            <a
-              id="signin-link"
-              class="btn btn-black btn-rounded"
-              href="../user/signin.html"
-              >登入</a
-            >
-          </li>
         </ul>
       </div>
     </nav>
 
-    <!-- Course -->
-    <div class="course-container">
-      <div class="background">
-        <div class="row">
-          <div class="course-image-section col-4">
-            <img src="../assets/images/homepage-image.jpg" alt="" />
-          </div>
-          <div class="course-information-section col-8">
-            <div class="course-detail">
-              <ul>
-                <li>課程名稱：</li>
-                <li>開始時間：</li>
-                <li>結束時間：</li>
-                <li>上課方式：</li>
-                <li>上課地點：</li>
-                <li>注意事項：</li>
-              </ul>
-            </div>
-            <div class="room-link-container">
-              <a href="./online.html"
-                ><button class="btn room-link">進入課程</button></a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <!-- Table -->
+    <div class="table-container"></div>
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -93,7 +61,6 @@
     referrerpolicy="no-referrer"
   ></script>
   <!-- js file -->
-  <script src="../js/course.js"></script>
+  <script src="../js/my-courses.js"></script>
   <script src="../js/apply-to-become-teacher.js"></script>
-  <script src="../js/check-user-login-status.js"></script>
 </html>
