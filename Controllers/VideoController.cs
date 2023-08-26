@@ -20,7 +20,7 @@ public class VideoController : ControllerBase
   public IActionResult GetRoom()
   {
     string roomId = GenerateRandomRoomId(10);
-    return Redirect($"/room.html?roomId={roomId}");
+    return Redirect($"/online.html?id={roomId}");
   }
 
 

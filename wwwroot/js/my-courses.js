@@ -1,5 +1,5 @@
 const host = "http://localhost:5202";
-const endpoint = "/api/user/bookings";
+const endpoint = "/api/teacher/myCourses";
 
 const jwt = localStorage.getItem("JWT");
 
@@ -11,11 +11,11 @@ const config = {
 
 // ====================== Bookings ======================
 // Get the bookings container element
-const bookingsContainer = document.querySelector(".table-container");
+const coursesContainer = document.querySelector(".table-container");
 
 // Function to render applications on the page
-function renderMyBookings(bookings) {
-  bookingsContainer.innerHTML = `
+function renderMyCourses(courses) {
+  coursesContainer.innerHTML = `
     <table class="table table-hover">
       <thead>
         <tr>
@@ -26,19 +26,19 @@ function renderMyBookings(bookings) {
         </tr>
       </thead>
       <tbody>
-        ${bookings.map(generateBookingsHTML).join("")}
+        ${courses.map(generateCoursesHTML).join("")}
       </tbody>
     </table>
   `;
 }
 
-function generateBookingsHTML(booking) {
+function generateCoursesHTML(course) {
   return `
     <tr>
-      <td>${booking.courseName}</td>
-      <td>${booking.startTime}</td>
-      <td>${booking.endTime}</td>
-      <td><a href="${host}/course.html?id=${booking.roomId}" class="course-link">課程</a></td>
+      <td>${course.courseName}</td>
+      <td>${course.startTime}</td>
+      <td>${course.endTime}</td>
+      <td><a href="${host}/course.html?id=${course.roomId}" class="course-link">課程</a></td>
     </tr>
   `;
 }
@@ -47,14 +47,13 @@ function renderNoContent() {
   return `
     <div class="no-content">
       <h3>尚無預約課程</h3>
-      <button class="btn "><a href="../course/search.html">找課程！</a></button>
     </div>
   `;
 }
 
 // Function to render error on the page
 function renderErrorPage(error) {
-  bookingsContainer.innerHTML = `
+  coursesContainer.innerHTML = `
     <div class="error">
       <h3 class="error-message">抱歉！您搜尋的頁面不存在。</h3>
       <a href="/" class="btn btn-success error-link">回到首頁</a>
@@ -70,19 +69,20 @@ function renderErrorPage(error) {
 //   const urlParams = new URLSearchParams(window.location.search);
 //   const idValue = urlParams.get("id");
 
-//   // If value !== null, shows the bookings
+//   // If value !== null, shows the courses
 //   if (idValue !== null) {
 
 //   } else {
-//     bookingsContainer.innerHTML = renderNoContent();
+//     coursesContainer.innerHTML = renderNoContent();
 //   }
 // });
 
 axios
   .get(host + endpoint, config)
   .then((response) => {
-    const booking = response.data;
-    renderMyBookings(booking);
+    console.log(response);
+    const course = response.data;
+    renderMyCourses(course);
   })
   .catch((error) => {
     renderErrorPage(error);

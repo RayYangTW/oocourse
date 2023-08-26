@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>編輯課程</title>
+    <title>我的授課</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -13,18 +13,28 @@
     />
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
+    <link rel="stylesheet" href="../css/admin-teacher-applications.css" />
+    <link rel="stylesheet" href="../css/user-my-bookings.css" />
   </head>
   <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container">
         <a class="navbar-brand" href="/">LOGO</a>
-        <ul class="navbar-nav ms-auto align-items-center"></ul>
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a
+              class="nav-link mx-2 teacher-application-link"
+              href="../application/form.html"
+              ><i class="fas fa-heart pe-2"></i>成為教師</a
+            >
+          </li>
+        </ul>
       </div>
     </nav>
 
-    <!-- Form -->
-    <div class="course-form-container"></div>
+    <!-- Table -->
+    <div class="table-container"></div>
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -51,5 +61,6 @@
     referrerpolicy="no-referrer"
   ></script>
   <!-- js file -->
-  <script src="../js/teacher-edit-course.js"></script>
+  <script src="../js/my-courses.js"></script>
+  <script src="../js/apply-to-become-teacher.js"></script>
 </html>

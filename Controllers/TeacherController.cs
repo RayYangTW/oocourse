@@ -16,6 +16,7 @@ using personal_project.Models.Domain;
 using personal_project.Models.FormModels;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using personal_project.Models.Dtos;
 
 namespace personal_project.Controllers
 {
@@ -302,6 +303,38 @@ namespace personal_project.Controllers
         if (formData is not null)
           return Ok(formData);
         return NoContent();
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
+    [HttpGet("myCourses")]
+    public async Task<IActionResult> GetMyCourses()
+    {
+      try
+      {
+        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+        if (user is null)
+          return BadRequest("Can't find user.");
+
+        var coursesData = await _db.Courses
+                                .Where(data => data.teacher.userId == user.id)
+                                .Where(data => data.isBooked == true)
+                                .Include(data => data.teacher)
+                                .ToListAsync();
+
+        var responseData = _mapper.Map<List<CoursesResponseDto>>(coursesData);
+
+        foreach (var course in responseData)
+        {
+          course.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.startTime);
+          course.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.endTime);
+        }
+        responseData = responseData.OrderBy(data => data.startTime).ToList();
+
+        return Ok(responseData);
       }
       catch (Exception ex)
       {

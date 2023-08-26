@@ -271,6 +271,7 @@ namespace personal_project.Controllers
 
       var bookingsData = await _db.Bookings
                               .Where(data => data.userId == user.id)
+                              .Where(data => data.course.startTime >= DateTime.Now)
                               .Include(data => data.course)
                               .Include(data => data.course.teacher)
                               .ToListAsync();
