@@ -68,6 +68,12 @@ namespace personal_project.Controllers
     {
       try
       {
+        var existingBookingData = await _db.Bookings
+                                        .Where(data => data.courseId == courseId)
+                                        .AnyAsync();
+        if (existingBookingData)
+          return StatusCode(403, "The course has already been booked.");
+
         var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
         if (user is null)
           return BadRequest("Can't find user.");
