@@ -11,5 +11,6 @@ namespace personal_project.Models.Dtos
     public string? startTime { get; set; }
     public string? endTime { get; set; }
     public string? roomId { get; set; }
+    public string? courseLink { get; set; }
   }
 }

@@ -6,44 +6,37 @@
 
 .room-main-page-container .row {
   margin-top: 80px;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
   width: 100vw;
-  height: 85vh;
+  height: 80vh;
   display: flex;
 }
 
 .left-section {
-  width: 75%;
+  width: 50%;
   padding: 15px;
+  overflow: hidden;
 }
 
 .right-section {
-  width: 25%;
+  width: 50%;
   padding: 15px;
 }
 
-/* 視訊部分 */
-.video-container {
+/* CourseDetail */
+.background {
+  /* display: flex; */
 }
 
-.video-grid {
-  width: 100%;
+.course-image-section {
+  text-align: center;
 }
 
-.video-grid > video {
-  z-index: 0;
+.course-image-section img {
+  width: 300px;
+  height: auto;
+  margin: 30px;
 }
-
-video:not(.local-video) {
-}
-
-.button-container {
-  position: relative;
-  bottom: 50px;
-  left: 10px;
-  z-index: 1;
-}
-
 /* 文字對話框 */
 .chat-container {
   height: 100%;

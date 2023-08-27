@@ -38,7 +38,7 @@ function generateCoursesHTML(course) {
       <td>${course.courseName}</td>
       <td>${course.startTime}</td>
       <td>${course.endTime}</td>
-      <td><a href="${host}/course.html?id=${course.roomId}" class="course-link">課程</a></td>
+      <td><a href="${course.courseLink}" class="course-link">課程</a></td>
     </tr>
   `;
 }
