@@ -12,6 +12,7 @@ namespace personal_project.Models.Dtos
     public string? courseWay { get; set; }
     public string? courseLocation { get; set; }
     public string? courseReminder { get; set; }
+    public string? courseIntro { get; set; }
     public string? startTime { get; set; }
     public string? endTime { get; set; }
     public double price { get; set; }

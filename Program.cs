@@ -97,9 +97,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapHub<ChatHub>("/chatHub");
-app.MapHub<VideoChatHub>("/videoChatHub");
 app.MapHub<VideoHub>("/videoHub");
-app.MapHub<TestHub>("/testHub");
 
 app.UseCors("AllowAll");
 
