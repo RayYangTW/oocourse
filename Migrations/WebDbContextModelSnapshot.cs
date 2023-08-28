@@ -36,6 +36,9 @@ namespace personal_project.Migrations
                     b.Property<long>("courseId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("orderId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");
 

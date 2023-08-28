@@ -12,7 +12,7 @@ using personal_project.Data;
 namespace personal_project.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20230826145752_init DB")]
+    [Migration("20230828080628_init DB")]
     partial class initDB
     {
         /// <inheritdoc />
@@ -38,6 +38,9 @@ namespace personal_project.Migrations
 
                     b.Property<long>("courseId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("orderId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");

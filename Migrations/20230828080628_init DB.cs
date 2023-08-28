@@ -205,6 +205,7 @@ namespace personal_project.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    orderId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     bookingTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     userId = table.Column<long>(type: "bigint", nullable: true),

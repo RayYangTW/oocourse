@@ -1,5 +1,6 @@
 const host = "http://localhost:5202";
 const endpoint = "/api/booking/";
+const linePayEndPoint = "/api/checkout/linepay";
 
 const jwt = localStorage.getItem("JWT");
 
@@ -49,30 +50,42 @@ function renderBookingDetail(booking) {
           </ul>
         </div>
         <div class="submit-button-container">
-          <button class="btn submit">確認</button>
+          <button class="btn submit">LINEPay付款</button>
         </div>
       </div>
     </div>
   </div>
   `;
-  submitBooking();
+  submitBooking(booking);
 }
 
-function submitBooking() {
+function submitBooking(booking) {
   const submitBtn = document.querySelector(".submit");
 
   submitBtn.addEventListener("click", () => {
-    console.log(config);
+    const formData = new FormData();
+    formData.append("productName", booking.courseName);
+    formData.append("productQty", 1);
+    formData.append("productPrice", booking.price);
+    formData.append("courseId", courseId);
+
+    console.log(...formData);
     axios
-      .post(host + endpoint + courseId, "", config)
-      .then(() => {
-        alert("預訂成功！");
-        location.href = "/";
+      .post(host + linePayEndPoint, formData, config)
+      .then((response) => {
+        console.log(response);
+        // alert("預訂成功！");
+        // location.href = "/";
+        if (response.data.redirectUrl) {
+          location.href = response.data.redirectUrl;
+        } else {
+          console.log("無跳轉網址");
+        }
       })
       .catch((err) => {
-        if (err.response.status === 403) {
-          alert("該課程已被預訂，請重新選購。");
-        }
+        // if (err.response.status === 403) {
+        //   alert("該課程已被預訂，請重新選購。");
+        // }
         console.log(err);
       });
   });

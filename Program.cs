@@ -33,6 +33,9 @@ var connectionString = System.Environment.GetEnvironmentVariable("CONNECTION_STR
 builder.Services.AddDbContext<WebDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+// HttpClient
+builder.Services.AddHttpClient();
+
 // AWS S3
 builder.Services.AddAWSService<IAmazonS3>();
 
