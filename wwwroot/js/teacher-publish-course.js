@@ -124,8 +124,10 @@ $("#teacher-application-form").submit((e) => {
     .catch((err) => {
       if (err.response.status === 403) {
         alert("已有課程刊登中，請勿重複刊登，若要更動請至編輯課程。");
+        location.href = "./edit-course.html";
+      } else if (err.response.status === 500) {
+        console.log("Error code:500");
       }
-      location.href = "./edit-course.html";
       console.log(err);
     });
 });

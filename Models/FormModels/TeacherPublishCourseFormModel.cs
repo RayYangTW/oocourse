@@ -11,6 +11,7 @@ namespace personal_project.Models.FormModels
     public string? courseImage { get; set; }
     public string? courseName { get; set; }
     public string? courseWay { get; set; }
+    public string? courseLanguage { get; set; }
     public string? courseCategory { get; set; }
     public string? courseLocation { get; set; }
     public string? courseIntro { get; set; }

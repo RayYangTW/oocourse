@@ -152,6 +152,7 @@ namespace personal_project.Controllers
         courseCategory = course.courseCategory,
         courseLocation = course.courseLocation,
         courseWay = course.courseWay,
+        courseLanguage = course.courseLanguage,
         courseIntro = course.courseIntro,
         courseReminder = course.courseReminder,
         userId = user.id
@@ -198,18 +199,21 @@ namespace personal_project.Controllers
         // Process course's data
         foreach (var courseData in course.courses)
         {
-          var newCourse = new Course
+          if (courseData.startTime is not null && courseData.endTime is not null)
           {
-            startTime = courseData.startTime,
-            endTime = courseData.endTime,
-            price = courseData.price,
-          };
-          // await _db.Courses.AddAsync(newCourse);
-          teacher.courses.Add(newCourse);
+            var newCourse = new Course
+            {
+              startTime = courseData.startTime,
+              endTime = courseData.endTime,
+              price = courseData.price,
+            };
+            // await _db.Courses.AddAsync(newCourse);
+            teacher.courses.Add(newCourse);
+          }
         }
         await _db.SaveChangesAsync();
 
-        return Ok(newTeacher);
+        return Ok("publish success.");
       }
       catch (Exception ex)
       {
@@ -233,6 +237,7 @@ namespace personal_project.Controllers
       existingTeacherData.courseCategory = course.courseCategory;
       existingTeacherData.courseLocation = course.courseLocation;
       existingTeacherData.courseWay = course.courseWay;
+      existingTeacherData.courseLanguage = course.courseLanguage;
       existingTeacherData.courseIntro = course.courseIntro;
       existingTeacherData.courseReminder = course.courseReminder;
 
