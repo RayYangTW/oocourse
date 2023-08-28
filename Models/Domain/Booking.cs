@@ -8,6 +8,7 @@ namespace personal_project.Models.Domain
   public class Booking
   {
     public long id { get; set; }
+    public string? orderId { get; set; }
     public string? status { get; set; }
     public DateTime bookingTime { get; set; }
 
