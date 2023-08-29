@@ -20,6 +20,7 @@ function getApplicationHTML(application) {
 // Function to render applications on the page
 function renderApplications(applications) {
   applicationsContainer.innerHTML = `
+    <h2 class="text-center">教師資格申請單</h2>
     <table class="table table-hover">
       <thead>
         <tr>
