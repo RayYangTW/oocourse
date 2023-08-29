@@ -12,7 +12,7 @@ namespace personal_project.Models.Domain
     public string? email { get; set; }
     public string? password { get; set; }
     public string? role { get; set; } = "user";
-
+    public Boolean isProfileCompleted { get; set; } = false;
 
     // // one to one
     // public TeacherApplication? teacherApplication { get; set; }

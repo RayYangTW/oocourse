@@ -39,11 +39,14 @@ $("#signup-form").submit(function (event) {
         throw new Error("註冊失敗");
       }
     })
-    .then((responseData) => {
-      const JWT = responseData.access_token;
-      localStorage.setItem("JWT", JWT);
+    .then(() => {
       alert("註冊成功");
       location.href = "/";
     })
-    .catch((err) => console.log("錯誤", err));
+    .catch((err) => {
+      if (err.response.data === "Email existed!") {
+        alert("Email已存在。");
+      }
+      console.log("錯誤", err);
+    });
 });

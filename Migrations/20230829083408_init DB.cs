@@ -54,7 +54,8 @@ namespace personal_project.Migrations
                     provider = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    role = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isProfileCompleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
