@@ -29,7 +29,7 @@ myPeer.on("open", (id) => {
 const videoGrid = document.querySelector(".video-grid");
 const myVideo = document.createElement("video");
 myVideo.muted = true;
-myVideo.className = "local-video";
+myVideo.className = "local-video-test";
 
 navigator.mediaDevices
   .getUserMedia({
@@ -46,6 +46,8 @@ connection.on("user-connected", (id) => {
   if (userId === id) return;
   console.log(`User connected : ${id}`);
   connectNewUser(id, localStream);
+  // myVideo.style.width = "30%";
+  myVideo.className = "local-video";
 });
 
 // signalR 偵測到有使用者離線
@@ -62,8 +64,10 @@ myPeer.on("call", (call) => {
   call.answer(localStream);
 
   const userVideo = document.createElement("video");
+  userVideo.className = "remote-video";
   call.on("stream", (userVideoStream) => {
     addVideoStream(userVideo, userVideoStream);
+    myVideo.className = "local-video";
   });
 });
 
