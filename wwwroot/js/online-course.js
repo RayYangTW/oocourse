@@ -176,15 +176,23 @@ chatConn
   });
 
 // 發送消息
-$(".send-btn").click(function () {
-  const user = "xxx";
+$(".send-btn").click(sendMessage);
+$("#chat-input").keyup(function (event) {
+  if (event.key === "Enter") {
+    sendMessage();
+  }
+});
+
+function sendMessage() {
+  const user = localStorage.getItem("userName");
   const message = $("#chat-input").text();
   if (message !== null && message.length > 0) {
     chatConn.invoke("SendMessage", user, message).catch(function (err) {
       return console.error(err.toString());
     });
+    $("#chat-input").text("");
   }
-});
+}
 
 // 接收消息
 chatConn.on("ReceiveMessage", function (user, message, time) {

@@ -120,7 +120,10 @@ namespace personal_project.Controllers
       if (signinUser.provider.ToLower() == "native")
       {
         // Find if user exist
-        var user = await _db.Users.FirstOrDefaultAsync(a => a.email == signinUser.email);
+        var user = await _db.Users
+                            .Where(data => data.email == signinUser.email)
+                            .Include(data => data.profile)
+                            .FirstOrDefaultAsync();
 
         if (user is null)
           return StatusCode(403, "Email didn't exist!");
@@ -149,7 +152,8 @@ namespace personal_project.Controllers
             email = user.email,
             provider = user.provider,
             role = userRole,
-            isProfileCompleted = user.isProfileCompleted
+            isProfileCompleted = user.isProfileCompleted,
+            userName = user.profile.name
           }
         });
       }
