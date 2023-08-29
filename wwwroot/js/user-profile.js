@@ -22,6 +22,7 @@ function renderProfile(profile) {
             class="form-control item"
             id="name"
             value="${profile.name}"
+            required
           />
         </div>
         <div class="form-group">
@@ -40,6 +41,7 @@ function renderProfile(profile) {
             class="form-control item"
             id="gender"
             value="${profile.gender}"
+            required
           />
         </div>
         <div class="form-group">
@@ -49,6 +51,7 @@ function renderProfile(profile) {
             class="form-control item"
             id="interest"
             value="${profile.interest}"
+            required
           />
         </div>
         <div class="form-group">
@@ -110,7 +113,8 @@ function updateProfile(profile) {
         console.log("succeed");
         console.log(response.data);
         alert("個人資料修改成功！");
-        // location.reload();
+        localStorage.setItem("isProfileCompleted", true);
+        location.href = "portal.html";
       })
       .catch((err) => {
         console.log("failed");

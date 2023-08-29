@@ -12,7 +12,7 @@ using personal_project.Data;
 namespace personal_project.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20230828080628_init DB")]
+    [Migration("20230829083408_init DB")]
     partial class initDB
     {
         /// <inheritdoc />
@@ -356,6 +356,9 @@ namespace personal_project.Migrations
 
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isProfileCompleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("password")
                         .HasColumnType("nvarchar(max)");

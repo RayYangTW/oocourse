@@ -354,6 +354,9 @@ namespace personal_project.Migrations
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isProfileCompleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("password")
                         .HasColumnType("nvarchar(max)");
 

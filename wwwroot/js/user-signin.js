@@ -39,6 +39,8 @@ $("#signin-form").submit(function (event) {
       localStorage.setItem("JWT", JWT);
       const userRole = responseData.user.role;
       localStorage.setItem("role", userRole);
+      const isProfileCompleted = responseData.user.isProfileCompleted;
+      localStorage.setItem("isProfileCompleted", isProfileCompleted);
       alert("登入成功");
       location.href = "/";
     })

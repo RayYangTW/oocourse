@@ -148,7 +148,8 @@ namespace personal_project.Controllers
             id = user.id,
             email = user.email,
             provider = user.provider,
-            role = userRole
+            role = userRole,
+            isProfileCompleted = user.isProfileCompleted
           }
         });
       }
@@ -196,7 +197,7 @@ namespace personal_project.Controllers
         existingProfile.interest = userProfile.interest;
 
         await _db.SaveChangesAsync();
-        return Ok(existingProfile);
+        return Ok();
       }
 
       var newProfile = new Models.Domain.Profile
@@ -206,11 +207,16 @@ namespace personal_project.Controllers
         avatar = userProfile.avatar,
         gender = userProfile.gender,
         interest = userProfile.interest,
-        userId = user.id
+        user = user
       };
+
       await _db.Profiles.AddAsync(newProfile);
       await _db.SaveChangesAsync();
-      return Ok(newProfile);
+
+      // update user.isProfileCompleted to true
+      user.isProfileCompleted = true;
+      await _db.SaveChangesAsync();
+      return Ok();
     }
 
     [HttpPut("profile")]
@@ -259,7 +265,13 @@ namespace personal_project.Controllers
       }
 
       await _db.SaveChangesAsync();
-      return Ok(existingProfile);
+
+      user.isProfileCompleted = true;
+      await _db.SaveChangesAsync();
+
+      var responseData = _mapper.Map<ProfileDto>(existingProfile);
+
+      return Ok(responseData);
     }
 
     [HttpGet("bookings")]
