@@ -177,7 +177,7 @@ chatConn
 
 // 發送消息
 $(".send-btn").click(function () {
-  const user = "xxx";
+  const user = localStorage.getItem("userName");
   const message = $("#chat-input").text();
   if (message !== null && message.length > 0) {
     chatConn.invoke("SendMessage", user, message).catch(function (err) {

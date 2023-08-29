@@ -41,6 +41,8 @@ $("#signin-form").submit(function (event) {
       localStorage.setItem("role", userRole);
       const isProfileCompleted = responseData.user.isProfileCompleted;
       localStorage.setItem("isProfileCompleted", isProfileCompleted);
+      const userName = responseData.user.userName;
+      localStorage.setItem("userName", userName);
       alert("登入成功");
       location.href = "/";
     })

@@ -34,6 +34,7 @@ $(document).ready(() => {
     localStorage.removeItem("JWT");
     localStorage.removeItem("role");
     localStorage.removeItem("isProfileCompleted");
+    localStorage.removeItem("userName");
     alert("登出成功！");
     location.href = "/";
   });
