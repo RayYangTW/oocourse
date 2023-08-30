@@ -12,7 +12,7 @@ using personal_project.Data;
 namespace personal_project.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20230829083408_init DB")]
+    [Migration("20230830023501_init DB")]
     partial class initDB
     {
         /// <inheritdoc />
