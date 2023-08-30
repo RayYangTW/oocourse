@@ -294,8 +294,8 @@ namespace personal_project.Seed
 
             db.Profiles.Add(new Models.Domain.Profile
             {
-              name = "Amanda",
-              nickname = "曼達",
+              name = "Annie",
+              nickname = "安妮",
               gender = "女",
               interest = "瑜珈",
               user = user3

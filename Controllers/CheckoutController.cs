@@ -124,7 +124,6 @@ namespace personal_project.Controllers
         var responseBody = await linePayResponseMessage.Content.ReadAsStringAsync();
         var response = JsonConvert.DeserializeObject<linePayResponse>(responseBody);
 
-        System.Console.WriteLine("XXXXXXXXXXXX" + response);
         // When payment api response success, db insert a new row update order status and return redirect url to frontend
         if (response.returnCode == "0000")
         {
