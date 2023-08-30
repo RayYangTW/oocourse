@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using personal_project.Data;
 using personal_project.Helpers;
 using personal_project.Hubs;
+using personal_project.Seed;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -103,5 +104,7 @@ app.MapHub<ChatHub>("/chatHub");
 app.MapHub<VideoHub>("/videoHub");
 
 app.UseCors("AllowAll");
+
+app.Seed();
 
 app.Run();
