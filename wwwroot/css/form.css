@@ -1,0 +1,97 @@
+.form-container {
+  margin-top: 80px;
+}
+
+.form-container {
+  padding: 50px 0;
+}
+
+.form-container form {
+  background-color: #fff;
+  max-width: 600px;
+  margin: auto;
+  padding: 50px 70px;
+  border-radius: 30px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+
+.form-container .form-icon {
+  text-align: center;
+  background-color: #5891ff;
+  border-radius: 50%;
+  font-size: 40px;
+  color: white;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  margin-bottom: 50px;
+  line-height: 100px;
+}
+
+.form-container .item {
+  border-radius: 20px;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+}
+
+.form-container .form-label {
+  margin-left: 21px;
+}
+
+.course-form-container {
+  margin-top: 80px;
+  padding: 50px 0;
+}
+
+.course-form-container form {
+  background-color: #fff;
+  max-width: 800px;
+  margin: auto;
+  padding: 50px 70px;
+  border-radius: 30px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+
+.course-form-container .form-icon {
+  text-align: center;
+  background-color: #5891ff;
+  border-radius: 50%;
+  font-size: 40px;
+  color: white;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  margin-bottom: 50px;
+  line-height: 100px;
+}
+
+.course-form-container .item {
+  border-radius: 20px;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+}
+
+.course-form-container .form-label {
+  margin-left: 21px;
+}
+
+.course-time-container {
+  background-color: antiquewhite;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+
+.btn-container {
+  margin-top: 20px;
+}
+
+.course-form-container .publish {
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: rgb(105, 226, 163);
+  border: none;
+  color: white;
+  margin-top: 20px;
+}

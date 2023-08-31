@@ -1,0 +1,27 @@
+.form-container .signin {
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #0099feff;
+  border: none;
+  color: white;
+  margin-top: 20px;
+}
+
+.form-container .signup {
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: rgb(105, 226, 163);
+  border: none;
+  color: white;
+  margin-top: 20px;
+}
+
+@media (max-width: 576px) {
+  .form-container form {
+    padding: 50px 20px;
+  }
+}

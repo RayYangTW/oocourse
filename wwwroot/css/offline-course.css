@@ -1,0 +1,71 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.room-main-page-container .row {
+  margin-top: 80px;
+  margin-bottom: 80px;
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+}
+
+.left-section {
+  width: 50%;
+  padding: 15px;
+  overflow: hidden;
+}
+
+.right-section {
+  width: 50%;
+  padding: 15px;
+}
+
+/* CourseDetail */
+.background {
+  /* display: flex; */
+}
+
+.course-image-section {
+  text-align: center;
+}
+
+.course-image-section img {
+  width: 300px;
+  height: auto;
+  margin: 30px;
+}
+/* 文字對話框 */
+.chat-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-content {
+  height: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+}
+
+.input-section {
+  display: flex;
+  height: 30%;
+}
+
+.chat-input {
+  width: 75%;
+  height: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.send-btn {
+  margin: 5px;
+  width: 25%;
+}
+
+#historyMessage {
+}
