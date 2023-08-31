@@ -2,10 +2,6 @@
 
 一個整合視訊家教與實體教學的網站
 
-## 專案進度
-
-**專案目前最新進度在 dev 分支上，尚未推到 Main 上。**
-
 ## 啟動專案執行步驟
 
 - Git clone：`https://github.com/RayYangTW/oocourse.git`
