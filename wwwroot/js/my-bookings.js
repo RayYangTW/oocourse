@@ -1,4 +1,4 @@
-const host = "http://localhost:5202";
+import { host } from "./config.js";
 const endpoint = "/api/user/bookings";
 
 const jwt = localStorage.getItem("JWT");

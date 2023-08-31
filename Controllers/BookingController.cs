@@ -105,11 +105,11 @@ namespace personal_project.Controllers
 
         if (courseData.teacher.courseWay.Contains("實體") || courseData.teacher.courseWay.Contains("線下"))
         {
-          courseData.courseLink = _config["Host"] + "course/offline.html?id=" + newRoomId;
+          courseData.courseLink = _config["Host"] + "/course/offline.html?id=" + newRoomId;
         }
         else
         {
-          courseData.courseLink = _config["Host"] + "course/online.html?id=" + newRoomId;
+          courseData.courseLink = _config["Host"] + "/course/online.html?id=" + newRoomId;
         }
         // Save to db
         await _db.SaveChangesAsync();

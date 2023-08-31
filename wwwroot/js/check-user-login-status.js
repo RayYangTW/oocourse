@@ -1,3 +1,5 @@
+import { host } from "./config.js";
+
 // Check user login or not
 $(document).ready(function () {
   const signinLink = $("#signin-link");
@@ -6,10 +8,10 @@ $(document).ready(function () {
 
   if (jwtToken) {
     signinLink.text("Profile");
-    signinLink.attr("href", "http://localhost:5202/user/portal.html");
+    signinLink.attr("href", `${host}/user/portal.html`);
   } else {
     signinLink.text("登入");
-    signinLink.attr("href", "http://localhost:5202/user/signin.html");
+    signinLink.attr("href", `${host}/user/signin.html`);
   }
 
   const userRole = localStorage.getItem("role");

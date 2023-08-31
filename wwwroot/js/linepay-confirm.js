@@ -1,4 +1,4 @@
-const host = "http://localhost:5202";
+import { host } from "./config.js";
 const endpoint = "/api/checkout/linepay/confirm";
 
 const jwt = localStorage.getItem("JWT");

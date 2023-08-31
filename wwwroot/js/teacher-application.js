@@ -1,4 +1,4 @@
-const host = "http://localhost:5202";
+import { host } from "./config.js";
 const endpoint = "/api/teacher/application";
 
 const applicationForm = $("#teacher-application-form");

@@ -50,7 +50,7 @@ chatConn.on("ReceiveMessage", function (user, message, time) {
 /*****************************************
  * Fetch data from API and render the page
  *****************************************/
-const host = "http://localhost:5202";
+import { host } from "./config.js";
 const endpoint = "/api/course/";
 
 const jwt = localStorage.getItem("JWT");

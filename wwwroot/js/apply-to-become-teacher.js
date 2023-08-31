@@ -1,3 +1,5 @@
+import { host } from "./config.js";
+
 $(document).ready(function () {
   $(".teacher-application-link").click(function (event) {
     event.preventDefault();
@@ -7,7 +9,7 @@ $(document).ready(function () {
       window.location.href = $(this).attr("href");
     } else {
       alert("請先登入！");
-      window.location.href = "http://localhost:5202/user/signin.html";
+      window.location.href = `${host}/user/signin.html`;
     }
   });
 });
