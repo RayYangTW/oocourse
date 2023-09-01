@@ -1,57 +1,9 @@
-const urlParams = new URLSearchParams(window.location.search);
-const roomId = urlParams.get("id");
-/******************************
-文字聊天功能
-*******************************/
-
-// 禁止發送文字訊息，直到建立連接
-$(".send-btn").hide();
-
-// 連接服務
-const chatConn = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-
-// 建立連接
-chatConn
-  .start()
-  .then(function () {
-    // 連接成功顯示發送按鈕
-    $(".send-btn").show();
-  })
-  .catch(function (err) {
-    // 連接失敗返回錯誤訊息
-    return console.error(err.toString());
-  });
-
-// 發送消息
-$(".send-btn").click(sendMessage);
-$("#chat-input").keyup(function (event) {
-  if (event.key === "Enter") {
-    sendMessage();
-  }
-});
-
-function sendMessage() {
-  const user = localStorage.getItem("userName");
-  const message = $("#chat-input").text();
-  if (message !== null && message.length > 0) {
-    chatConn.invoke("SendMessage", user, message).catch(function (err) {
-      return console.error(err.toString());
-    });
-    $("#chat-input").text("");
-  }
-}
-
-// 接收消息
-chatConn.on("ReceiveMessage", function (user, message, time) {
-  $("#chat-content").append(`<p>${user} : ${message}</p>`);
-  $("#chat-content").animate({ scrollTop: 100000 });
-});
-
 /*****************************************
  * Fetch data from API and render the page
  *****************************************/
 import { host } from "./config.js";
 const endpoint = "/api/course/";
+const endpointToCheckAccess = "/api/course/access";
 
 const jwt = localStorage.getItem("JWT");
 
@@ -61,20 +13,32 @@ const config = {
   },
 };
 
-const courseContainer = document.querySelector(".left-section");
+const urlParams = new URLSearchParams(window.location.search);
+const roomId = urlParams.get("id");
 
 axios
-  .get(host + endpoint + roomId, config)
+  .get(`${host}${endpointToCheckAccess}?id=${roomId}`, config)
   .then((response) => {
-    console.log(response);
-    return response.data;
+    if (response.status === 200) {
+      initializeOfflineCourse();
+      axios
+        .get(host + endpoint + roomId, config)
+        .then((response) => {
+          return response.data;
+        })
+        .then((course) => {
+          renderCourseDetail(course);
+        })
+        .catch((err) => console.log(err));
+    }
   })
-  .then((course) => {
-    renderCourseDetail(course);
-  })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    location.href = `${host}/error.html`;
+    console.log(err);
+  });
 
 function renderCourseDetail(course) {
+  const courseContainer = document.querySelector(".left-section");
   courseContainer.innerHTML = `
   <div class="background">
     <div class="course-image-section">
@@ -95,4 +59,54 @@ function renderCourseDetail(course) {
     </div>
   </div>
   `;
+}
+
+function initializeOfflineCourse() {
+  /******************************
+文字聊天功能
+*******************************/
+  // 禁止發送文字訊息，直到建立連接
+  $(".send-btn").hide();
+
+  // 連接服務
+  const chatConn = new signalR.HubConnectionBuilder()
+    .withUrl("/chatHub")
+    .build();
+
+  // 建立連接
+  chatConn
+    .start()
+    .then(function () {
+      // 連接成功顯示發送按鈕
+      $(".send-btn").show();
+    })
+    .catch(function (err) {
+      // 連接失敗返回錯誤訊息
+      return console.error(err.toString());
+    });
+
+  // 發送消息
+  $(".send-btn").click(sendMessage);
+  $("#chat-input").keyup(function (event) {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  });
+
+  function sendMessage() {
+    const user = localStorage.getItem("userName");
+    const message = $("#chat-input").text();
+    if (message !== null && message.length > 0) {
+      chatConn.invoke("SendMessage", user, message).catch(function (err) {
+        return console.error(err.toString());
+      });
+      $("#chat-input").text("");
+    }
+  }
+
+  // 接收消息
+  chatConn.on("ReceiveMessage", function (user, message, time) {
+    $("#chat-content").append(`<p>${user} : ${message}</p>`);
+    $("#chat-content").animate({ scrollTop: 100000 });
+  });
 }

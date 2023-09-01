@@ -115,5 +115,36 @@ namespace personal_project.Controllers
 
       return Ok(responseData);
     }
+
+    [HttpGet("access")]
+    public async Task<IActionResult> GetAccessToOnlineCourse([FromQuery] string id)
+    {
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      // var courseAccessListData = await _db.CourseAccessLists
+      //                       .Where(data => data.roomId == roomId)
+      //                       .FirstOrDefaultAsync();
+      // if (courseAccessListData.teacherUserId == user.id || courseAccessListData.userId == user.id)
+      // {
+      //   return Ok("User is on the list.");
+      // }
+      // return NotFound("User is not on the list.");
+
+
+      var courseAccessList = await _db.CourseAccessLists
+                            .Where(data => data.roomId == id)
+                            .ToListAsync();
+      foreach (var data in courseAccessList)
+      {
+        if (data.teacherUserId == user.id || data.userId == user.id)
+        {
+          return Ok("User is on the access list.");
+        }
+        return NotFound("User is not on the access list.");
+      }
+      return NotFound("User is not on the access list.");
+    }
   }
 }

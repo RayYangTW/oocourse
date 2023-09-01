@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>我的會員資料</title>
+    <title>錯誤</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -11,9 +11,9 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="../css/course-search.css" />
     <link rel="stylesheet" href="../css/index.css" />
-    <link rel="stylesheet" href="../css/form.css" />
-    <link rel="stylesheet" href="../css/user-profile.css" />
+    <link rel="stylesheet" href="../css/error.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -30,14 +30,27 @@
               ><i class="fas fa-heart pe-2"></i>成為教師</a
             >
           </li>
+          <li class="nav-item ms-3">
+            <a
+              id="signin-link"
+              class="btn btn-black btn-rounded"
+              href="../user/signin.html"
+              >登入</a
+            >
+          </li>
         </ul>
       </div>
     </nav>
 
-    <!-- Form -->
-    <div class="form-container">
-      <h1 class="text-center">我的會員資料</h1>
+    <!-- Error -->
+    <div class="error-container">
+      <p class="error-message">Oops!</p>
+      <p class="error-message">404 - Page not found！</p>
+      <a href="/"
+        ><button type="button" class="btn btn-primary">回首頁</button></a
+      >
     </div>
+
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -64,6 +77,6 @@
     referrerpolicy="no-referrer"
   ></script>
   <!-- js file -->
-  <script type="module" src="../js/user-profile.js"></script>
-  <script type="module" src="../js/apply-to-become-teacher.js"></script>
+  <script type="module" src="./js/apply-to-become-teacher.js"></script>
+  <script type="module" src="./js/check-user-login-status.js"></script>
 </html>

@@ -12,7 +12,7 @@ using personal_project.Data;
 namespace personal_project.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20230830023501_init DB")]
+    [Migration("20230901034443_init DB")]
     partial class initDB
     {
         /// <inheritdoc />
@@ -179,6 +179,34 @@ namespace personal_project.Migrations
                     b.HasIndex("teacherId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("personal_project.Models.Domain.CourseAccessList", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<long>("courseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("roomId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("teacherUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("userId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("courseId")
+                        .IsUnique();
+
+                    b.ToTable("CourseAccessLists");
                 });
 
             modelBuilder.Entity("personal_project.Models.Domain.CourseCategory", b =>
@@ -447,6 +475,17 @@ namespace personal_project.Migrations
                     b.Navigation("teacher");
                 });
 
+            modelBuilder.Entity("personal_project.Models.Domain.CourseAccessList", b =>
+                {
+                    b.HasOne("personal_project.Models.Domain.Course", "course")
+                        .WithOne("courseAccessList")
+                        .HasForeignKey("personal_project.Models.Domain.CourseAccessList", "courseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("course");
+                });
+
             modelBuilder.Entity("personal_project.Models.Domain.CourseRecord", b =>
                 {
                     b.HasOne("personal_project.Models.Domain.ChatRecord", "chatRecord")
@@ -488,6 +527,8 @@ namespace personal_project.Migrations
             modelBuilder.Entity("personal_project.Models.Domain.Course", b =>
                 {
                     b.Navigation("bookings");
+
+                    b.Navigation("courseAccessList");
                 });
 
             modelBuilder.Entity("personal_project.Models.Domain.Teacher", b =>

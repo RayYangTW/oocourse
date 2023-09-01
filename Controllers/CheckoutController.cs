@@ -167,6 +167,10 @@ namespace personal_project.Controllers
                           .Include(data => data.course)
                           .FirstOrDefaultAsync();
 
+      var user = await _db.Users
+                          .Where(data => data.id == booking.userId)
+                          .FirstOrDefaultAsync();
+
       var courseData = await _db.Courses
                             .Where(data => data.id == booking.courseId)
                             .Include(data => data.teacher)
@@ -209,6 +213,7 @@ namespace personal_project.Controllers
 
           courseData.roomId = newRoomId;
 
+          // Generate courseLink
           if (courseData.teacher.courseWay.Contains("實體") || courseData.teacher.courseWay.Contains("線下"))
           {
             courseData.courseLink = _config["Host"] + "/course/offline.html?id=" + newRoomId;
@@ -217,6 +222,17 @@ namespace personal_project.Controllers
           {
             courseData.courseLink = _config["Host"] + "/course/online.html?id=" + newRoomId;
           }
+
+          // update CourseAccessList
+          var newList = new CourseAccessList
+          {
+            roomId = newRoomId,
+            teacherUserId = courseData.teacher.userId,
+            userId = user.id,
+            course = courseData
+          };
+
+          await _db.CourseAccessLists.AddAsync(newList);
 
           await _db.SaveChangesAsync();
 

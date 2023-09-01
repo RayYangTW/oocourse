@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // Connect SQL Server
 DotNetEnv.Env.Load(); // use DotNetEnv to load .env
-var connectionString = System.Environment.GetEnvironmentVariable("CONNECTION_STRING");
+var connectionString = System.Environment.GetEnvironmentVariable("CONNECTION_STRING_LOCAL");
 builder.Services.AddDbContext<WebDbContext>(options =>
     options.UseSqlServer(connectionString));
 
