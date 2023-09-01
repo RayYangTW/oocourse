@@ -45,6 +45,7 @@
 }
 
 .chat-content {
+  background-color: aliceblue;
   height: 100%;
   margin-bottom: 10px;
   border: 1px solid #ccc;
@@ -56,6 +57,7 @@
 }
 
 .chat-input {
+  background-color: aliceblue;
   width: 75%;
   height: 100%;
   padding: 10px;

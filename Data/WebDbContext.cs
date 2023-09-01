@@ -29,6 +29,7 @@ namespace personal_project.Data
     public DbSet<ChatRecord> ChatRecords { get; set; }
     public DbSet<CourseRecord> CourseRecords { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<CourseAccessList> CourseAccessLists { get; set; }
 
     // Order related
     public DbSet<Booking> Bookings { get; set; }

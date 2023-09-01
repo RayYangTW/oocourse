@@ -229,6 +229,28 @@ namespace personal_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CourseAccessLists",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    roomId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    teacherUserId = table.Column<long>(type: "bigint", nullable: false),
+                    userId = table.Column<long>(type: "bigint", nullable: false),
+                    courseId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseAccessLists", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_CourseAccessLists_Courses_courseId",
+                        column: x => x.courseId,
+                        principalTable: "Courses",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CourseRecords",
                 columns: table => new
                 {
@@ -304,6 +326,12 @@ namespace personal_project.Migrations
                 column: "userId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CourseAccessLists_courseId",
+                table: "CourseAccessLists",
+                column: "courseId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CourseRecords_ChatRecordId",
                 table: "CourseRecords",
                 column: "ChatRecordId");
@@ -338,6 +366,9 @@ namespace personal_project.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "CourseAccessLists");
+
+            migrationBuilder.DropTable(
                 name: "CourseCategories");
 
             migrationBuilder.DropTable(
@@ -347,10 +378,10 @@ namespace personal_project.Migrations
                 name: "Profiles");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "TeacherApplications");
 
             migrationBuilder.DropTable(
-                name: "TeacherApplications");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "ChatRecords");
