@@ -45,6 +45,14 @@ namespace personal_project.Controllers
     string filesLocateDomain = "https://d3n4wxuzv8xzhg.cloudfront.net/";
     string fileToS3Path = "user/profile/avatar/";
 
+    // GET: api/user/checkAuthorize
+    [Authorize]
+    [HttpGet("checkAuthorize")]
+    public async Task<IActionResult> CheckUserAuthorize()
+    {
+      return Ok("pass authorize.");
+    }
+
     [AllowAnonymous]
     [HttpPost("signup")]
     public async Task<IActionResult> Signup(BaseUser signupUser)
@@ -160,6 +168,7 @@ namespace personal_project.Controllers
       return BadRequest("Unknown signin source!");
     }
 
+    [Authorize]
     [HttpGet("profile")]
     public async Task<IActionResult> GetProfile()
     {
@@ -183,6 +192,7 @@ namespace personal_project.Controllers
       });
     }
 
+    [Authorize]
     [HttpPost("profile")]
     public async Task<IActionResult> UploadProfile([FromForm] Models.Domain.Profile userProfile)
     {
@@ -223,6 +233,7 @@ namespace personal_project.Controllers
       return Ok();
     }
 
+    [Authorize]
     [HttpPut("profile")]
     public async Task<IActionResult> UpdateProfile([FromForm] Models.Domain.Profile userProfile)
     {
@@ -278,6 +289,7 @@ namespace personal_project.Controllers
       return Ok(responseData);
     }
 
+    [Authorize]
     [HttpGet("bookings")]
     public async Task<IActionResult> GetBookings()
     {
