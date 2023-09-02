@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using personal_project.Data;
@@ -26,6 +28,15 @@ namespace personal_project.Controllers
       _mapper = mapper;
     }
 
+    // Get: api/Admin/checkAuthorize
+    [Authorize(Roles = "admin")]
+    [HttpGet("checkAuthorize")]
+    public async Task<IActionResult> CheckAdminAuthorize()
+    {
+      return Ok("pass authorize.");
+    }
+
+
     // GET: api/Admin/teacher/applications
     [HttpGet("teacher/applications")]
     public async Task<IActionResult> GetAllTeacherApplications()
@@ -33,7 +44,7 @@ namespace personal_project.Controllers
       try
       {
         var result = await _db.TeacherApplications
-            .Where(data => data.isApproved == false && data.status != "denied")
+            .Where(data => data.isApproved == false)
             .OrderBy(data => data.createdTime)
             .Select(data => new
             {

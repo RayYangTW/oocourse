@@ -24,6 +24,7 @@ function renderForm(course) {
             id="course-name"
             value="${course.courseName}"
             placeholder="課程名稱"
+            required
           />
         </div>
         <div class="form-group">
@@ -34,6 +35,7 @@ function renderForm(course) {
             id="course-category"
             value="${course.courseCategory}"
             placeholder="課程分類"
+            required
           />
         </div>
         <div class="form-group">
@@ -44,6 +46,7 @@ function renderForm(course) {
             id="course-way"
             value="${course.courseWay}"
             placeholder="授課方式"
+            required
           />
         </div>
         <div class="form-group">
@@ -54,6 +57,7 @@ function renderForm(course) {
             id="course-language"
             value="${course.courseLanguage}"
             placeholder="授課語言"
+            required
           />
         </div>
         <div class="form-group">
@@ -64,6 +68,7 @@ function renderForm(course) {
             id="course-location"
             value="${course.courseLocation}"
             placeholder="授課地點"
+            required
           />
         </div>
         <div class="form-group">
@@ -73,6 +78,7 @@ function renderForm(course) {
             class="form-control item"
             id="course-intro"
             placeholder="課程詳細介紹"
+            required
           >${course.courseIntro}</textarea>
         </div>
         <div class="form-group">
@@ -82,6 +88,7 @@ function renderForm(course) {
             class="form-control item"
             id="course-reminder"
             placeholder="課程注意事項"
+            required
           >${course.courseReminder}</textarea>
         </div>
         <div class="form-group">

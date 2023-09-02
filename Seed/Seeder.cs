@@ -420,6 +420,29 @@ namespace personal_project.Seed
                 }
             );
 
+            /************
+            Admin
+            ************/
+            var demoAdmin = new User
+            {
+              email = "admin1@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              isProfileCompleted = true,
+              role = "admin"
+            };
+            db.Users.Add(demoAdmin);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Profile
+            {
+              name = "Admin",
+              nickname = "Ad",
+              gender = "男",
+              interest = "管理",
+              user = demoAdmin
+            });
+
             db.SaveChanges();
           }
         }

@@ -50,6 +50,14 @@ namespace personal_project.Controllers
     string certificationFileToS3Path = "teacher/certification/";
     string courseImageFileToS3Path = "teacher/course/images/";
 
+    // GET: api/teacher/checkAuthorize
+    [Authorize(Roles = "teacher")]
+    [HttpGet("checkAuthorize")]
+    public async Task<IActionResult> CheckTeacherAuthorize()
+    {
+      return Ok("pass authorize.");
+    }
+
     // POST: api/teacher/application
     [Authorize]
     [HttpPost("application")]
