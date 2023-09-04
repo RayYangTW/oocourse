@@ -364,5 +364,85 @@ namespace personal_project.Controllers
         return BadRequest(ex.Message);
       }
     }
+
+    [HttpGet("teachingFeeData")]
+    public async Task<IActionResult> GetTeachingFee(string start, string end)
+    {
+      try
+      {
+        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+        if (user is null)
+          return BadRequest("Can't find user.");
+
+        if (!DateTime.TryParse(start, out DateTime startDate) || !DateTime.TryParse(end, out DateTime endDate))
+        {
+          return BadRequest("Invalid date format.");
+        }
+
+        var estimatedAmountData = await _db.Courses
+                                        .Where(data => data.teacher.userId == user.id)
+                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                        .SumAsync(data => data.price);
+
+        var teachingFeeData = await _db.Courses
+                                        .Where(data => data.teacher.userId == user.id)
+                                        .Where(data => data.isBooked == true)
+                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                        .Where(data => data.bookings.Any(booking => booking.status == "paid"))
+                                        .SumAsync(data => data.price);
+
+        return Ok(new
+        {
+          estimatedAmountData = estimatedAmountData,
+          teachingFeeData = teachingFeeData,
+          achievementRate = Math.Round((decimal)((teachingFeeData / estimatedAmountData) * 100), 2),
+          platformFeeOfTeachingFee = Math.Round((decimal)(teachingFeeData * 0.05)),
+          platformFeeOfEstimatedAmount = Math.Round((decimal)(estimatedAmountData * 0.05), 2),
+        });
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
+    [HttpGet("CourseData")]
+    public async Task<IActionResult> GetCourseData(string start, string end)
+    {
+      try
+      {
+        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+        if (user is null)
+          return BadRequest("Can't find user.");
+
+        if (!DateTime.TryParse(start, out DateTime startDate) || !DateTime.TryParse(end, out DateTime endDate))
+        {
+          return BadRequest("Invalid date format.");
+        }
+
+        var taughtCourseAmount = await _db.Courses
+                                        .Where(data => data.teacher.userId == user.id)
+                                        .Where(data => data.isBooked == true)
+                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                        .Where(data => data.bookings.Any(booking => booking.status == "paid"))
+                                        .CountAsync();
+
+        var openCourseAmount = await _db.Courses
+                                        .Where(data => data.teacher.userId == user.id)
+                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                        .CountAsync();
+
+        return Ok(new
+        {
+          taughtCourseAmount = taughtCourseAmount,
+          openCourseAmount = openCourseAmount,
+          achievementRate = Math.Round(((decimal)taughtCourseAmount / (decimal)openCourseAmount) * 100, 2),
+        });
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
   }
 }
