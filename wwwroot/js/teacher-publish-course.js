@@ -110,13 +110,19 @@ $("#teacher-application-form").submit((e) => {
 
   console.log(...formData);
 
+  const loadingImg = document.querySelector(".loading");
+  const htmlBody = document.querySelector("html");
+  htmlBody.style.backgroundColor = "black";
+  htmlBody.style.opacity = "0.5";
+  loadingImg.style.display = "flex";
+
   axios
     .post(host + endpoint, formData, config)
     .then((response) => {
       console.log(response);
       if (response.status === 200) {
         alert("刊登成功！");
-        location.reload();
+        location.href = document.referrer;
       } else {
         return new Error("刊登失敗！");
       }
@@ -129,5 +135,10 @@ $("#teacher-application-form").submit((e) => {
         console.log("Error code:500");
       }
       console.log(err);
+    })
+    .finally(() => {
+      htmlBody.style.backgroundColor = "";
+      htmlBody.style.opacity = "1";
+      loadingImg.style.display = "none";
     });
 });
