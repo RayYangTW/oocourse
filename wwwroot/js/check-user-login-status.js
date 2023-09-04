@@ -37,7 +37,7 @@ function generateAdminLinkHtml() {
   <li class="nav-item">
     <a
       class="nav-link mx-2 admin-portal-link"
-      href="./admin/index.html"
+      href="./admin/portal.html"
       ><i class="fas fa-heart pe-2"></i>Admin</a
     >
   </li>

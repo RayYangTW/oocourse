@@ -391,13 +391,23 @@ namespace personal_project.Controllers
                                         .Where(data => data.bookings.Any(booking => booking.status == "paid"))
                                         .SumAsync(data => data.price);
 
+        decimal achievementRate = 0;
+        if (estimatedAmountData != 0)
+        {
+          achievementRate = Math.Round((decimal)((teachingFeeData / estimatedAmountData)), 2);
+        }
+
+        var platformFeeOfTeachingFee = Math.Round((decimal)(teachingFeeData * 0.05));
+
+        var platformFeeOfEstimatedAmount = Math.Round((decimal)(estimatedAmountData * 0.05), 2);
+
         return Ok(new
         {
           estimatedAmountData = estimatedAmountData,
           teachingFeeData = teachingFeeData,
-          achievementRate = Math.Round((decimal)((teachingFeeData / estimatedAmountData) * 100), 2),
-          platformFeeOfTeachingFee = Math.Round((decimal)(teachingFeeData * 0.05)),
-          platformFeeOfEstimatedAmount = Math.Round((decimal)(estimatedAmountData * 0.05), 2),
+          achievementRate = achievementRate,
+          platformFeeOfTeachingFee = platformFeeOfTeachingFee,
+          platformFeeOfEstimatedAmount = platformFeeOfEstimatedAmount,
         });
       }
       catch (Exception ex)
@@ -431,12 +441,17 @@ namespace personal_project.Controllers
                                         .Where(data => data.teacher.userId == user.id)
                                         .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
                                         .CountAsync();
+        decimal achievementRate = 0;
+        if (openCourseAmount != 0)
+        {
+          achievementRate = Math.Round(((decimal)taughtCourseAmount / (decimal)openCourseAmount), 2);
+        }
 
         return Ok(new
         {
           taughtCourseAmount = taughtCourseAmount,
           openCourseAmount = openCourseAmount,
-          achievementRate = Math.Round(((decimal)taughtCourseAmount / (decimal)openCourseAmount) * 100, 2),
+          achievementRate = achievementRate,
         });
       }
       catch (Exception ex)

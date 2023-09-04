@@ -1,3 +1,4 @@
+using System.Security.AccessControl;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -131,6 +132,108 @@ namespace personal_project.Controllers
       {
         return BadRequest(ex.Message);
       }
+    }
+    [Authorize(Roles = "admin")]
+    [HttpGet("platformData")]
+    public async Task<IActionResult> GetPlatformData()
+    {
+      var userData = await _db.Users
+                              .Where(data => data.role != "admin")
+                              .CountAsync();
+
+      var teacherData = await _db.Users
+                              .Where(data => data.role == "teacher")
+                              .CountAsync();
+
+      var offlineCourseData = await _db.Courses
+                                .Where(data => data.teacher.courseWay == "實體" || data.teacher.courseWay == "線下")
+                                .CountAsync();
+
+      var onlineCourseData = await _db.Courses
+                                .Where(data => data.teacher.courseWay == "線上")
+                                .CountAsync();
+
+      var courseAmountData = await _db.Courses
+                                      .CountAsync();
+
+      var courseIsBookedData = await _db.Courses
+                                        .Where(data => data.isBooked == true)
+                                        .CountAsync();
+
+      return Ok(new
+      {
+        userData = userData,
+        teacherData = teacherData,
+        offlineCourseData = offlineCourseData,
+        onlineCourseData = onlineCourseData,
+        courseAmountData = courseAmountData,
+        courseIsBookedData = courseIsBookedData
+      });
+    }
+    [Authorize(Roles = "admin")]
+    [HttpGet("transactionData")]
+    public async Task<IActionResult> GetTransactionData(string start, string end)
+    {
+      if (!DateTime.TryParse(start, out DateTime startDate) || !DateTime.TryParse(end, out DateTime endDate))
+      {
+        return BadRequest("Invalid date format.");
+      }
+
+      var turnoverData = await _db.Courses
+                                  .Where(data => data.isBooked == true)
+                                  .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                  .Where(data => data.bookings.Any(booking => booking.status == "paid"))
+                                  .SumAsync(data => data.price);
+
+      var transactionData = await _db.Courses
+                                  .Where(data => data.isBooked == true)
+                                  .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                  .Where(data => data.bookings.Any(booking => booking.status == "paid"))
+                                  .CountAsync();
+
+      var revenueData = Math.Round((decimal)(turnoverData) * 0.05M);
+
+      return Ok(new
+      {
+        turnoverData = turnoverData,
+        transactionData = transactionData,
+        revenueData = revenueData
+      });
+
+    }
+
+    [Authorize(Roles = "admin")]
+    [HttpGet("courseData")]
+    public async Task<IActionResult> GetCourseData(string start, string end)
+    {
+      if (!DateTime.TryParse(start, out DateTime startDate) || !DateTime.TryParse(end, out DateTime endDate))
+      {
+        return BadRequest("Invalid date format.");
+      }
+
+      var courseOfferingData = await _db.Courses
+                                  .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                  .CountAsync();
+
+      var courseFinishedData = await _db.Courses
+                                  .Where(data => data.isBooked == true)
+                                  .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                  .Where(data => data.bookings.Any(booking => booking.status == "paid"))
+                                  .CountAsync();
+
+
+      decimal achievementRate = 0;
+      if (courseOfferingData != 0)
+      {
+        achievementRate = Math.Round(((decimal)courseFinishedData / courseOfferingData), 2);
+      }
+
+      return Ok(new
+      {
+        courseOfferingData = courseOfferingData,
+        courseFinishedData = courseFinishedData,
+        achievementRate = achievementRate
+      });
     }
   }
 }

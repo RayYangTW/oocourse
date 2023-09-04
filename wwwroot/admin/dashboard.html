@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin</title>
+    <title>數據管理</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -13,7 +13,12 @@
     />
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
-    <link rel="stylesheet" href="../css/admin-index.css" />
+    <link rel="stylesheet" href="../css/admin-dashboard.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
   </head>
   <body>
     <!-- Navbar -->
@@ -22,28 +27,22 @@
         <a class="navbar-brand" href="/"
           ><img src="../assets/icons/Logo.png" alt="Logo"
         /></a>
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item ms-3">
-            <a
-              id="signin-link"
-              class="btn btn-black btn-rounded"
-              href="../user/signin.html"
-              >登入</a
-            >
-          </li>
-        </ul>
+        <ul class="navbar-nav ms-auto align-items-center"></ul>
       </div>
     </nav>
 
-    <!-- Links -->
-
-    <div class="links-container">
-      <a href="../admin/teacher/applications.html" class="teacher-application"
-        ><button type="button" class="btn btn-policy">教師資格申請單</button></a
-      >
-      <a href="#" class="signout"
-        ><button type="button" class="btn btn-policy">登出</button></a
-      >
+    <!-- Dashboard -->
+    <div class="dashboard-container">
+      <div class="platform-data-container"></div>
+      <label for="reportrange">時間區間</label>
+      <div class="reportrange" id="reportrange">
+        <span></span>
+      </div>
+      <div class="transaction-data-container"></div>
+      <div class="course-data-container"></div>
+      <div class="other-data-container">
+        <p>其他資料：</p>
+      </div>
     </div>
 
     <!-- Footer -->
@@ -71,8 +70,17 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   ></script>
+  <!-- moment -->
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+  ></script>
+  <!-- daterangepicker -->
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+  ></script>
   <!-- js file -->
   <script type="module" src="../js/check-admin-authorize.js"></script>
-  <script src="../js/user-portal.js"></script>
-  <script type="module" src="../js/check-user-login-status.js"></script>
+  <script type="module" src="../js/admin-dashboard.js"></script>
 </html>

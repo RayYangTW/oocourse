@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>數據管理</title>
+    <title>Admin</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -13,12 +13,7 @@
     />
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
-    <link rel="stylesheet" href="../css/dashboard.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
-    />
+    <link rel="stylesheet" href="../css/admin-portal.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -27,19 +22,31 @@
         <a class="navbar-brand" href="/"
           ><img src="../assets/icons/Logo.png" alt="Logo"
         /></a>
-        <ul class="navbar-nav ms-auto align-items-center"></ul>
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item ms-3">
+            <a
+              id="signin-link"
+              class="btn btn-black btn-rounded"
+              href="../user/signin.html"
+              >登入</a
+            >
+          </li>
+        </ul>
       </div>
     </nav>
 
-    <!-- Dashboard -->
-    <div class="dashboard-container">
-      <label for="reportrange">時間區間</label>
-      <div class="reportrange" id="reportrange">
-        <span></span>
-      </div>
-      <div class="salary-data-container"></div>
-      <div class="course-data-container"></div>
-      <div class="other-data-container"></div>
+    <!-- Links -->
+
+    <div class="links-container">
+      <a href="../admin/teacher/applications.html" class="teacher-application"
+        ><button type="button" class="btn btn-policy">教師資格申請單</button></a
+      >
+      <a href="./dashboard.html" class="dashboard"
+        ><button type="button" class="btn btn-policy">後台數據</button></a
+      >
+      <a href="#" class="signout"
+        ><button type="button" class="btn btn-policy">登出</button></a
+      >
     </div>
 
     <!-- Footer -->
@@ -67,17 +74,8 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   ></script>
-  <!-- moment -->
-  <script
-    type="text/javascript"
-    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
-  ></script>
-  <!-- daterangepicker -->
-  <script
-    type="text/javascript"
-    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
-  ></script>
   <!-- js file -->
-  <script type="module" src="../js/check-teacher-authorize.js"></script>
-  <script type="module" src="../js/teacher-dashboard.js"></script>
+  <script type="module" src="../js/check-admin-authorize.js"></script>
+  <script src="../js/user-portal.js"></script>
+  <script type="module" src="../js/check-user-login-status.js"></script>
 </html>
