@@ -11,6 +11,7 @@ namespace personal_project.Models.Domain
     public long id { get; set; }
     public DateTime? startTime { get; set; }
     public DateTime? endTime { get; set; }
+    public TimeSpan? duration => endTime - startTime;
     public double? price { get; set; }
     public bool isBooked { get; set; } = false;
     public string? roomId { get; set; } = null;
