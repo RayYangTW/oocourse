@@ -12,10 +12,11 @@ body {
 
 .loading {
   text-align: center;
-  position: relative;
-  top: 50%;
+  position: fixed;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, 0%);
+  z-index: 99;
 }
 
 /* Navbar */

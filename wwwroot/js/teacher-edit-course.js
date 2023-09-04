@@ -249,6 +249,12 @@ function submitEditForm() {
 
     console.log(...formData);
 
+    const loadingImg = document.querySelector(".loading");
+    const htmlBody = document.querySelector("html");
+    htmlBody.style.backgroundColor = "black";
+    htmlBody.style.opacity = "0.5";
+    loadingImg.style.display = "flex";
+
     axios
       .put(host + updateApi, formData, config)
       .then((response) => {
@@ -259,7 +265,12 @@ function submitEditForm() {
           return new Error("刊登失敗！");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        htmlBody.style.backgroundColor = "";
+        htmlBody.style.opacity = "1";
+        loadingImg.style.display = "none";
+      });
   });
 }
 

@@ -37,6 +37,17 @@ namespace personal_project.Controllers
     {
       try
       {
+        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+        if (user is null)
+          return BadRequest("Can't find user.");
+
+        var amITheTeacher = await _db.Courses
+                                  .Where(data => data.id == courseId)
+                                  .Where(data => data.teacher.userId == user.id)
+                                  .AnyAsync();
+        if (amITheTeacher is true)
+          return StatusCode(403, "Can't book your own course.");
+
         var courseData = await _db.Courses
                               .Where(data => data.id == courseId)
                               .FirstOrDefaultAsync();

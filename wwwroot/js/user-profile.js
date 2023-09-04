@@ -107,6 +107,13 @@ function updateProfile(profile) {
         Authorization: "Bearer " + jwt,
       },
     };
+
+    const loadingImg = document.querySelector(".loading");
+    const htmlBody = document.querySelector("html");
+    htmlBody.style.backgroundColor = "black";
+    htmlBody.style.opacity = "0.5";
+    loadingImg.style.display = "flex";
+
     axios
       .put(host + endpoint, formData, config)
       .then((response) => {
@@ -120,6 +127,11 @@ function updateProfile(profile) {
         console.log("failed");
         console.log(err);
         alert("資料上傳失敗！請注意是否都有填寫正確。");
+      })
+      .finally(() => {
+        htmlBody.style.backgroundColor = "";
+        htmlBody.style.opacity = "1";
+        loadingImg.style.display = "none";
       });
   });
 }
