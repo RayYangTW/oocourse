@@ -499,6 +499,5 @@ namespace personal_project.Controllers
         return BadRequest(ex.Message);
       }
     }
-
   }
 }

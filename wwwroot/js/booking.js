@@ -23,7 +23,16 @@ axios
   .then((bookingData) => {
     renderBookingDetail(bookingData);
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log(err);
+    if (err.response.status === 403) {
+      alert("請勿預約自己的課程！");
+      location.href = document.referrer;
+    } else {
+      alert("訂購失敗！");
+      location.href = document.referrer;
+    }
+  });
 
 function renderBookingDetail(booking) {
   bookingFormContainer.innerHTML = `
