@@ -80,6 +80,7 @@ $(function () {
     },
     cb
   );
+  $('[data-range-key="Custom Range"]').text("選擇區間");
 
   cb(start, end);
 });
@@ -98,7 +99,7 @@ function renderTeachingFee(amountData) {
   ${amountData.platformFeeOfEstimatedAmount} = NTD. 
   ${amountData.estimatedAmountData - amountData.platformFeeOfEstimatedAmount}
   </p>
-  <p>達成率：${amountData.achievementRate}%</p>
+  <p>達成率：${amountData.achievementRate}</p>
   `;
 }
 
@@ -108,7 +109,7 @@ function renderCourseAmount(courseData) {
   courseContainer.innerHTML = `
   <p>完成課程總數：${courseData.taughtCourseAmount}</p>
   <p>開設課程總數：${courseData.openCourseAmount}</p>
-  <p>達成率：${courseData.achievementRate}%</p>
+  <p>達成率：${courseData.achievementRate}</p>
   `;
 }
 
