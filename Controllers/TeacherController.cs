@@ -444,5 +444,46 @@ namespace personal_project.Controllers
         return BadRequest(ex.Message);
       }
     }
+
+    [HttpGet("teachingTimeData")]
+    public async Task<IActionResult> GetTeachingTime(string start, string end)
+    {
+      try
+      {
+        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+        if (user is null)
+          return BadRequest("Can't find user.");
+
+        if (!DateTime.TryParse(start, out DateTime startDate) || !DateTime.TryParse(end, out DateTime endDate))
+        {
+          return BadRequest("Invalid date format.");
+        }
+
+        var teachingTimeData = await _db.Courses
+                                        .Where(data => data.teacher.userId == user.id)
+                                        .Where(data => data.isBooked == true)
+                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
+                                        .Where(data => data.bookings.Any(booking => booking.status == "paid"))
+                                        .Select(data => data.duration)
+                                        .ToListAsync();
+
+        TimeSpan? totalDuration = TimeSpan.Zero;
+
+        foreach (var duration in teachingTimeData)
+        {
+          totalDuration += duration;
+        }
+
+        return Ok(new
+        {
+          totalDuration = totalDuration
+        });
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
   }
 }

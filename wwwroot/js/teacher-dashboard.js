@@ -1,6 +1,8 @@
 import { host } from "./config.js";
 const feeDataEndpoint = "/api/teacher/teachingFeeData";
 const courseDataEndpoint = "/api/teacher/CourseData";
+const teachTimeEndpoint = "/api/teacher/teachingTimeData";
+
 const jwt = localStorage.getItem("JWT");
 const config = {
   headers: {
@@ -25,7 +27,6 @@ $(function () {
         config
       )
       .then((response) => {
-        console.log(response);
         return response.data;
       })
       .then((amountData) => {
@@ -39,11 +40,23 @@ $(function () {
         config
       )
       .then((response) => {
-        console.log(response);
         return response.data;
       })
       .then((courseData) => {
         renderCourseAmount(courseData);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(
+        `${host}${teachTimeEndpoint}?start=${startDate}&end=${endDate}`,
+        config
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .then((otherData) => {
+        renderOtherData(otherData);
       })
       .catch((err) => console.log(err));
   }
@@ -72,13 +85,8 @@ $(function () {
 });
 
 const salaryContainer = document.querySelector(".salary-data-container");
-const courseContainer = document.querySelector(".course-data-container");
 
 function renderTeachingFee(amountData) {
-  // const achievementRate = (
-  //   (amountData.teachingFeeData / amountData.estimatedAmountData) *
-  //   100
-  // ).toFixed(2);
   salaryContainer.innerHTML = `
   <p>實際授課收入：
   ${amountData.teachingFeeData} - 平台費 
@@ -94,14 +102,20 @@ function renderTeachingFee(amountData) {
   `;
 }
 
+const courseContainer = document.querySelector(".course-data-container");
+
 function renderCourseAmount(courseData) {
-  // const achievementRate = (
-  //   (courseData.taughtCourseAmount / courseData.openCourseAmount) *
-  //   100
-  // ).toFixed(2);
   courseContainer.innerHTML = `
   <p>完成課程總數：${courseData.taughtCourseAmount}</p>
   <p>開設課程總數：${courseData.openCourseAmount}</p>
   <p>達成率：${courseData.achievementRate}%</p>
+  `;
+}
+
+const otherDataContainer = document.querySelector(".other-data-container");
+
+function renderOtherData(otherData) {
+  otherDataContainer.innerHTML = `
+  <p>上課總時數：${otherData.totalDuration}</p>
   `;
 }
