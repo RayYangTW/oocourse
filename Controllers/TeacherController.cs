@@ -67,6 +67,12 @@ namespace personal_project.Controllers
       if (user is null)
         return BadRequest("Can't find user.");
 
+      var applicationExists = await _db.TeacherApplications
+                                      .Where(data => data.userId == user.id)
+                                      .AnyAsync();
+      if (applicationExists is true)
+        return StatusCode(403, "Teacher role application is already exist.");
+
       long userId = user.id;
 
       var newApplication = new TeacherApplication
@@ -136,6 +142,27 @@ namespace personal_project.Controllers
         });
       }
       return Ok(newApplication);
+    }
+
+    [Authorize]
+    [HttpGet("application")]
+    public async Task<IActionResult> GetTeacherRoleApplication()
+    {
+      try
+      {
+        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+        if (user is null)
+          return BadRequest("Can't find user.");
+
+        var myTeacherRoleApplication = await _db.TeacherApplications
+                                                .Where(data => data.userId == user.id)
+                                                .FirstOrDefaultAsync();
+        return Ok(myTeacherRoleApplication);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
     }
 
     //POST: api/teacher/publishCourse
