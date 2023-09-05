@@ -5,6 +5,6 @@ function checkRole() {
 
   if (role === "teacher") {
     alert("已有教師身份，不必再次申請。");
-    location.href = document.referrer;
+    return (location.href = document.referrer);
   }
 }

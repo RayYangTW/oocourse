@@ -11,6 +11,12 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <!-- Country selector -->
+    <link
+      rel="stylesheet"
+      href="../assets/country-picker-flags/build/css/countrySelect.css"
+    />
+    <!-- css files -->
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/teacher-application.css" />
   </head>
@@ -144,6 +150,9 @@
     integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
     crossorigin="anonymous"
   ></script>
+  <!-- Country Selector -->
+  <script src="../assets/country-picker-flags/build/js/countrySelect.js"></script>
+
   <!-- axios -->
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
@@ -159,4 +168,14 @@
   <script type="module" src="../js/check-user-authorize.js"></script>
   <script type="module" src="../js/check-teacher-application-exist.js"></script>
   <script type="module" src="../js/teacher-application.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $("#country").countrySelect({
+        defaultCountry: "tw",
+        preferredCountries: ["tw", "us", "ca"],
+        responsiveDropdown: true,
+      });
+    });
+  </script>
 </html>

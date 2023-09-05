@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using personal_project.Data;
+using personal_project.Models.Domain;
+using personal_project.Models.FormModels;
 
 namespace personal_project.Controllers
 {
@@ -234,6 +236,50 @@ namespace personal_project.Controllers
         courseFinishedData = courseFinishedData,
         achievementRate = achievementRate
       });
+    }
+
+    [HttpGet("courseCategory")]
+    public async Task<IActionResult> GetCourseCategories()
+    {
+      try
+      {
+        var categoryData = await _db.CourseCategories
+                                  .Select(data => data)
+                                  .OrderBy(data => data.category)
+                                  .ToListAsync();
+        return Ok(categoryData);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
+    [HttpPost("courseCategory")]
+    public async Task<IActionResult> AddCourseCategory(CourseCategoryFormModel category)
+    {
+      var categoryDataExists = await _db.CourseCategories
+                                        .Where(data => data.category == category.category)
+                                        .AnyAsync();
+      if (categoryDataExists is true)
+        return StatusCode(409, "Category record repeat.");
+
+      var newCategory = new CourseCategory
+      {
+        category = category.category
+      };
+
+      try
+      {
+        await _db.CourseCategories.AddAsync(newCategory);
+        await _db.SaveChangesAsync();
+        return Ok();
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+
     }
   }
 }
