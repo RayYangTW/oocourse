@@ -16,6 +16,7 @@ axios
     return response.data;
   })
   .then((platformData) => {
+    console.log(platformData);
     renderBasicData(platformData);
   })
   .catch((err) => console.log(err));
