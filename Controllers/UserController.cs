@@ -316,6 +316,24 @@ namespace personal_project.Controllers
       return Ok(responseData);
     }
 
+    [HttpGet("applicationDefaultData")]
+    public async Task<IActionResult> GetApplicationDefaultData()
+    {
+      var user = await GetUserFromJWTAsync();
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      var categoryData = await _db.CourseCategories
+                                  .OrderBy(data => data.category)
+                                  .ToListAsync();
+
+      return Ok(new
+      {
+        userEmail = user.email,
+        categoryData = categoryData
+      });
+    }
+
     /********************************************************
                             Methods
     *********************************************************/

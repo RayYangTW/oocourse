@@ -39,15 +39,15 @@ function renderForm(course) {
           />
         </div>
         <div class="form-group">
-          <label for="course-way" class="form-label">授課方式</label>
-          <input
-            type="text"
-            class="form-control item"
-            id="course-way"
-            value="${course.courseWay}"
-            placeholder="授課方式"
-            required
-          />
+          <label for="course-way" class="form-label">授課方式(實體/線上)</label>
+          <select class="form-control item" id="course-way" name="course-way" required>
+            <option value="實體" ${
+              course.courseWay === "實體" ? "selected" : ""
+            }>實體</option>
+            <option value="線上" ${
+              course.courseWay === "線上" ? "selected" : ""
+            }>線上</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="course-language" class="form-label">授課語言</label>
