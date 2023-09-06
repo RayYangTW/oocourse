@@ -9,12 +9,22 @@ $("#signup-form").submit(function (event) {
   const checkPassword = $("#checkPassword").val();
 
   if (!email || !password || !checkPassword) {
-    alert("請填寫完整的電子郵件和密碼");
+    Swal.fire({
+      icon: "error",
+      title: "資訊不完整",
+      text: "請填寫完整的電子郵件和密碼",
+      showConfirmButton: true,
+    });
     return;
   }
 
   if (password !== checkPassword) {
-    alert("密碼不一致");
+    Swal.fire({
+      icon: "warning",
+      title: "密碼與確認密碼不一致",
+      text: "請重新輸入",
+      showConfirmButton: true,
+    });
     return;
   }
 
@@ -40,12 +50,25 @@ $("#signup-form").submit(function (event) {
       }
     })
     .then(() => {
-      alert("註冊成功");
-      location.href = "/";
+      Swal.fire({
+        icon: "success",
+        title: "註冊成功",
+        text: "您已成功註冊。",
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.href = "/";
+        }
+      });
     })
     .catch((err) => {
       if (err.response.data === "Email existed!") {
-        alert("Email已存在。");
+        Swal.fire({
+          icon: "warning",
+          title: "Email已存在",
+          text: "請重新輸入。",
+          showConfirmButton: true,
+        });
       }
       console.log("錯誤", err);
     });

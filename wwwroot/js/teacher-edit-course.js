@@ -259,13 +259,33 @@ function submitEditForm() {
       .put(host + updateApi, formData, config)
       .then((response) => {
         if (response.status === 200) {
-          alert("刊登成功！");
-          location.reload();
+          Swal.fire({
+            icon: "success",
+            title: "更新成功",
+            text: "您已成功編輯課程。",
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.reload();
+            }
+          });
         } else {
           return new Error("刊登失敗！");
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "更新失敗",
+          text: "請確認資料是否填寫正確。",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = document.referrer;
+          }
+        });
+        console.log(err);
+      })
       .finally(() => {
         htmlBody.style.backgroundColor = "";
         htmlBody.style.opacity = "1";
