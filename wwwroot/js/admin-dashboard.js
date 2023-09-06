@@ -18,6 +18,8 @@ axios
   .then((platformData) => {
     console.log(platformData);
     renderBasicData(platformData);
+    userDataChart(platformData);
+    courseDataChart(platformData);
   })
   .catch((err) => console.log(err));
 
@@ -26,13 +28,114 @@ const platformDataContainer = document.querySelector(
 );
 function renderBasicData(platformData) {
   platformDataContainer.innerHTML = `
-  <p>使用者人數：${platformData.userData}</p>
-  <p>教師數：${platformData.teacherData}</p>
-  <p>開設課程總堂數：${platformData.courseAmountData}</p>
-  <p>線上課總數：${platformData.onlineCourseData}</p>
-  <p>實體課總數：${platformData.offlineCourseData}</p>
-  <p>已被預約課程總數：${platformData.courseIsBookedData}</p>
+  
+  <div class="user-data data-card">
+    <div class="user-data-chart data-chart">
+      <p class="title">使用者計數</p>
+      <canvas id="user-doughnut-chart" style="width: 300px;"></canvas>
+      <p class="label">${platformData.userData + platformData.teacherData}</p>
+    </div>
+  </div>
+
+  <div class="course-data data-card">
+    <div class="course-data-chart data-chart">
+      <p class="title">課程數據</p>
+      <canvas id="course-doughnut-chart" style="width: 300px;"></canvas>
+      <p class="label">${platformData.courseAmountData}</p>
+    </div>
+  </div>
+
+  <div class="course-data data-card">
+    <div class="course-data-chart data-chart">
+      <p class="title">已被預約課程總數</p>
+      <p class="amount">${platformData.courseIsBookedData}</p>
+    </div>
+  </div>
   `;
+}
+
+function userDataChart(platformData) {
+  // 數據
+  var data = {
+    labels: ["用戶數", "教師數"],
+    datasets: [
+      {
+        data: [platformData.userData, platformData.teacherData],
+        backgroundColor: ["#FF6384", "#36A2EB"],
+      },
+    ],
+  };
+
+  // 配置選項
+  var options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      datalabels: {
+        color: "black",
+        labels: {
+          title: {
+            font: {
+              size: "20",
+              weight: "bold",
+            },
+          },
+        },
+      },
+    },
+  };
+
+  // 獲取Canvas元素
+  var ctx = document.getElementById("user-doughnut-chart").getContext("2d");
+
+  // 創建甜甜圈圖
+  var myDoughnutChart = new Chart(ctx, {
+    type: "doughnut",
+    data: data,
+    options: options,
+  });
+}
+
+function courseDataChart(platformData) {
+  // 數據
+  var data = {
+    labels: ["線上課總數", "實體課總數"],
+    datasets: [
+      {
+        data: [platformData.onlineCourseData, platformData.offlineCourseData],
+        backgroundColor: ["#FF6384", "#36A2EB"],
+      },
+    ],
+  };
+
+  // 配置選項
+  var options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      datalabels: {
+        color: "black",
+        labels: {
+          title: {
+            font: {
+              size: "20",
+              weight: "bold",
+            },
+          },
+        },
+      },
+    },
+  };
+
+  // 獲取Canvas元素
+  var ctx = document.getElementById("course-doughnut-chart").getContext("2d");
+
+  // 創建甜甜圈圖
+  var myDoughnutChart = new Chart(ctx, {
+    type: "doughnut",
+    data: data,
+    options: options,
+  });
 }
 
 $(function () {
@@ -102,17 +205,57 @@ const transactionContainer = document.querySelector(
 );
 function renderTransaction(transactionData) {
   transactionContainer.innerHTML = `
-  <p>交易總額：NTD. ${transactionData.turnoverData}</p>
-  <p>交易數：${transactionData.transactionData}</p>
-  <p>實際營收：NTD. ${transactionData.revenueData}</p>
+  <div class="transaction-data data-card">
+    <div class="transaction-data-chart data-chart">
+      <p class="title">交易總額</p>
+      <p class="amount">${transactionData.turnoverData}</p>
+      <p class="unit">NTD</p>
+    </div>
+  </div>
+
+  <div class="transaction-data data-card">
+    <div class="transaction-data-chart data-chart">
+      <p class="title">交易數</p>
+      <p class="amount">${transactionData.transactionData}</p>
+      <p class="unit">次</p>
+    </div>
+  </div>
+
+  <div class="transaction-data data-card">
+    <div class="transaction-data-chart data-chart">
+      <p class="title">實際營收</p>
+      <p class="amount">${transactionData.revenueData}</p>
+      <p class="unit">NTD</p>
+    </div>
+  </div>
   `;
 }
 
 const courseDataContainer = document.querySelector(".course-data-container");
 function renderCourseData(courseData) {
   courseDataContainer.innerHTML = `
-  <p>開設課程堂數：${courseData.courseOfferingData}</p>
-  <p>完成課程總堂數：${courseData.courseFinishedData}</p>
-  <p>達成率：${courseData.achievementRate}</p>
+  <div class="course-data data-card">
+    <div class="course-data-chart data-chart">
+      <p class="title">開設課程堂數</p>
+      <p class="amount">${courseData.courseOfferingData}</p>
+      <p class="unit">堂</p>
+    </div>
+  </div>
+
+  <div class="course-data data-card">
+    <div class="course-data-chart data-chart">
+      <p class="title">完成課程總堂數</p>
+      <p class="amount">${courseData.courseFinishedData}</p>
+      <p class="unit">堂</p>
+    </div>
+  </div>
+
+  <div class="course-data data-card">
+    <div class="course-data-chart data-chart">
+      <p class="title">達成率</p>
+      <p class="amount">${(courseData.achievementRate * 100).toFixed()}</p>
+      <p class="unit">％</p>
+    </div>
+  </div>
   `;
 }

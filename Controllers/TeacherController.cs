@@ -410,6 +410,8 @@ namespace personal_project.Controllers
                                         .Where(data => data.teacher.userId == user.id)
                                         .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
                                         .SumAsync(data => data.price);
+        var originEstimatedAmount = estimatedAmountData;
+        estimatedAmountData = estimatedAmountData - estimatedAmountData * 0.05;
 
         var teachingFeeData = await _db.Courses
                                         .Where(data => data.teacher.userId == user.id)
@@ -417,6 +419,9 @@ namespace personal_project.Controllers
                                         .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
                                         .Where(data => data.bookings.Any(booking => booking.status == "paid"))
                                         .SumAsync(data => data.price);
+        var originTeachingFee = teachingFeeData;
+        teachingFeeData = teachingFeeData - teachingFeeData * 0.05;
+
 
         decimal achievementRate = 0;
         if (estimatedAmountData != 0)
@@ -424,12 +429,14 @@ namespace personal_project.Controllers
           achievementRate = Math.Round((decimal)((teachingFeeData / estimatedAmountData)), 2);
         }
 
-        var platformFeeOfTeachingFee = Math.Round((decimal)(teachingFeeData * 0.05));
+        var platformFeeOfTeachingFee = Math.Round((decimal)(originTeachingFee * 0.05));
 
-        var platformFeeOfEstimatedAmount = Math.Round((decimal)(estimatedAmountData * 0.05), 2);
+        var platformFeeOfEstimatedAmount = Math.Round((decimal)(originEstimatedAmount * 0.05));
 
         return Ok(new
         {
+          originTeachingFee = originTeachingFee,
+          originEstimatedAmount = originEstimatedAmount,
           estimatedAmountData = estimatedAmountData,
           teachingFeeData = teachingFeeData,
           achievementRate = achievementRate,

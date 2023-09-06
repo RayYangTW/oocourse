@@ -89,17 +89,36 @@ const salaryContainer = document.querySelector(".salary-data-container");
 
 function renderTeachingFee(amountData) {
   salaryContainer.innerHTML = `
-  <p>實際授課收入：
-  ${amountData.teachingFeeData} - 平台費 
-  ${amountData.platformFeeOfTeachingFee} = NTD. 
-  ${amountData.teachingFeeData - amountData.platformFeeOfTeachingFee}
-  </p>
-  <p>最大授課可得收入：
-  ${amountData.estimatedAmountData} - 平台費 
-  ${amountData.platformFeeOfEstimatedAmount} = NTD. 
-  ${amountData.estimatedAmountData - amountData.platformFeeOfEstimatedAmount}
-  </p>
-  <p>達成率：${amountData.achievementRate}</p>
+  <div class="salary-data data-card">
+    <div class="salary-data-chart data-chart">
+      <p class="title">實際授課收入</p>
+        <p class="calculation">${amountData.originTeachingFee}
+         - 平台費 ${amountData.platformFeeOfTeachingFee}
+         = </p>
+         <p class="amount">${amountData.teachingFeeData}</span>
+         <p class="unit">NTD</p>
+      </p>
+    </div>
+  </div>
+
+  <div class="salary-data data-card">
+    <div class="salary-data-chart data-chart">
+      <p class="title">潛在收入</p>
+        <p class="calculation">${amountData.originEstimatedAmount}
+         - 平台費 ${amountData.platformFeeOfEstimatedAmount}
+         = </p>
+         <p class="amount">${amountData.estimatedAmountData}</p>
+         <p class="unit">NTD</p>
+    </div>
+  </div>
+
+  <div class="salary-data data-card">
+    <div class="salary-data-chart data-chart">
+      <p class="title">達成率</p>
+        <p class="amount">${(amountData.achievementRate * 100).toFixed()}</p>
+        <p class="unit">%</p>
+    </div>
+  </div>
   `;
 }
 
@@ -107,9 +126,29 @@ const courseContainer = document.querySelector(".course-data-container");
 
 function renderCourseAmount(courseData) {
   courseContainer.innerHTML = `
-  <p>完成課程總數：${courseData.taughtCourseAmount}</p>
-  <p>開設課程總數：${courseData.openCourseAmount}</p>
-  <p>達成率：${courseData.achievementRate}</p>
+  <div class="course-data data-card">
+    <div class="course-data-chart data-chart">
+      <p class="title">完成課程總數</p>
+      <p class="amount">${courseData.taughtCourseAmount}</p>
+      <p class="unit">堂</p>
+    </div>
+  </div>
+
+  <div class="course-data data-card">
+    <div class="course-data-chart data-chart">
+      <p class="title">開設課程總數</p>
+      <p class="amount">${courseData.openCourseAmount}</p>
+      <p class="unit">堂</p>
+    </div>
+  </div>
+
+  <div class="course-data data-card">
+    <div class="course-data-chart data-chart">
+      <p class="title">達成率</p>
+      <p class="amount">${(courseData.achievementRate * 100).toFixed()}</p>
+      <p class="unit">%</p>
+    </div>
+  </div>
   `;
 }
 
@@ -117,6 +156,11 @@ const otherDataContainer = document.querySelector(".other-data-container");
 
 function renderOtherData(otherData) {
   otherDataContainer.innerHTML = `
-  <p>上課總時數：${otherData.totalDuration}</p>
+  <div class="other-data data-card">
+    <div class="other-data-chart data-chart">
+      <p class="title">上課總時數</p>
+        <span class="amount counter">${otherData.totalDuration}</span>
+    </div>
+  </div>
   `;
 }
