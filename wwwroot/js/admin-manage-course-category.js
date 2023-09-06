@@ -59,14 +59,29 @@ addCategoryForm.submit((e) => {
   axios
     .post(host + endpoint, data, config)
     .then((response) => {
-      alert("新增成功！");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "新增成功",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       location.reload();
     })
     .catch((err) => {
       console.error(err);
       if (err.response.status === 409) {
-        return alert("類別重複！");
+        return Swal.fire({
+          icon: "error",
+          title: "新增失敗",
+          text: "類別重複。",
+          showConfirmButton: true,
+        });
       }
-      return alert("新增失敗！");
+      return Swal.fire({
+        icon: "error",
+        title: "新增失敗",
+        showConfirmButton: true,
+      });
     });
 });

@@ -4,7 +4,15 @@ function checkRole() {
   const role = localStorage.getItem("role");
 
   if (role === "teacher") {
-    alert("已有教師身份，不必再次申請。");
-    return (location.href = document.referrer);
+    return Swal.fire({
+      icon: "warning",
+      title: "已是教師",
+      text: "已有教師身份，不必再次申請。",
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        location.href = document.referrer;
+      }
+    });
   }
 }

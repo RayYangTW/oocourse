@@ -43,11 +43,24 @@ $("#signin-form").submit(function (event) {
       localStorage.setItem("isProfileCompleted", isProfileCompleted);
       const userName = responseData.user.userName;
       localStorage.setItem("userName", userName);
-      alert("登入成功");
-      location.href = "/";
+      Swal.fire({
+        icon: "success",
+        title: "登入成功",
+        text: "您已成功登入。",
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.href = "/";
+        }
+      });
     })
     .catch((error) => {
-      alert("登入失敗");
+      Swal.fire({
+        icon: "error",
+        title: "登入失敗",
+        text: "請確認登入資料是否正確。",
+        showConfirmButton: true,
+      });
       console.log("錯誤", error);
       console.log("錯誤", error.response.data);
     });

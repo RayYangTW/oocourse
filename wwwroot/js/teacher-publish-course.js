@@ -121,16 +121,32 @@ $("#teacher-application-form").submit((e) => {
     .then((response) => {
       console.log(response);
       if (response.status === 200) {
-        alert("刊登成功！");
-        location.href = document.referrer;
+        Swal.fire({
+          icon: "success",
+          title: "刊登成功",
+          text: "您已成功刊登課程。",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = document.referrer;
+          }
+        });
       } else {
         return new Error("刊登失敗！");
       }
     })
     .catch((err) => {
       if (err.response.status === 403) {
-        alert("已有課程刊登中，請勿重複刊登，若要更動請至編輯課程。");
-        location.href = "./edit-course.html";
+        Swal.fire({
+          icon: "error",
+          title: "已有課程刊登中",
+          text: "請勿重複刊登，若要更動請至編輯課程。",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = `${host}/teacher/edit-course.html`;
+          }
+        });
       } else if (err.response.status === 500) {
         console.log("Error code:500");
       }

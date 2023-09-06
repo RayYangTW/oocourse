@@ -8,8 +8,16 @@ $(document).ready(function () {
     if (jwtToken) {
       window.location.href = $(this).attr("href");
     } else {
-      alert("請先登入！");
-      window.location.href = `${host}/user/signin.html`;
+      Swal.fire({
+        icon: "warning",
+        title: "請登入會員",
+        text: "您尚未登入會員。",
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.href = `${host}/user/signin.html`;
+        }
+      });
     }
   });
 });

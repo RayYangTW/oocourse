@@ -26,11 +26,16 @@ axios
   .catch((err) => {
     console.log(err);
     if (err.response.status === 403) {
-      alert("請勿預約自己的課程！");
-      location.href = document.referrer;
-    } else {
-      alert("訂購失敗！");
-      location.href = document.referrer;
+      Swal.fire({
+        icon: "error",
+        title: "操作錯誤",
+        text: "請勿預約自己的課程！",
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.href = document.referrer;
+        }
+      });
     }
   });
 

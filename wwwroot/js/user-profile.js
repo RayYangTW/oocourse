@@ -119,14 +119,27 @@ function updateProfile(profile) {
       .then((response) => {
         console.log("succeed");
         console.log(response.data);
-        alert("個人資料修改成功！");
         localStorage.setItem("isProfileCompleted", true);
-        location.href = "portal.html";
+        Swal.fire({
+          icon: "success",
+          title: "修改成功",
+          text: "您已成功修改資料。",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = "portal.html";
+          }
+        });
       })
       .catch((err) => {
         console.log("failed");
         console.log(err);
-        alert("資料上傳失敗！請注意是否都有填寫正確。");
+        Swal.fire({
+          icon: "error",
+          title: "修改失敗",
+          text: "請注意是否都有填寫正確。",
+          showConfirmButton: true,
+        });
       })
       .finally(() => {
         htmlBody.style.backgroundColor = "";
@@ -135,4 +148,3 @@ function updateProfile(profile) {
       });
   });
 }
-//. Update Profile

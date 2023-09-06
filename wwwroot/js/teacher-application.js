@@ -160,13 +160,26 @@ function submitApplication() {
       .then((response) => {
         console.log("succeed");
         console.log(response.data);
-        alert("申請成功！");
-        location.href = "/";
+        Swal.fire({
+          icon: "success",
+          title: "申請成功",
+          text: "您已成功申請，請靜待審核。",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = document.referrer;
+          }
+        });
       })
       .catch((err) => {
         console.log("failed");
         console.error(err);
-        alert("資料上傳失敗！請注意是否都有填寫正確。");
+        Swal.fire({
+          icon: "error",
+          title: "申請失敗",
+          text: "請確認資料是否填寫正確。",
+          showConfirmButton: true,
+        });
       })
       .finally(() => {
         htmlBody.style.backgroundColor = "";

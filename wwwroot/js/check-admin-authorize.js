@@ -11,12 +11,28 @@ axios
   .get(host + endpoint, config)
   .then((response) => {
     if (response.status !== 200) {
-      alert("權限驗證錯誤，請重新登入。");
-      location.href = `${host}/user/signin.html`;
+      Swal.fire({
+        icon: "error",
+        title: "權限錯誤",
+        text: "權限驗證錯誤，請重新登入。",
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.href = `${host}/user/signin.html`;
+        }
+      });
     }
   })
   .catch((err) => {
-    alert("權限驗證錯誤，請重新登入。");
-    location.href = `${host}/user/signin.html`;
+    Swal.fire({
+      icon: "error",
+      title: "權限錯誤",
+      text: "權限驗證錯誤，請重新登入。",
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        location.href = `${host}/user/signin.html`;
+      }
+    });
     console.log(err);
   });
