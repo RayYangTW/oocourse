@@ -95,7 +95,9 @@ function renderTeachingFee(amountData) {
         <p class="calculation">${amountData.originTeachingFee}
          - 平台費 ${amountData.platformFeeOfTeachingFee}
          = </p>
-         <p class="amount">${amountData.teachingFeeData}</span>
+         <p id="counter" class="amount counter">${
+           amountData.teachingFeeData
+         }</span>
          <p class="unit">NTD</p>
       </p>
     </div>
@@ -107,7 +109,9 @@ function renderTeachingFee(amountData) {
         <p class="calculation">${amountData.originEstimatedAmount}
          - 平台費 ${amountData.platformFeeOfEstimatedAmount}
          = </p>
-         <p class="amount">${amountData.estimatedAmountData}</p>
+         <p id="counter" class="amount counter">${
+           amountData.estimatedAmountData
+         }</p>
          <p class="unit">NTD</p>
     </div>
   </div>
@@ -115,7 +119,9 @@ function renderTeachingFee(amountData) {
   <div class="salary-data data-card">
     <div class="salary-data-chart data-chart">
       <p class="title">達成率</p>
-        <p class="amount">${(amountData.achievementRate * 100).toFixed()}</p>
+        <p id="counter" class="amount counter">${(
+          amountData.achievementRate * 100
+        ).toFixed()}</p>
         <p class="unit">%</p>
     </div>
   </div>
@@ -129,7 +135,9 @@ function renderCourseAmount(courseData) {
   <div class="course-data data-card">
     <div class="course-data-chart data-chart">
       <p class="title">完成課程總數</p>
-      <p class="amount">${courseData.taughtCourseAmount}</p>
+      <p id="counter" class="amount counter">${
+        courseData.taughtCourseAmount
+      }</p>
       <p class="unit">堂</p>
     </div>
   </div>
@@ -137,7 +145,7 @@ function renderCourseAmount(courseData) {
   <div class="course-data data-card">
     <div class="course-data-chart data-chart">
       <p class="title">開設課程總數</p>
-      <p class="amount">${courseData.openCourseAmount}</p>
+      <p id="counter" class="amount counter">${courseData.openCourseAmount}</p>
       <p class="unit">堂</p>
     </div>
   </div>
@@ -145,7 +153,9 @@ function renderCourseAmount(courseData) {
   <div class="course-data data-card">
     <div class="course-data-chart data-chart">
       <p class="title">達成率</p>
-      <p class="amount">${(courseData.achievementRate * 100).toFixed()}</p>
+      <p id="counter" class="amount counter">${(
+        courseData.achievementRate * 100
+      ).toFixed()}</p>
       <p class="unit">%</p>
     </div>
   </div>
@@ -159,7 +169,7 @@ function renderOtherData(otherData) {
   <div class="other-data data-card">
     <div class="other-data-chart data-chart">
       <p class="title">上課總時數</p>
-        <span class="amount counter">${otherData.totalDuration}</span>
+        <p id="counter" class="amount counter">${otherData.totalDuration}</p>
     </div>
   </div>
   `;
