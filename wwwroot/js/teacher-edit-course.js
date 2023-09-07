@@ -24,6 +24,7 @@ function renderForm(course) {
             id="course-name"
             value="${course.courseName}"
             placeholder="課程名稱"
+            maxlength="30"
             required
           />
         </div>
@@ -35,6 +36,7 @@ function renderForm(course) {
             id="course-category"
             value="${course.courseCategory}"
             placeholder="課程分類"
+            maxlength="20"
             required
           />
         </div>
@@ -57,6 +59,7 @@ function renderForm(course) {
             id="course-language"
             value="${course.courseLanguage}"
             placeholder="授課語言"
+            maxlength="20"
             required
           />
         </div>
@@ -68,6 +71,7 @@ function renderForm(course) {
             id="course-location"
             value="${course.courseLocation}"
             placeholder="授課地點"
+            maxlength="20"
             required
           />
         </div>
@@ -78,6 +82,7 @@ function renderForm(course) {
             class="form-control item"
             id="course-intro"
             placeholder="課程詳細介紹"
+            maxlength="1000"
             required
           >${course.courseIntro}</textarea>
         </div>
@@ -88,6 +93,7 @@ function renderForm(course) {
             class="form-control item"
             id="course-reminder"
             placeholder="課程注意事項"
+            maxlength="500"
             required
           >${course.courseReminder}</textarea>
         </div>

@@ -22,27 +22,34 @@ function renderProfile(profile) {
             class="form-control item"
             id="name"
             value="${profile.name}"
+            maxlength="30"
             required
           />
         </div>
         <div class="form-group">
-          <label for="nickname" class="form-label">暱稱<span class="required-star"> *</span></label>
+          <label for="nickname" class="form-label">暱稱</label>
           <input
             type="text"
             class="form-control item"
             id="nickname"
             value="${profile.nickname}"
+            maxlength="30"
           />
         </div>
         <div class="form-group">
           <label for="gender" class="form-label">性別<span class="required-star"> *</span></label>
-          <input
-            type="text"
-            class="form-control item"
-            id="gender"
-            value="${profile.gender}"
-            required
-          />
+          <select class="form-control item" id="gender" name="gender" required>
+            <option value="" disabled selected>請選擇性別</option>
+            <option value="男" ${
+              profile.gender === "男" ? "selected" : ""
+            }>男</option>
+            <option value="女" ${
+              profile.gender === "女" ? "selected" : ""
+            }>女</option>
+            <option value="其他" ${
+              profile.gender === "其他" ? "selected" : ""
+            }>其他</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="interest" class="form-label">感興趣的<span class="required-star"> *</span></label>
@@ -51,6 +58,7 @@ function renderProfile(profile) {
             class="form-control item"
             id="interest"
             value="${profile.interest}"
+            maxlength="100"
             required
           />
         </div>

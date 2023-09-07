@@ -35,6 +35,7 @@ function renderTeacherApplication(defaultData) {
             class="form-control item"
             id="name"
             placeholder="姓名"
+            maxlength="30"
             required
           />
         </div>
@@ -46,6 +47,7 @@ function renderTeacherApplication(defaultData) {
             id="email"
             placeholder="電子信箱"
             value="${defaultData.userEmail}"
+            maxlength="100"
             required
           />
         </div>
@@ -66,6 +68,7 @@ function renderTeacherApplication(defaultData) {
             class="form-control item"
             id="location"
             placeholder="所在地"
+            maxlength="20"
             required
           />
         </div>
@@ -76,6 +79,7 @@ function renderTeacherApplication(defaultData) {
             class="form-control item"
             id="language"
             placeholder="溝通語言"
+            maxlength="20"
             required
           />
         </div>
@@ -86,6 +90,7 @@ function renderTeacherApplication(defaultData) {
             class="form-control item"
             id="category"
             placeholder="課程類別"
+            maxlength="20"
             required
           />
         </div>
@@ -96,6 +101,7 @@ function renderTeacherApplication(defaultData) {
             class="form-control item"
             id="experience"
             placeholder="教學經驗"
+            maxlength="50"
             required
           />
         </div>
@@ -106,6 +112,7 @@ function renderTeacherApplication(defaultData) {
             class="form-control item"
             id="description"
             placeholder="個人特色"
+            maxlength="100"
             required
           ></textarea>
         </div>
