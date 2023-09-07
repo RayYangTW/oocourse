@@ -33,7 +33,9 @@ function renderBasicData(platformData) {
     <div class="user-data-chart data-chart">
       <p class="title">使用者計數</p>
       <canvas id="user-doughnut-chart" style="width: 300px;"></canvas>
-      <p class="label">${platformData.userData + platformData.teacherData}</p>
+      <p id="counter" class="label counter">${
+        platformData.userData + platformData.teacherData
+      }</p>
     </div>
   </div>
 
@@ -41,14 +43,16 @@ function renderBasicData(platformData) {
     <div class="course-data-chart data-chart">
       <p class="title">課程數據</p>
       <canvas id="course-doughnut-chart" style="width: 300px;"></canvas>
-      <p class="label">${platformData.courseAmountData}</p>
+      <p id="counter" class="label counter">${platformData.courseAmountData}</p>
     </div>
   </div>
 
   <div class="course-data data-card">
     <div class="course-data-chart data-chart">
       <p class="title">已被預約課程總數</p>
-      <p class="amount">${platformData.courseIsBookedData}</p>
+      <p id="counter" class="amount counter">${
+        platformData.courseIsBookedData
+      }</p>
     </div>
   </div>
   `;
@@ -208,7 +212,7 @@ function renderTransaction(transactionData) {
   <div class="transaction-data data-card">
     <div class="transaction-data-chart data-chart">
       <p class="title">交易總額</p>
-      <p class="amount">${transactionData.turnoverData}</p>
+      <p id="counter" class="amount counter">${transactionData.turnoverData}</p>
       <p class="unit">NTD</p>
     </div>
   </div>
@@ -216,7 +220,7 @@ function renderTransaction(transactionData) {
   <div class="transaction-data data-card">
     <div class="transaction-data-chart data-chart">
       <p class="title">交易數</p>
-      <p class="amount">${transactionData.transactionData}</p>
+      <p id="counter" class="amount counter">${transactionData.transactionData}</p>
       <p class="unit">次</p>
     </div>
   </div>
@@ -224,7 +228,7 @@ function renderTransaction(transactionData) {
   <div class="transaction-data data-card">
     <div class="transaction-data-chart data-chart">
       <p class="title">實際營收</p>
-      <p class="amount">${transactionData.revenueData}</p>
+      <p id="counter" class="amount counter">${transactionData.revenueData}</p>
       <p class="unit">NTD</p>
     </div>
   </div>
@@ -237,7 +241,9 @@ function renderCourseData(courseData) {
   <div class="course-data data-card">
     <div class="course-data-chart data-chart">
       <p class="title">開設課程堂數</p>
-      <p class="amount">${courseData.courseOfferingData}</p>
+      <p id="counter" class="amount counter">${
+        courseData.courseOfferingData
+      }</p>
       <p class="unit">堂</p>
     </div>
   </div>
@@ -245,7 +251,9 @@ function renderCourseData(courseData) {
   <div class="course-data data-card">
     <div class="course-data-chart data-chart">
       <p class="title">完成課程總堂數</p>
-      <p class="amount">${courseData.courseFinishedData}</p>
+      <p id="counter" class="amount counter">${
+        courseData.courseFinishedData
+      }</p>
       <p class="unit">堂</p>
     </div>
   </div>
@@ -253,7 +261,9 @@ function renderCourseData(courseData) {
   <div class="course-data data-card">
     <div class="course-data-chart data-chart">
       <p class="title">達成率</p>
-      <p class="amount">${(courseData.achievementRate * 100).toFixed()}</p>
+      <p id="counter" class="amount counter">${(
+        courseData.achievementRate * 100
+      ).toFixed()}</p>
       <p class="unit">％</p>
     </div>
   </div>
