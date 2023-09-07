@@ -16,7 +16,7 @@ function renderProfile(profile) {
           </div>
         </div>
         <div class="form-group">
-          <label for="name" class="form-label">名字</label>
+          <label for="name" class="form-label">名字<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -26,7 +26,7 @@ function renderProfile(profile) {
           />
         </div>
         <div class="form-group">
-          <label for="nickname" class="form-label">暱稱</label>
+          <label for="nickname" class="form-label">暱稱<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -35,7 +35,7 @@ function renderProfile(profile) {
           />
         </div>
         <div class="form-group">
-          <label for="gender" class="form-label">性別</label>
+          <label for="gender" class="form-label">性別<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -45,7 +45,7 @@ function renderProfile(profile) {
           />
         </div>
         <div class="form-group">
-          <label for="interest" class="form-label">感興趣的</label>
+          <label for="interest" class="form-label">感興趣的<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"

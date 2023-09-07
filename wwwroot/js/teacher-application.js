@@ -29,6 +29,7 @@ function renderTeacherApplication(defaultData) {
   <h1 class="text-center">教師資格申請</h1>
       <form id="teacher-application-form">
         <div class="form-group">
+          <label for="name" class="form-label">姓名<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -38,6 +39,7 @@ function renderTeacherApplication(defaultData) {
           />
         </div>
         <div class="form-group">
+        <label for="email" class="form-label">電子信箱<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -48,6 +50,7 @@ function renderTeacherApplication(defaultData) {
           />
         </div>
         <div class="form-group">
+        <label for="country" class="form-label">國籍<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -57,6 +60,7 @@ function renderTeacherApplication(defaultData) {
           />
         </div>
         <div class="form-group">
+        <label for="location" class="form-label">所在地<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -66,6 +70,7 @@ function renderTeacherApplication(defaultData) {
           />
         </div>
         <div class="form-group">
+        <label for="language" class="form-label">溝通語言<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -75,6 +80,7 @@ function renderTeacherApplication(defaultData) {
           />
         </div>
         <div class="form-group">
+        <label for="category" class="form-label">課程類別<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -84,6 +90,7 @@ function renderTeacherApplication(defaultData) {
           />
         </div>
         <div class="form-group">
+        <label for="experience" class="form-label">教學經驗<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -93,6 +100,7 @@ function renderTeacherApplication(defaultData) {
           />
         </div>
         <div class="form-group">
+        <label for="description" class="form-label">個人特色<span class="required-star"> *</span></label>
           <textarea
             type="text"
             class="form-control item"
