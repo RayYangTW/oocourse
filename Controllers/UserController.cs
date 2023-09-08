@@ -304,6 +304,8 @@ namespace personal_project.Controllers
                               .Include(data => data.course)
                               .Include(data => data.course.teacher)
                               .ToListAsync();
+      if (bookingsData.Count() <= 0)
+        return NoContent();
 
       var responseData = _mapper.Map<List<BookingsResponseDto>>(bookingsData);
 

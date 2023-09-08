@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>教師入口</title>
+    <title>刊登中的課程</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -19,7 +19,8 @@
     <!-- css files -->
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
-    <link rel="stylesheet" href="../css/teacher-portal.css" />
+    <link rel="stylesheet" href="../css/admin-teacher-applications.css" />
+    <link rel="stylesheet" href="../css/user-my-bookings.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -32,28 +33,8 @@
       </div>
     </nav>
 
-    <!-- Links -->
-
-    <div class="links-container">
-      <a href="./my-courses.html" class="my-courses"
-        ><button type="button" class="btn btn-policy">開始我的授課</button></a
-      >
-      <a href="./publish-course.html" class="publish-course"
-        ><button type="button" class="btn btn-policy">第一次刊登課程</button></a
-      >
-      <a href="./edit-course.html" class="edit-course"
-        ><button type="button" class="btn btn-policy">
-          編輯課程、增加時段
-        </button></a
-      >
-      <a href="./offering-courses.html" class="offering-courses"
-        ><button type="button" class="btn btn-policy">刊登中的課程</button></a
-      >
-      <a href="./dashboard.html" class="my-dashboard"
-        ><button type="button" class="btn btn-policy">後台數據</button></a
-      >
-    </div>
-
+    <!-- Table -->
+    <div class="table-container"></div>
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -82,6 +63,6 @@
   <!-- Sweetalert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- js file -->
-  <script type="module" src="../js/check-teacher-authorize.js"></script>
-  <script src="../js/user-portal.js"></script>
+  <script type="module" src="../js/check-user-authorize.js"></script>
+  <script type="module" src="../js/teacher-offering-courses.js"></script>
 </html>

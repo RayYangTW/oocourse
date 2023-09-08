@@ -181,7 +181,7 @@ namespace personal_project.Controllers
       if (existingTeacherData)
         return StatusCode(403, "Teacher already has own course, please don't repeat publish.");
 
-      var newTeacher = new Teacher
+      var newTeacher = new Models.Domain.Teacher
       {
         courseName = course.courseName,
         courseCategory = course.courseCategory,
@@ -532,6 +532,52 @@ namespace personal_project.Controllers
       {
         return BadRequest(ex.Message);
       }
+    }
+
+    [HttpGet("offeringCourses")]
+    public async Task<IActionResult> GetOfferingCourses()
+    {
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      var afterThreeHours = DateTime.Now.AddHours(3);
+      var offeringCoursesData = await _db.Courses
+                                        .Where(data => data.teacher.userId == user.id)
+                                        .Where(data => data.startTime >= afterThreeHours)
+                                        .Include(data => data.teacher)
+                                        .ToListAsync();
+      if (offeringCoursesData is null || offeringCoursesData.Count() <= 0)
+        return NoContent();
+
+      var resultDto = _mapper.Map<List<CourseOfferingDto>>(offeringCoursesData);
+      foreach (var course in resultDto)
+      {
+        course.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.startTime);
+        course.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.endTime);
+      }
+      resultDto = resultDto.OrderBy(course => course.startTime).ToList();
+      return Ok(resultDto);
+    }
+
+    [HttpDelete("cancelCourse/{courseId}")]
+    public async Task<IActionResult> DeleteCourse(long courseId)
+    {
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      var courseData = await _db.Courses
+                                .Where(data => data.id == courseId)
+                                .Where(data => data.teacher.userId == user.id)
+                                .FirstOrDefaultAsync();
+      if (courseData is null)
+        return NotFound();
+
+      _db.Courses.Remove(courseData);
+      await _db.SaveChangesAsync();
+
+      return Ok();
     }
   }
 }
