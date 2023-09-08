@@ -300,7 +300,7 @@ function submitEditForm() {
             showConfirmButton: true,
           }).then((result) => {
             if (result.isConfirmed) {
-              location.reload();
+              location.href = `${host}/teacher/portal.html`;
             }
           });
         } else {
