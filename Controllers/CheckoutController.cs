@@ -53,7 +53,7 @@ namespace personal_project.Controllers
 
       // Check if repeat order
       var existingBookingData = await _db.Bookings
-                                      .Where(data => data.courseId == checkoutDto.courseId)
+                                      .Where(data => data.courseId == checkoutDto.courseId && data.status == "paid")
                                       .AnyAsync();
       if (existingBookingData)
         return StatusCode(403, "The course has already been booked.");
@@ -162,12 +162,40 @@ namespace personal_project.Controllers
       var confirmUrl = System.Environment.GetEnvironmentVariable("LINEPAY_RETURN_HOST") + System.Environment.GetEnvironmentVariable("LINEPAY_RETURN_CONFIRM_URL");
       var cancelUrl = System.Environment.GetEnvironmentVariable("LINEPAY_RETURN_HOST") + System.Environment.GetEnvironmentVariable("LINEPAY_RETURN_CANCEL_URL");
 
+      // Check if repeat course
+      // Get course Id
+      var bookingData = await _db.Bookings
+                            .Where(data => data.orderId == orderId)
+                            .FirstAsync();
+      if (bookingData is null)
+        return BadRequest("Can't find the order.");
+
+      var repeatCourse = await _db.Bookings
+                              .Where(data => data.courseId == bookingData.courseId)
+                              .Where(data => data.status == "paid")
+                              .AnyAsync();
+      if (repeatCourse is true)
+        return StatusCode(403, "Repeat courseId.");
+
+      // Check if repeat order
+      var repeatOrder = await _db.Bookings
+                                      .Where(data => data.orderId == orderId && data.status == "paid")
+                                      .AnyAsync();
+      if (repeatOrder)
+        return StatusCode(403, "Repeat orderId.");
+
+      // Find user from User
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      // Prepare confirmBody
       var booking = await _db.Bookings
                           .Where(data => data.orderId == orderId)
                           .Include(data => data.course)
                           .FirstOrDefaultAsync();
 
-      var user = await _db.Users
+      var userData = await _db.Users
                           .Where(data => data.id == booking.userId)
                           .FirstOrDefaultAsync();
 
@@ -228,7 +256,7 @@ namespace personal_project.Controllers
           {
             roomId = newRoomId,
             teacherUserId = courseData.teacher.userId,
-            userId = user.id,
+            userId = userData.id,
             course = courseData
           };
 

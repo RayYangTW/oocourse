@@ -97,10 +97,17 @@ function submitBooking(booking) {
         }
       })
       .catch((err) => {
-        // if (err.response.status === 403) {
-        //   alert("該課程已被預訂，請重新選購。");
-        // }
         console.log(err);
+        Swal.fire({
+          icon: "error",
+          title: "晚了一步",
+          text: "課程已被預約",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = document.referrer;
+          }
+        });
       });
   });
 }
