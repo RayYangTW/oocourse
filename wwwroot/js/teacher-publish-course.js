@@ -56,6 +56,32 @@ $(".course-time-container").on("click", ".remove-input", function () {
 $("#teacher-application-form").submit((e) => {
   e.preventDefault();
 
+  // Validate if endTime >= startTime
+  const startTimeInputs = document.querySelectorAll("input[name='startTime']");
+  const endTimeInputs = document.querySelectorAll("input[name='endTime']");
+
+  let isValid = true;
+  for (let i = 0; i < startTimeInputs.length; i++) {
+    const startTime = new Date(startTimeInputs[i].value).getTime();
+    const endTime = new Date(endTimeInputs[i].value).getTime();
+
+    if (isNaN(startTime) || isNaN(endTime) || endTime <= startTime) {
+      Swal.fire({
+        icon: "error",
+        title: "資料錯誤",
+        text: "結束時間必須在開始時間之後。",
+        showConfirmButton: true,
+      });
+      isValid = false;
+      break;
+    }
+  }
+
+  if (!isValid) {
+    return;
+  }
+
+  // Prepare to submit formData
   let formData = new FormData();
   formData.append("courseName", $("#course-name").val());
   formData.append("courseCategory", $("#course-category").val());
@@ -108,8 +134,6 @@ $("#teacher-application-form").submit((e) => {
     formData.append("courses[0].price", price.value);
   }
 
-  console.log(...formData);
-
   const loadingImg = document.querySelector(".loading");
   const htmlBody = document.querySelector("html");
   htmlBody.style.backgroundColor = "black";
@@ -119,7 +143,6 @@ $("#teacher-application-form").submit((e) => {
   axios
     .post(host + endpoint, formData, config)
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
         Swal.fire({
           icon: "success",

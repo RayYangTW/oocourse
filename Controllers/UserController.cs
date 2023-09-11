@@ -179,8 +179,7 @@ namespace personal_project.Controllers
       // Get user from Profiles
       var profile = await _db.Profiles.FirstOrDefaultAsync(p => p.userId == user.id);
       if (profile is null)
-        // return NotFound("Profile not found for the user.");
-        return Ok(new { test = 123 });
+        return NotFound("Profile not found for the user.");
 
       return Ok(new
       {
@@ -304,6 +303,8 @@ namespace personal_project.Controllers
                               .Include(data => data.course)
                               .Include(data => data.course.teacher)
                               .ToListAsync();
+      if (bookingsData.Count() <= 0)
+        return NoContent();
 
       var responseData = _mapper.Map<List<BookingsResponseDto>>(bookingsData);
 

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using personal_project.Data;
 using personal_project.Models.Domain;
 using personal_project.Models.FormModels;
+using personal_project.Services;
 
 namespace personal_project.Controllers
 {
@@ -22,13 +23,15 @@ namespace personal_project.Controllers
     private readonly ILogger<AdminController> _logger;
     private readonly WebDbContext _db;
     private readonly IMapper _mapper;
+    private readonly IEmailService _emailService;
 
 
-    public AdminController(ILogger<AdminController> logger, WebDbContext db, IMapper mapper)
+    public AdminController(ILogger<AdminController> logger, WebDbContext db, IMapper mapper, IEmailService emailService)
     {
       _logger = logger;
       _db = db;
       _mapper = mapper;
+      _emailService = emailService;
     }
 
     // Get: api/Admin/checkAuthorize
@@ -47,7 +50,7 @@ namespace personal_project.Controllers
       try
       {
         var result = await _db.TeacherApplications
-            .Where(data => data.isApproved == false)
+            .Where(data => data.isApproved == false && data.status == "unapproved")
             .OrderBy(data => data.createdTime)
             .Select(data => new
             {
@@ -106,6 +109,7 @@ namespace personal_project.Controllers
       try
       {
         await _db.SaveChangesAsync();
+        await _emailService.SendApproveApplicationMailAsync(id);
         return Ok(application);
       }
       catch (Exception ex)
@@ -128,6 +132,7 @@ namespace personal_project.Controllers
       try
       {
         await _db.SaveChangesAsync();
+        await _emailService.SendDenyApplicationMailAsync(id);
         return Ok(application);
       }
       catch (Exception ex)

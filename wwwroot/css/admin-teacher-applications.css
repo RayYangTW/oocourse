@@ -6,6 +6,11 @@
   padding-right: 50px;
 }
 
+.table-container .cancel-button {
+  background-color: rgb(227, 115, 107);
+  color: white;
+}
+
 .form-container .approved {
   border-radius: 30px;
   padding: 10px 20px;

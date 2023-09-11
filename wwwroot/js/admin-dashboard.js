@@ -16,7 +16,6 @@ axios
     return response.data;
   })
   .then((platformData) => {
-    console.log(platformData);
     renderBasicData(platformData);
     userDataChart(platformData);
     courseDataChart(platformData);

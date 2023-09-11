@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>我的會員資料</title>
+    <title>刊登中的課程</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -19,7 +19,8 @@
     <!-- css files -->
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
-    <link rel="stylesheet" href="../css/user-profile.css" />
+    <link rel="stylesheet" href="../css/admin-teacher-applications.css" />
+    <link rel="stylesheet" href="../css/user-my-bookings.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -28,32 +29,12 @@
         <a class="navbar-brand" href="/"
           ><img src="../assets/icons/Logo.png" alt="Logo"
         /></a>
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item">
-            <a
-              class="nav-link mx-2 teacher-application-link"
-              href="../application/form.html"
-              ><i class="fas fa-heart pe-2"></i>成為教師</a
-            >
-          </li>
-        </ul>
+        <ul class="navbar-nav ms-auto align-items-center"></ul>
       </div>
     </nav>
 
-    <!-- Loading -->
-    <div class="loading-overlay" id="loading-overlay">
-      <img
-        class="loading"
-        src="../assets/icons/loading.gif"
-        alt="loading"
-        style="display: none"
-      />
-    </div>
-
-    <!-- Form -->
-    <div class="form-container">
-      <h1 class="text-center">我的會員資料</h1>
-    </div>
+    <!-- Table -->
+    <div class="table-container"></div>
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -83,7 +64,5 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- js file -->
   <script type="module" src="../js/check-user-authorize.js"></script>
-  <script type="module" src="../js/user-profile.js"></script>
-  <script type="module" src="../js/apply-to-become-teacher.js"></script>
-  <script type="module" src="../js/hide-become-teacher-link.js"></script>
+  <script type="module" src="../js/teacher-offering-courses.js"></script>
 </html>

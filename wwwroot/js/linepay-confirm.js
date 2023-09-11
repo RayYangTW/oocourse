@@ -21,7 +21,6 @@ axios
     config
   )
   .then((response) => {
-    console.log(response);
     if (response.status === 200) {
       Swal.fire({
         icon: "success",
@@ -40,7 +39,18 @@ axios
       renderBookingDetail(response.data);
     }
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    Swal.fire({
+      icon: "error",
+      title: "付款失敗",
+      text: "課程已被預約",
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        location.href = `${host}`;
+      }
+    });
+  });
 
 function renderBookingDetail(booking) {
   bookingFormContainer.innerHTML = `

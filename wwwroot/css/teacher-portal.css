@@ -16,22 +16,6 @@
   font-size: xx-large;
 }
 
-.links-container .publish-course {
+.links-container a {
   background-color: #85ccfbff;
-}
-
-.links-container .my-courses {
-  background-color: #85ccfbff;
-}
-
-.links-container .my-dashboard {
-  background-color: #85ccfbff;
-}
-
-.links-container .edit-course {
-  background-color: #85ccfbff;
-}
-
-.links-container .signout {
-  background-color: rgb(105, 226, 163);
 }

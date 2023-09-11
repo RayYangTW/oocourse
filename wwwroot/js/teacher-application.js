@@ -14,7 +14,6 @@ const formContainer = document.querySelector(".form-container");
 axios
   .get(host + defaultDataEndpoint, config)
   .then((response) => {
-    console.log(response);
     return response.data;
   })
   .then((defaultData) => {
@@ -29,25 +28,30 @@ function renderTeacherApplication(defaultData) {
   <h1 class="text-center">教師資格申請</h1>
       <form id="teacher-application-form">
         <div class="form-group">
+          <label for="name" class="form-label">姓名<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="name"
             placeholder="姓名"
+            maxlength="30"
             required
           />
         </div>
         <div class="form-group">
+        <label for="email" class="form-label">電子信箱<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="email"
             placeholder="電子信箱"
             value="${defaultData.userEmail}"
+            maxlength="100"
             required
           />
         </div>
         <div class="form-group">
+        <label for="country" class="form-label">國籍<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
@@ -57,47 +61,57 @@ function renderTeacherApplication(defaultData) {
           />
         </div>
         <div class="form-group">
+        <label for="location" class="form-label">所在地<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="location"
             placeholder="所在地"
+            maxlength="20"
             required
           />
         </div>
         <div class="form-group">
+        <label for="language" class="form-label">溝通語言<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="language"
             placeholder="溝通語言"
+            maxlength="20"
             required
           />
         </div>
         <div class="form-group">
+        <label for="category" class="form-label">課程類別<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="category"
             placeholder="課程類別"
+            maxlength="20"
             required
           />
         </div>
         <div class="form-group">
+        <label for="experience" class="form-label">教學經驗<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="experience"
             placeholder="教學經驗"
+            maxlength="50"
             required
           />
         </div>
         <div class="form-group">
+        <label for="description" class="form-label">個人特色<span class="required-star"> *</span></label>
           <textarea
             type="text"
             class="form-control item"
             id="description"
             placeholder="個人特色"
+            maxlength="100"
             required
           ></textarea>
         </div>
@@ -123,7 +137,6 @@ function submitApplication() {
   applicationForm.submit((e) => {
     e.preventDefault();
     const jwt = localStorage.getItem("JWT");
-    console.log(jwt);
 
     let formData = new FormData();
     formData.append("name", $("#name").val());
@@ -139,8 +152,6 @@ function submitApplication() {
     for (let i = 0; i < files.length; i++) {
       formData.append("certificationFiles", files[i]);
     }
-
-    console.log(...formData);
 
     const config = {
       headers: {
@@ -158,8 +169,6 @@ function submitApplication() {
     axios
       .post(host + endpoint, formData, config)
       .then((response) => {
-        console.log("succeed");
-        console.log(response.data);
         Swal.fire({
           icon: "success",
           title: "申請成功",
@@ -172,7 +181,6 @@ function submitApplication() {
         });
       })
       .catch((err) => {
-        console.log("failed");
         console.error(err);
         Swal.fire({
           icon: "error",

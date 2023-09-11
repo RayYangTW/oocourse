@@ -181,6 +181,12 @@ function renderErrorPage(error) {
  *******************************/
 function activateButtons(application) {
   $(".approved").on("click", function () {
+    const loadingImg = document.querySelector(".loading");
+    const htmlBody = document.querySelector("html");
+    htmlBody.style.backgroundColor = "black";
+    htmlBody.style.opacity = "0.5";
+    loadingImg.style.display = "flex";
+
     axios
       .post(`${host}${endpoint}/approve/${application.id}`)
       .then((response) => {
@@ -199,11 +205,22 @@ function activateButtons(application) {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        htmlBody.style.backgroundColor = "";
+        htmlBody.style.opacity = "1";
+        loadingImg.style.display = "none";
       });
   });
 
   // 監聽否決按鈕的點擊事件
   $(".denied").on("click", function () {
+    const loadingImg = document.querySelector(".loading");
+    const htmlBody = document.querySelector("html");
+    htmlBody.style.backgroundColor = "black";
+    htmlBody.style.opacity = "0.5";
+    loadingImg.style.display = "flex";
+
     axios
       .post(`${host}${endpoint}/deny/${application.id}`)
       .then((response) => {
@@ -222,8 +239,12 @@ function activateButtons(application) {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        htmlBody.style.backgroundColor = "";
+        htmlBody.style.opacity = "1";
+        loadingImg.style.display = "none";
       });
-    location.href = "/admin/teacher/applications.html";
   });
 }
 

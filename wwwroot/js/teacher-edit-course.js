@@ -17,29 +17,31 @@ function renderForm(course) {
     <h1 class="text-center">編輯課程、增加時段</h1>
     <form id="teacher-application-form" enctype="multipart/form-data">
         <div class="form-group">
-          <label for="course-name" class="form-label">課程名稱</label>
+          <label for="course-name" class="form-label">課程名稱<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="course-name"
             value="${course.courseName}"
             placeholder="課程名稱"
+            maxlength="30"
             required
           />
         </div>
         <div class="form-group">
-          <label for="course-category" class="form-label">課程分類</label>
+          <label for="course-category" class="form-label">課程分類<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="course-category"
             value="${course.courseCategory}"
             placeholder="課程分類"
+            maxlength="20"
             required
           />
         </div>
         <div class="form-group">
-          <label for="course-way" class="form-label">授課方式(實體/線上)</label>
+          <label for="course-way" class="form-label">授課方式(實體/線上)<span class="required-star"> *</span></label>
           <select class="form-control item" id="course-way" name="course-way" required>
             <option value="實體" ${
               course.courseWay === "實體" ? "selected" : ""
@@ -50,44 +52,48 @@ function renderForm(course) {
           </select>
         </div>
         <div class="form-group">
-          <label for="course-language" class="form-label">授課語言</label>
+          <label for="course-language" class="form-label">授課語言<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="course-language"
             value="${course.courseLanguage}"
             placeholder="授課語言"
+            maxlength="20"
             required
           />
         </div>
         <div class="form-group">
-          <label for="course-location" class="form-label">授課地點</label>
+          <label for="course-location" class="form-label">授課地點<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="course-location"
             value="${course.courseLocation}"
             placeholder="授課地點"
+            maxlength="20"
             required
           />
         </div>
         <div class="form-group">
-          <label for="course-intro" class="form-label">課程詳細介紹</label>
+          <label for="course-intro" class="form-label">課程詳細介紹<span class="required-star"> *</span></label>
           <textarea
             type="text"
             class="form-control item"
             id="course-intro"
             placeholder="課程詳細介紹"
+            maxlength="1000"
             required
           >${course.courseIntro}</textarea>
         </div>
         <div class="form-group">
-          <label for="course-reminder" class="form-label">課程注意事項</label>
+          <label for="course-reminder" class="form-label">課程注意事項<span class="required-star"> *</span></label>
           <textarea
             type="text"
             class="form-control item"
             id="course-reminder"
             placeholder="課程注意事項"
+            maxlength="500"
             required
           >${course.courseReminder}</textarea>
         </div>
@@ -195,6 +201,34 @@ function submitEditForm() {
   $("#teacher-application-form").submit((e) => {
     e.preventDefault();
 
+    // Validate if endTime >= startTime
+    const startTimeInputs = document.querySelectorAll(
+      "input[name='startTime']"
+    );
+    const endTimeInputs = document.querySelectorAll("input[name='endTime']");
+
+    let isValid = true;
+    for (let i = 0; i < startTimeInputs.length; i++) {
+      const startTime = new Date(startTimeInputs[i].value).getTime();
+      const endTime = new Date(endTimeInputs[i].value).getTime();
+
+      if (isNaN(startTime) || isNaN(endTime) || endTime <= startTime) {
+        Swal.fire({
+          icon: "error",
+          title: "資料錯誤",
+          text: "結束時間必須在開始時間之後。",
+          showConfirmButton: true,
+        });
+        isValid = false;
+        break;
+      }
+    }
+
+    if (!isValid) {
+      return;
+    }
+
+    // Prepare to submit formData
     let formData = new FormData();
     formData.append("courseName", $("#course-name").val());
     formData.append("courseCategory", $("#course-category").val());
@@ -246,9 +280,6 @@ function submitEditForm() {
     } else {
       formData.append("courses[0].price", price.value);
     }
-
-    console.log(...formData);
-
     const loadingImg = document.querySelector(".loading");
     const htmlBody = document.querySelector("html");
     htmlBody.style.backgroundColor = "black";
@@ -266,7 +297,7 @@ function submitEditForm() {
             showConfirmButton: true,
           }).then((result) => {
             if (result.isConfirmed) {
-              location.reload();
+              location.href = `${host}/teacher/portal.html`;
             }
           });
         } else {

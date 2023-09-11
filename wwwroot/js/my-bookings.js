@@ -44,10 +44,10 @@ function generateBookingsHTML(booking) {
 }
 
 function renderNoContent() {
-  return `
+  bookingsContainer.innerHTML = `
     <div class="no-content">
       <h3>尚無預約課程</h3>
-      <button class="btn "><a href="../course/search.html">找課程！</a></button>
+      <a href="${host}/course/search.html"><button class="btn btn-primary">找課程！</button></a>
     </div>
   `;
 }
@@ -65,25 +65,17 @@ function renderErrorPage(error) {
 /*******************************
  * Render the page
  *******************************/
-// $(document).ready(function () {
-//   // To get the id value
-//   const urlParams = new URLSearchParams(window.location.search);
-//   const idValue = urlParams.get("id");
-
-//   // If value !== null, shows the bookings
-//   if (idValue !== null) {
-
-//   } else {
-//     bookingsContainer.innerHTML = renderNoContent();
-//   }
-// });
-
 axios
   .get(host + endpoint, config)
   .then((response) => {
-    console.log(response);
-    const booking = response.data;
-    renderMyBookings(booking);
+    if (response.status === 200) {
+      const booking = response.data;
+      renderMyBookings(booking);
+    } else if (response.status === 204) {
+      renderNoContent();
+    } else {
+      renderErrorPage();
+    }
   })
   .catch((error) => {
     renderErrorPage(error);
