@@ -27,7 +27,6 @@ $("#signin-form").submit(function (event) {
   axios
     .post(host + endpoint, data, config)
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
         return response.data;
       } else {

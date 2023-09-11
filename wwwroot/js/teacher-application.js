@@ -14,7 +14,6 @@ const formContainer = document.querySelector(".form-container");
 axios
   .get(host + defaultDataEndpoint, config)
   .then((response) => {
-    console.log(response);
     return response.data;
   })
   .then((defaultData) => {
@@ -138,7 +137,6 @@ function submitApplication() {
   applicationForm.submit((e) => {
     e.preventDefault();
     const jwt = localStorage.getItem("JWT");
-    console.log(jwt);
 
     let formData = new FormData();
     formData.append("name", $("#name").val());
@@ -154,8 +152,6 @@ function submitApplication() {
     for (let i = 0; i < files.length; i++) {
       formData.append("certificationFiles", files[i]);
     }
-
-    console.log(...formData);
 
     const config = {
       headers: {
@@ -173,8 +169,6 @@ function submitApplication() {
     axios
       .post(host + endpoint, formData, config)
       .then((response) => {
-        console.log("succeed");
-        console.log(response.data);
         Swal.fire({
           icon: "success",
           title: "申請成功",
@@ -187,7 +181,6 @@ function submitApplication() {
         });
       })
       .catch((err) => {
-        console.log("failed");
         console.error(err);
         Swal.fire({
           icon: "error",

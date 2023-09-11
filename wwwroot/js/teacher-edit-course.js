@@ -280,9 +280,6 @@ function submitEditForm() {
     } else {
       formData.append("courses[0].price", price.value);
     }
-
-    console.log(...formData);
-
     const loadingImg = document.querySelector(".loading");
     const htmlBody = document.querySelector("html");
     htmlBody.style.backgroundColor = "black";

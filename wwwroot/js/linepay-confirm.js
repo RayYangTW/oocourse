@@ -21,7 +21,6 @@ axios
     config
   )
   .then((response) => {
-    console.log(response);
     if (response.status === 200) {
       Swal.fire({
         icon: "success",

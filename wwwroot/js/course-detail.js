@@ -78,7 +78,6 @@ $(document).ready(() => {
   axios
     .get(host + endpoint + courseId)
     .then((response) => {
-      console.log(response);
       if (response.data.length <= 0) {
         return Promise.reject(new Error("nothing found!"));
       } else {

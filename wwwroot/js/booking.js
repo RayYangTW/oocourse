@@ -17,7 +17,6 @@ const courseId = urlParams.get("courseId");
 axios
   .get(host + endpoint + courseId, config)
   .then((response) => {
-    console.log(response);
     return response.data;
   })
   .then((bookingData) => {
@@ -83,17 +82,22 @@ function submitBooking(booking) {
     formData.append("productPrice", booking.price);
     formData.append("courseId", courseId);
 
-    console.log(...formData);
     axios
       .post(host + linePayEndPoint, formData, config)
       .then((response) => {
-        console.log(response);
-        // alert("預訂成功！");
-        // location.href = "/";
         if (response.data.redirectUrl) {
           location.href = response.data.redirectUrl;
         } else {
-          console.log("無跳轉網址");
+          Swal.fire({
+            icon: "error",
+            title: "跳轉失敗",
+            text: "無跳轉網址",
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.href = document.referrer;
+            }
+          });
         }
       })
       .catch((err) => {

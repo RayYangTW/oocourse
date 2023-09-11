@@ -134,8 +134,6 @@ $("#teacher-application-form").submit((e) => {
     formData.append("courses[0].price", price.value);
   }
 
-  console.log(...formData);
-
   const loadingImg = document.querySelector(".loading");
   const htmlBody = document.querySelector("html");
   htmlBody.style.backgroundColor = "black";
@@ -145,7 +143,6 @@ $("#teacher-application-form").submit((e) => {
   axios
     .post(host + endpoint, formData, config)
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
         Swal.fire({
           icon: "success",

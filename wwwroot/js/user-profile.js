@@ -125,8 +125,6 @@ function updateProfile(profile) {
     axios
       .put(host + endpoint, formData, config)
       .then((response) => {
-        console.log("succeed");
-        console.log(response.data);
         localStorage.setItem("isProfileCompleted", true);
         Swal.fire({
           icon: "success",
@@ -140,7 +138,6 @@ function updateProfile(profile) {
         });
       })
       .catch((err) => {
-        console.log("failed");
         console.log(err);
         Swal.fire({
           icon: "error",
