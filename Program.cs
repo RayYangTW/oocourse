@@ -67,6 +67,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // DI service
 builder.Services.AddScoped<GetUserDataFromJWTHelper>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+
 
 
 // Cors
