@@ -68,7 +68,7 @@ namespace personal_project.Controllers
         return BadRequest("Can't find user.");
 
       var applicationExists = await _db.TeacherApplications
-                                      .Where(data => data.userId == user.id)
+                                      .Where(data => data.userId == user.id && data.status == "unapproved")
                                       .AnyAsync();
       if (applicationExists is true)
         return StatusCode(403, "Teacher role application is already exist.");
@@ -155,7 +155,7 @@ namespace personal_project.Controllers
           return BadRequest("Can't find user.");
 
         var myTeacherRoleApplication = await _db.TeacherApplications
-                                                .Where(data => data.userId == user.id)
+                                                .Where(data => data.userId == user.id && data.status == "unapproved")
                                                 .FirstOrDefaultAsync();
         return Ok(myTeacherRoleApplication);
       }

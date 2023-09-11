@@ -179,8 +179,7 @@ namespace personal_project.Controllers
       // Get user from Profiles
       var profile = await _db.Profiles.FirstOrDefaultAsync(p => p.userId == user.id);
       if (profile is null)
-        // return NotFound("Profile not found for the user.");
-        return Ok(new { test = 123 });
+        return NotFound("Profile not found for the user.");
 
       return Ok(new
       {
