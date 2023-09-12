@@ -11,6 +11,12 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <!-- SeetAlert2 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma/bulma.css"
+    />
+    <!-- css files -->
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/offline-course.css" />
   </head>
@@ -22,13 +28,6 @@
           ><img src="../assets/icons/Logo.png" alt="Logo"
         /></a>
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item">
-            <a
-              class="nav-link mx-2 teacher-application-link"
-              href="../application/form.html"
-              ><i class="fas fa-heart pe-2"></i>成為教師</a
-            >
-          </li>
           <li class="nav-item ms-3">
             <a
               id="signin-link"
@@ -45,26 +44,7 @@
     <main>
       <section class="room-main-page-container">
         <div class="row">
-          <div class="left-section">
-            <div class="background">
-              <div class="course-image-section">
-                <img src="../assets/images/homepage-image.jpg" alt="" />
-              </div>
-              <div class="course-information-section">
-                <div class="course-detail">
-                  <ul>
-                    <li>課程名稱：${course.courseName}</li>
-                    <li>開始時間：${course.startTime}</li>
-                    <li>結束時間：${course.endTime}</li>
-                    <li>上課方式：${course.courseWay}</li>
-                    <li>上課地點：${course.courseLocation}</li>
-                    <li>注意事項：${course.courseReminder}</li>
-                    <li>課程介紹：${course.courseIntro}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="left-section"></div>
           <!-- message -->
           <div class="right-section">
             <h5>與教師通訊</h5>
@@ -115,6 +95,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script>
   <!-- Peerjs -->
   <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+  <!-- Sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Js Files -->
   <script type="module" src="../js/offline-course.js"></script>
   <script type="module" src="../js/apply-to-become-teacher.js"></script>

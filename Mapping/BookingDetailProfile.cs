@@ -24,7 +24,7 @@ namespace personal_project.Mapping
         .ForMember(dest => dest.courseIntro, opt => opt.MapFrom(src => src.teacher.courseIntro))
         .ForMember(dest => dest.courseReminder, opt => opt.MapFrom(src => src.teacher.courseReminder));
 
-      CreateMap<Teacher, BookingDetailDto>()
+      CreateMap<Models.Domain.Teacher, BookingDetailDto>()
         .ForMember(dest => dest.courseImage, opt => opt.MapFrom(src => src.courseImage))
         .ForMember(dest => dest.courseName, opt => opt.MapFrom(src => src.courseName))
         .ForMember(dest => dest.courseWay, opt => opt.MapFrom(src => src.courseWay))

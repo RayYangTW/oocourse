@@ -3,8 +3,16 @@ const isProfileCompleted = localStorage.getItem("isProfileCompleted");
 // Check user completed user profile or not
 $(document).ready(function () {
   if (isProfileCompleted === "false") {
-    alert("請先填寫會員資料！");
-    location.href = "profile.html";
+    Swal.fire({
+      icon: "warning",
+      title: "尚無會員資料",
+      text: "請先填寫會員資料。",
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        location.href = "profile.html";
+      }
+    });
   }
 });
 
@@ -35,7 +43,15 @@ $(document).ready(() => {
     localStorage.removeItem("role");
     localStorage.removeItem("isProfileCompleted");
     localStorage.removeItem("userName");
-    alert("登出成功！");
-    location.href = "/";
+    Swal.fire({
+      icon: "success",
+      title: "登出成功",
+      text: "您已成功登出。",
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        location.href = "/";
+      }
+    });
   });
 });

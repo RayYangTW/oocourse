@@ -1,0 +1,244 @@
+.unit {
+  font-size: 16px;
+  position: absolute;
+  top: 65%;
+  left: 80%;
+}
+
+.dashboard-container {
+  width: 90%;
+  height: auto;
+  margin: 100px auto;
+  border-radius: 30px;
+  /* position: relative; */
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+  background-color: antiquewhite;
+}
+
+.dashboard-container .platform-data-container {
+  width: 90%;
+  height: 30%;
+  padding: 10px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.dashboard-container label {
+  margin-top: 10px;
+}
+
+.dashboard-container .reportrange {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  width: auto;
+  text-align: center;
+}
+
+.dashboard-container .transaction-data-container {
+  width: 90%;
+  height: 30%;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.dashboard-container .course-data-container {
+  width: 90%;
+  height: 30%;
+  margin-top: 50px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.dashboard-container .other-data-container {
+  width: 90%;
+  height: 30%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 10px;
+  font-size: 20px;
+  background-color: lightpink;
+}
+
+/* platform-data-container */
+.dashboard-container .platform-data-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.platform-data-container .data-card {
+  margin: 20px;
+  background-color: #eeeeee;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  width: 300px;
+  height: 400px;
+}
+
+.platform-data-container .data-chart {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.platform-data-container canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.platform-data-container .label {
+  width: 300px;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 40px;
+}
+
+.platform-data-container .amount {
+  width: 300px;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 100px;
+}
+
+.platform-data-container .title {
+  position: absolute;
+  top: 1rem;
+}
+
+/* transaction-data-container */
+.dashboard-container .transaction-data-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.transaction-data-container .data-card {
+  margin: 20px;
+  background-color: #85ccfbff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.transaction-data-container .data-chart {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.transaction-data-container canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.transaction-data-container .label {
+  width: 200px;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 40px;
+}
+
+.transaction-data-container .amount {
+  width: 200px;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 40px;
+}
+
+.transaction-data-container .title {
+  position: absolute;
+  top: 1rem;
+}
+
+/* course-data-container */
+.dashboard-container .course-data-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.course-data-container .data-card {
+  margin: 20px;
+  background-color: #85ccfbff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.course-data-container .data-chart {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.course-data-container canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.course-data-container .label {
+  width: 200px;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 40px;
+}
+
+.course-data-container .amount {
+  width: 200px;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 40px;
+}
+
+.course-data-container .title {
+  position: absolute;
+  top: 1rem;
+}

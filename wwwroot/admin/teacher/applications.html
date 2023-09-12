@@ -11,6 +11,12 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <!-- SeetAlert2 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma/bulma.css"
+    />
+    <!-- css files -->
     <link rel="stylesheet" href="../../css/index.css" />
     <link rel="stylesheet" href="../../css/form.css" />
     <link rel="stylesheet" href="../../css/admin-teacher-applications.css" />
@@ -25,6 +31,16 @@
         <ul class="navbar-nav ms-auto align-items-center"></ul>
       </div>
     </nav>
+
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading-overlay">
+      <img
+        class="loading"
+        src="../../assets/icons/loading.gif"
+        alt="loading"
+        style="display: none"
+      />
+    </div>
 
     <!-- Table -->
     <div class="table-container"></div>
@@ -53,6 +69,9 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   ></script>
+  <!-- Sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- js file -->
+  <script type="module" src="../../js/check-admin-authorize.js"></script>
   <script type="module" src="../../js/admin-teacher-applications.js"></script>
 </html>

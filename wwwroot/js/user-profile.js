@@ -16,12 +16,13 @@ function renderProfile(profile) {
           </div>
         </div>
         <div class="form-group">
-          <label for="name" class="form-label">名字</label>
+          <label for="name" class="form-label">名字<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="name"
             value="${profile.name}"
+            maxlength="30"
             required
           />
         </div>
@@ -32,25 +33,32 @@ function renderProfile(profile) {
             class="form-control item"
             id="nickname"
             value="${profile.nickname}"
+            maxlength="30"
           />
         </div>
         <div class="form-group">
-          <label for="gender" class="form-label">性別</label>
-          <input
-            type="text"
-            class="form-control item"
-            id="gender"
-            value="${profile.gender}"
-            required
-          />
+          <label for="gender" class="form-label">性別<span class="required-star"> *</span></label>
+          <select class="form-control item" id="gender" name="gender" required>
+            <option value="" disabled selected>請選擇性別</option>
+            <option value="男" ${
+              profile.gender === "男" ? "selected" : ""
+            }>男</option>
+            <option value="女" ${
+              profile.gender === "女" ? "selected" : ""
+            }>女</option>
+            <option value="其他" ${
+              profile.gender === "其他" ? "selected" : ""
+            }>其他</option>
+          </select>
         </div>
         <div class="form-group">
-          <label for="interest" class="form-label">感興趣的</label>
+          <label for="interest" class="form-label">感興趣的<span class="required-star"> *</span></label>
           <input
             type="text"
             class="form-control item"
             id="interest"
             value="${profile.interest}"
+            maxlength="100"
             required
           />
         </div>
@@ -107,20 +115,41 @@ function updateProfile(profile) {
         Authorization: "Bearer " + jwt,
       },
     };
+
+    const loadingImg = document.querySelector(".loading");
+    const htmlBody = document.querySelector("html");
+    htmlBody.style.backgroundColor = "black";
+    htmlBody.style.opacity = "0.5";
+    loadingImg.style.display = "flex";
+
     axios
       .put(host + endpoint, formData, config)
       .then((response) => {
-        console.log("succeed");
-        console.log(response.data);
-        alert("個人資料修改成功！");
         localStorage.setItem("isProfileCompleted", true);
-        location.href = "portal.html";
+        Swal.fire({
+          icon: "success",
+          title: "修改成功",
+          text: "您已成功修改資料。",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = "portal.html";
+          }
+        });
       })
       .catch((err) => {
-        console.log("failed");
         console.log(err);
-        alert("資料上傳失敗！請注意是否都有填寫正確。");
+        Swal.fire({
+          icon: "error",
+          title: "修改失敗",
+          text: "請注意是否都有填寫正確。",
+          showConfirmButton: true,
+        });
+      })
+      .finally(() => {
+        htmlBody.style.backgroundColor = "";
+        htmlBody.style.opacity = "1";
+        loadingImg.style.display = "none";
       });
   });
 }
-//. Update Profile

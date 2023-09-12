@@ -1,9 +1,14 @@
-.form-container {
-  margin-top: 80px;
+.required-star {
+  color: red;
 }
 
 .form-container {
+  margin-top: 80px;
   padding: 50px 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
 }
 
 .form-container form {

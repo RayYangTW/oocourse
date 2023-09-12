@@ -56,6 +56,32 @@ $(".course-time-container").on("click", ".remove-input", function () {
 $("#teacher-application-form").submit((e) => {
   e.preventDefault();
 
+  // Validate if endTime >= startTime
+  const startTimeInputs = document.querySelectorAll("input[name='startTime']");
+  const endTimeInputs = document.querySelectorAll("input[name='endTime']");
+
+  let isValid = true;
+  for (let i = 0; i < startTimeInputs.length; i++) {
+    const startTime = new Date(startTimeInputs[i].value).getTime();
+    const endTime = new Date(endTimeInputs[i].value).getTime();
+
+    if (isNaN(startTime) || isNaN(endTime) || endTime <= startTime) {
+      Swal.fire({
+        icon: "error",
+        title: "資料錯誤",
+        text: "結束時間必須在開始時間之後。",
+        showConfirmButton: true,
+      });
+      isValid = false;
+      break;
+    }
+  }
+
+  if (!isValid) {
+    return;
+  }
+
+  // Prepare to submit formData
   let formData = new FormData();
   formData.append("courseName", $("#course-name").val());
   formData.append("courseCategory", $("#course-category").val());
@@ -108,26 +134,50 @@ $("#teacher-application-form").submit((e) => {
     formData.append("courses[0].price", price.value);
   }
 
-  console.log(...formData);
+  const loadingImg = document.querySelector(".loading");
+  const htmlBody = document.querySelector("html");
+  htmlBody.style.backgroundColor = "black";
+  htmlBody.style.opacity = "0.5";
+  loadingImg.style.display = "flex";
 
   axios
     .post(host + endpoint, formData, config)
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
-        alert("刊登成功！");
-        location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "刊登成功",
+          text: "您已成功刊登課程。",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = document.referrer;
+          }
+        });
       } else {
         return new Error("刊登失敗！");
       }
     })
     .catch((err) => {
       if (err.response.status === 403) {
-        alert("已有課程刊登中，請勿重複刊登，若要更動請至編輯課程。");
-        location.href = "./edit-course.html";
+        Swal.fire({
+          icon: "error",
+          title: "已有課程刊登中",
+          text: "請勿重複刊登，若要更動請至編輯課程。",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = `${host}/teacher/edit-course.html`;
+          }
+        });
       } else if (err.response.status === 500) {
         console.log("Error code:500");
       }
       console.log(err);
+    })
+    .finally(() => {
+      htmlBody.style.backgroundColor = "";
+      htmlBody.style.opacity = "1";
+      loadingImg.style.display = "none";
     });
 });

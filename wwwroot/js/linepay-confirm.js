@@ -21,16 +21,36 @@ axios
     config
   )
   .then((response) => {
-    console.log(response);
     if (response.status === 200) {
-      alert("付款完成！");
+      Swal.fire({
+        icon: "success",
+        title: "付款成功",
+        text: "您已成功完成付款。",
+        showConfirmButton: true,
+      });
       renderBookingDetail(response.data);
     } else {
-      alert("付款失敗！");
+      Swal.fire({
+        icon: "error",
+        title: "付款失敗",
+        text: "您未完成付款。",
+        showConfirmButton: true,
+      });
       renderBookingDetail(response.data);
     }
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    Swal.fire({
+      icon: "error",
+      title: "付款失敗",
+      text: "課程已被預約",
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        location.href = `${host}`;
+      }
+    });
+  });
 
 function renderBookingDetail(booking) {
   bookingFormContainer.innerHTML = `

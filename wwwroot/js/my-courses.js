@@ -80,7 +80,6 @@ function renderErrorPage(error) {
 axios
   .get(host + endpoint, config)
   .then((response) => {
-    console.log(response);
     const course = response.data;
     renderMyCourses(course);
   })

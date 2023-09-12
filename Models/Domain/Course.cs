@@ -11,6 +11,7 @@ namespace personal_project.Models.Domain
     public long id { get; set; }
     public DateTime? startTime { get; set; }
     public DateTime? endTime { get; set; }
+    public TimeSpan? duration => endTime - startTime;
     public double? price { get; set; }
     public bool isBooked { get; set; } = false;
     public string? roomId { get; set; } = null;
@@ -19,6 +20,9 @@ namespace personal_project.Models.Domain
     // FK
     public long teacherId { get; set; }
     public Teacher? teacher { get; set; }
+
+    // one to one
+    public CourseAccessList? courseAccessList { get; set; }
 
     // one to many
     public ICollection<Booking> bookings { get; set; } = new List<Booking>();

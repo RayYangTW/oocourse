@@ -17,7 +17,6 @@ const courseContainer = document.querySelector(".course-container");
 axios
   .get(host + endpoint + roomId, config)
   .then((response) => {
-    console.log(response);
     return response.data;
   })
   .then((course) => {

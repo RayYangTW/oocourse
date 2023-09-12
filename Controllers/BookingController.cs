@@ -10,6 +10,7 @@ using personal_project.Data;
 using personal_project.Helpers;
 using personal_project.Models.Domain;
 using personal_project.Models.Dtos;
+using personal_project.Services;
 
 namespace personal_project.Controllers
 {
@@ -22,108 +23,43 @@ namespace personal_project.Controllers
     private readonly IMapper _mapper;
     private readonly GetUserDataFromJWTHelper _jwtHelper;
     private readonly IConfiguration _config;
+    private readonly IBookingService _bookingService;
 
-    public BookingController(ILogger<BookingController> logger, WebDbContext db, IMapper mapper, GetUserDataFromJWTHelper jwtHelper, IConfiguration config)
+    public BookingController(ILogger<BookingController> logger, WebDbContext db, IMapper mapper, GetUserDataFromJWTHelper jwtHelper, IConfiguration config, IBookingService bookingService)
     {
       _logger = logger;
       _db = db;
       _mapper = mapper;
       _jwtHelper = jwtHelper;
       _config = config;
+      _bookingService = bookingService;
     }
 
     [HttpGet("{courseId}")]
     public async Task<IActionResult> GetBookingData(long courseId)
     {
-      try
-      {
-        var courseData = await _db.Courses
-                              .Where(data => data.id == courseId)
-                              .FirstOrDefaultAsync();
+      var authorizationHeader = Request.Headers["Authorization"].ToString();
+      var bookingData = await _bookingService.GetBookingDataAsync(courseId, authorizationHeader);
 
-        var teacherData = await _db.Teachers
-                                .Where(data => data.id == courseData.teacherId)
-                                .FirstOrDefaultAsync();
+      if (bookingData is not null)
+        return Ok(bookingData);
 
-        var responseData = new BookingDetailDto();
-
-        _mapper.Map(courseData, responseData);
-        _mapper.Map(teacherData, responseData);
-
-        responseData.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(responseData.startTime);
-        responseData.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(responseData.endTime);
-
-        if (responseData is not null)
-          return Ok(responseData);
-        return NoContent();
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      return NotFound("Course not found or user is not authorized.");
     }
 
     [HttpPost("{courseId}")]
     public async Task<IActionResult> PostBookingData(long courseId)
     {
-      try
+      var authorizationHeader = Request.Headers["Authorization"].ToString();
+      var bookingResult = await _bookingService.PostBookingDataAsync(courseId, authorizationHeader);
+
+      if (bookingResult.StatusCode == 200)
       {
-        var existingBookingData = await _db.Bookings
-                                        .Where(data => data.courseId == courseId)
-                                        .AnyAsync();
-        if (existingBookingData)
-          return StatusCode(403, "The course has already been booked.");
-
-        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
-        if (user is null)
-          return BadRequest("Can't find user.");
-
-        var courseData = await _db.Courses
-                                .Where(data => data.id == courseId)
-                                .Include(data => data.teacher)
-                                .FirstOrDefaultAsync();
-        if (courseData is null)
-          return NotFound("Not found the course data.");
-
-        var newBookingData = new Booking
-        {
-          status = "booked",
-          bookingTime = DateTime.Now,
-          user = user,
-          course = courseData
-        };
-
-        await _db.Bookings.AddAsync(newBookingData);
-
-        // Generate roomId
-        var newRoomId = GenerateRandomStringHelper.GenerateRandomString(12);
-
-        // update isBooked field
-        courseData.isBooked = true;
-
-        courseData.roomId = newRoomId;
-
-        if (courseData.teacher.courseWay.Contains("實體") || courseData.teacher.courseWay.Contains("線下"))
-        {
-          courseData.courseLink = _config["Host"] + "/course/offline.html?id=" + newRoomId;
-        }
-        else
-        {
-          courseData.courseLink = _config["Host"] + "/course/online.html?id=" + newRoomId;
-        }
-        // Save to db
-        await _db.SaveChangesAsync();
-
-        return Ok(new
-        {
-          status = newBookingData.status,
-          userId = user.id,
-          courseId = courseData.id
-        });
+        return Ok(bookingResult.Data);
       }
-      catch (Exception ex)
+      else
       {
-        return BadRequest(ex.Message);
+        return StatusCode(bookingResult.StatusCode, bookingResult.Message);
       }
 
     }

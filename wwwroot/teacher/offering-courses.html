@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin</title>
+    <title>刊登中的課程</title>
     <!-- Bootstrap -->
     <link
       rel="stylesheet"
@@ -11,9 +11,16 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <!-- SeetAlert2 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma/bulma.css"
+    />
+    <!-- css files -->
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
-    <link rel="stylesheet" href="../css/admin-index.css" />
+    <link rel="stylesheet" href="../css/admin-teacher-applications.css" />
+    <link rel="stylesheet" href="../css/user-my-bookings.css" />
   </head>
   <body>
     <!-- Navbar -->
@@ -22,30 +29,12 @@
         <a class="navbar-brand" href="/"
           ><img src="../assets/icons/Logo.png" alt="Logo"
         /></a>
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item ms-3">
-            <a
-              id="signin-link"
-              class="btn btn-black btn-rounded"
-              href="../user/signin.html"
-              >登入</a
-            >
-          </li>
-        </ul>
+        <ul class="navbar-nav ms-auto align-items-center"></ul>
       </div>
     </nav>
 
-    <!-- Links -->
-
-    <div class="links-container">
-      <a href="../admin/teacher/applications.html" class="teacher-application"
-        ><button type="button" class="btn btn-policy">教師資格申請單</button></a
-      >
-      <a href="#" class="signout"
-        ><button type="button" class="btn btn-policy">登出</button></a
-      >
-    </div>
-
+    <!-- Table -->
+    <div class="table-container"></div>
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -71,7 +60,9 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   ></script>
+  <!-- Sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- js file -->
-  <script src="../js/user-portal.js"></script>
-  <script type="module" src="../js/check-user-login-status.js"></script>
+  <script type="module" src="../js/check-user-authorize.js"></script>
+  <script type="module" src="../js/teacher-offering-courses.js"></script>
 </html>

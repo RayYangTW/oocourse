@@ -16,11 +16,7 @@
   font-size: xx-large;
 }
 
-.links-container .teacher-application {
-  background-color: #85ccfbff;
-}
-
-.links-container .course-upload-application {
+.links-container a {
   background-color: #85ccfbff;
 }
 

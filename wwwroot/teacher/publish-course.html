@@ -11,6 +11,12 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <!-- SeetAlert2 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma/bulma.css"
+    />
+    <!-- css files -->
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/form.css" />
   </head>
@@ -25,6 +31,16 @@
       </div>
     </nav>
 
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading-overlay">
+      <img
+        class="loading"
+        src="../assets/icons/loading.gif"
+        alt="loading"
+        style="display: none"
+      />
+    </div>
+
     <!-- Form -->
     <div class="course-form-container">
       <h1 class="text-center">刊登課程</h1>
@@ -35,6 +51,7 @@
             class="form-control item"
             id="course-name"
             placeholder="課程名稱"
+            required
           />
         </div>
         <div class="form-group">
@@ -43,15 +60,20 @@
             class="form-control item"
             id="course-category"
             placeholder="課程分類"
+            required
           />
         </div>
         <div class="form-group">
-          <input
-            type="text"
+          <select
             class="form-control item"
             id="course-way"
-            placeholder="授課方式"
-          />
+            name="course-way"
+            required
+          >
+            <option value="" disabled selected>請選擇授課方式</option>
+            <option value="實體">實體</option>
+            <option value="線上">線上</option>
+          </select>
         </div>
         <div class="form-group">
           <input
@@ -59,6 +81,7 @@
             class="form-control item"
             id="course-language"
             placeholder="授課語言"
+            required
           />
         </div>
         <div class="form-group">
@@ -67,6 +90,7 @@
             class="form-control item"
             id="course-location"
             placeholder="授課地點"
+            required
           />
         </div>
         <div class="form-group">
@@ -75,6 +99,7 @@
             class="form-control item"
             id="course-intro"
             placeholder="課程詳細介紹"
+            required
           ></textarea>
         </div>
         <div class="form-group">
@@ -83,6 +108,7 @@
             class="form-control item"
             id="course-reminder"
             placeholder="課程注意事項"
+            required
           ></textarea>
         </div>
         <div class="form-group">
@@ -163,6 +189,10 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   ></script>
+  <!-- Sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- js file -->
+  <script type="module" src="../js/check-teacher-authorize.js"></script>
+  <script type="module" src="../js/check-teacher-course-exist.js"></script>
   <script type="module" src="../js/teacher-publish-course.js"></script>
 </html>

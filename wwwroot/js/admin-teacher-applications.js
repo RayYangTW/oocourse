@@ -181,35 +181,70 @@ function renderErrorPage(error) {
  *******************************/
 function activateButtons(application) {
   $(".approved").on("click", function () {
+    const loadingImg = document.querySelector(".loading");
+    const htmlBody = document.querySelector("html");
+    htmlBody.style.backgroundColor = "black";
+    htmlBody.style.opacity = "0.5";
+    loadingImg.style.display = "flex";
+
     axios
       .post(`${host}${endpoint}/approve/${application.id}`)
       .then((response) => {
         if (response.status === 200) {
-          alert("完成審核！");
+          Swal.fire({
+            icon: "success",
+            title: "完成審核",
+            text: "您已成功審核。",
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.href = `${host}/admin/teacher/applications.html`;
+            }
+          });
         }
-        console.log(response);
-        location.href = "/admin/teacher/applications.html";
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        htmlBody.style.backgroundColor = "";
+        htmlBody.style.opacity = "1";
+        loadingImg.style.display = "none";
       });
   });
 
   // 監聽否決按鈕的點擊事件
   $(".denied").on("click", function () {
+    const loadingImg = document.querySelector(".loading");
+    const htmlBody = document.querySelector("html");
+    htmlBody.style.backgroundColor = "black";
+    htmlBody.style.opacity = "0.5";
+    loadingImg.style.display = "flex";
+
     axios
       .post(`${host}${endpoint}/deny/${application.id}`)
       .then((response) => {
         if (response.status === 200) {
-          alert("否決成功！");
+          Swal.fire({
+            icon: "success",
+            title: "否決成功",
+            text: "您已成功否決該申請。",
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.href = `${host}/admin/teacher/applications.html`;
+            }
+          });
         }
-        console.log(response);
-        location.href = "/admin/teacher/applications.html";
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        htmlBody.style.backgroundColor = "";
+        htmlBody.style.opacity = "1";
+        loadingImg.style.display = "none";
       });
-    location.href = "/admin/teacher/applications.html";
   });
 }
 

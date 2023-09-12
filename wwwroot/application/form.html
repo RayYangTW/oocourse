@@ -11,6 +11,17 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <!-- Country selector -->
+    <link
+      rel="stylesheet"
+      href="../assets/country-picker-flags/build/css/countrySelect.css"
+    />
+    <!-- SeetAlert2 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma/bulma.css"
+    />
+    <!-- css files -->
     <link rel="stylesheet" href="../css/index.css" />
     <link rel="stylesheet" href="../css/teacher-application.css" />
   </head>
@@ -25,89 +36,19 @@
       </div>
     </nav>
 
-    <!-- Form -->
-    <div class="form-container">
-      <h1 class="text-center">教師資格申請</h1>
-      <form id="teacher-application-form">
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control item"
-            id="name"
-            placeholder="姓名"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control item"
-            id="email"
-            placeholder="電子信箱"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control item"
-            id="country"
-            placeholder="國籍"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control item"
-            id="location"
-            placeholder="所在地"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control item"
-            id="language"
-            placeholder="溝通語言"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control item"
-            id="category"
-            placeholder="課程類別"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control item"
-            id="experience"
-            placeholder="教學經驗"
-          />
-        </div>
-        <div class="form-group">
-          <textarea
-            type="text"
-            class="form-control item"
-            id="description"
-            placeholder="個人特色"
-          ></textarea>
-        </div>
-        <div class="form-group">
-          <label for="certification-file" class="form-label">相關證照</label>
-          <input
-            type="file"
-            class="form-control item"
-            id="certification-file"
-            accept=".pdf,.png,.jpg,.jpeg"
-            multiple
-          />
-        </div>
-        <div class="form-group text-center">
-          <button type="submit" class="btn btn-block apply">送出申請</button>
-        </div>
-      </form>
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading-overlay">
+      <img
+        class="loading"
+        src="../assets/icons/loading.gif"
+        alt="loading"
+        style="display: none"
+      />
     </div>
+
+    <!-- Form -->
+    <div class="form-container"></div>
+
     <!-- Footer -->
     <footer class="footer text-center text-lg-start fixed-bottom">
       <!-- Copyright -->
@@ -126,6 +67,9 @@
     integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
     crossorigin="anonymous"
   ></script>
+  <!-- Country Selector -->
+  <script src="../assets/country-picker-flags/build/js/countrySelect.js"></script>
+
   <!-- axios -->
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
@@ -133,6 +77,24 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   ></script>
+  <!-- Sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- js file -->
+  <script
+    type="module"
+    src="../js/check-teacher-role-for-application.js"
+  ></script>
+  <script type="module" src="../js/check-user-authorize.js"></script>
+  <script type="module" src="../js/check-teacher-application-exist.js"></script>
   <script type="module" src="../js/teacher-application.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $("#country").countrySelect({
+        defaultCountry: "tw",
+        preferredCountries: ["tw", "us", "ca"],
+        responsiveDropdown: true,
+      });
+    });
+  </script>
 </html>

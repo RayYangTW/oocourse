@@ -9,6 +9,7 @@ using personal_project.Data;
 using personal_project.Helpers;
 using personal_project.Models.Dtos;
 using personal_project.Models.ResponseModels;
+using personal_project.Services;
 using static personal_project.Models.Dtos.CourseDetailDto;
 
 namespace personal_project.Controllers
@@ -17,48 +18,31 @@ namespace personal_project.Controllers
   [Route("api/[controller]")]
   public class CourseController : ControllerBase
   {
-    private readonly ILogger<CourseController> _logger;
-    private readonly WebDbContext _db;
-    private readonly IMapper _mapper;
+
     private readonly GetUserDataFromJWTHelper _jwtHelper;
+    private readonly ICourseService _courseService;
 
 
-    public CourseController(ILogger<CourseController> logger, WebDbContext db, IMapper mapper, GetUserDataFromJWTHelper jwtHelper)
+    public CourseController(GetUserDataFromJWTHelper jwtHelper, ICourseService courseService)
     {
-      _logger = logger;
-      _db = db;
-      _mapper = mapper;
       _jwtHelper = jwtHelper;
+      _courseService = courseService;
     }
 
     [HttpGet("search/all")]
     public async Task<IActionResult> SearchCourse()
     {
-      var courseData = await _db.Teachers
-                      .Select(data => data)
-                      .ToListAsync();
+      var courseData = await _courseService.GetAllTeachersAsync();
       return Ok(courseData);
     }
 
     [HttpGet("search")]
     public async Task<IActionResult> SearchCourse(string keyword)
     {
-      var courseData = await _db.Teachers
-          .Where(data =>
-              data.courseName.Contains(keyword) ||
-              data.courseCategory.Contains(keyword) ||
-              data.courseLocation.Contains(keyword) ||
-              data.courseWay.Contains(keyword))
-          .ToListAsync();
-
-      if (courseData.Count() > 0)
-      {
-        return Ok(courseData);
-      }
-      else
-      {
+      var courseData = await _courseService.GetTeachersByKeywordAsync(keyword);
+      if (courseData is null)
         return NoContent();
-      }
+      return Ok(courseData);
     }
 
     [HttpGet("search/{id}")]
@@ -66,54 +50,42 @@ namespace personal_project.Controllers
     {
       try
       {
-        var afterThreeHours = DateTime.Now.AddHours(3);
-        var courseData = await _db.Teachers
-                            .Where(data => data.id == id)
-                            .Include(data => data.courses
-                                                  .Where(data => data.isBooked == false)
-                                                  .Where(data => data.startTime >= afterThreeHours))
-                            .FirstOrDefaultAsync();
+        var courseDetail = await _courseService.GetCourseDetailAsync(id);
 
-        if (courseData != null)
-        {
-          var resultDto = _mapper.Map<CourseDetailDTO>(courseData);
-          foreach (var course in resultDto.courses)
-          {
-            course.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.startTime);
-            course.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.endTime);
-          }
-          resultDto.courses = resultDto.courses.OrderBy(course => course.startTime).ToList();
-          return Ok(resultDto);
-        }
+        if (courseDetail is not null)
+          return Ok(courseDetail);
         return NoContent();
       }
       catch (Exception ex)
       {
-        System.Console.WriteLine(ex);
-        return StatusCode(500);
+        return BadRequest();
       }
     }
 
     [HttpGet("{roomId}")]
     public async Task<IActionResult> GetCourseDetailByRoomId(string roomId)
     {
-      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      var authorizationHeader = Request.Headers["Authorization"].ToString();
+      var courseDetail = await _courseService.GetCourseDetailByRoomIdAsync(roomId, authorizationHeader);
+
+      if (courseDetail is not null)
+        return Ok(courseDetail);
+      return BadRequest("Can't find user or user has no booking course.");
+    }
+
+    [HttpGet("access")]
+    public async Task<IActionResult> GetAccessToOnlineCourse([FromQuery] string roomId)
+    {
+      var authorizationHeader = Request.Headers["Authorization"].ToString();
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(authorizationHeader);
       if (user is null)
         return BadRequest("Can't find user.");
 
-      var courseData = await _db.Courses
-                            .Where(data => data.roomId == roomId)
-                            .Include(data => data.teacher)
-                            .FirstOrDefaultAsync();
+      var hasAccess = await _courseService.HasAccessToOnlineCourseAsync(user.id, roomId);
+      if (hasAccess)
+        return Ok("User is on the access list.");
 
-      if (courseData is null)
-        return BadRequest("User has no booking course");
-
-      var responseData = _mapper.Map<BookingDetailDto>(courseData);
-      responseData.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(responseData.startTime);
-      responseData.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(responseData.endTime);
-
-      return Ok(responseData);
+      return NotFound("User is not on the access list.");
     }
   }
 }

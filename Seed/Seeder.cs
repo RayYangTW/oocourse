@@ -80,26 +80,62 @@ namespace personal_project.Seed
               user = demoUser3
             });
 
-            db.Users.AddRange(
-                new User
-                {
-                  email = "demo4@example.com",
-                  provider = "native",
-                  password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
-                },
-                new User
-                {
-                  email = "demo5@example.com",
-                  provider = "native",
-                  password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
-                },
-                new User
-                {
-                  email = "demo6@example.com",
-                  provider = "native",
-                  password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
-                }
-            );
+            var demoUser4 = new User
+            {
+              email = "demo4@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              isProfileCompleted = false
+            };
+            db.Users.Add(demoUser4);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Profile
+            {
+              name = "",
+              nickname = "",
+              gender = "",
+              interest = "",
+              user = demoUser4
+            });
+
+            var demoUser5 = new User
+            {
+              email = "demo5@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              isProfileCompleted = false
+            };
+            db.Users.Add(demoUser5);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Profile
+            {
+              name = "",
+              nickname = "",
+              gender = "",
+              interest = "",
+              user = demoUser5
+            });
+
+            var demoUser6 = new User
+            {
+              email = "demo6@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              isProfileCompleted = false
+            };
+            db.Users.Add(demoUser6);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Profile
+            {
+              name = "",
+              nickname = "",
+              gender = "",
+              interest = "",
+              user = demoUser6
+            });
 
             db.SaveChanges();
 
@@ -198,7 +234,7 @@ namespace personal_project.Seed
             {
               name = "Sofia",
               nickname = "大S",
-              gender = "F",
+              gender = "女",
               interest = "數學",
               user = user2
             });
@@ -419,6 +455,29 @@ namespace personal_project.Seed
                   teacher = yogaCourse
                 }
             );
+
+            /************
+            Admin
+            ************/
+            var demoAdmin = new User
+            {
+              email = "admin1@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              isProfileCompleted = true,
+              role = "admin"
+            };
+            db.Users.Add(demoAdmin);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Profile
+            {
+              name = "Admin",
+              nickname = "Ad",
+              gender = "男",
+              interest = "管理",
+              user = demoAdmin
+            });
 
             db.SaveChanges();
           }

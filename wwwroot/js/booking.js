@@ -17,13 +17,26 @@ const courseId = urlParams.get("courseId");
 axios
   .get(host + endpoint + courseId, config)
   .then((response) => {
-    console.log(response);
     return response.data;
   })
   .then((bookingData) => {
     renderBookingDetail(bookingData);
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log(err);
+    if (err.response.status === 403) {
+      Swal.fire({
+        icon: "error",
+        title: "操作錯誤",
+        text: "請勿預約自己的課程！",
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.href = document.referrer;
+        }
+      });
+    }
+  });
 
 function renderBookingDetail(booking) {
   bookingFormContainer.innerHTML = `
@@ -69,24 +82,36 @@ function submitBooking(booking) {
     formData.append("productPrice", booking.price);
     formData.append("courseId", courseId);
 
-    console.log(...formData);
     axios
       .post(host + linePayEndPoint, formData, config)
       .then((response) => {
-        console.log(response);
-        // alert("預訂成功！");
-        // location.href = "/";
         if (response.data.redirectUrl) {
           location.href = response.data.redirectUrl;
         } else {
-          console.log("無跳轉網址");
+          Swal.fire({
+            icon: "error",
+            title: "跳轉失敗",
+            text: "無跳轉網址",
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.href = document.referrer;
+            }
+          });
         }
       })
       .catch((err) => {
-        // if (err.response.status === 403) {
-        //   alert("該課程已被預訂，請重新選購。");
-        // }
         console.log(err);
+        Swal.fire({
+          icon: "error",
+          title: "晚了一步",
+          text: "課程已被預約",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = document.referrer;
+          }
+        });
       });
   });
 }
