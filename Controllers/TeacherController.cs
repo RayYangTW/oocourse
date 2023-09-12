@@ -17,6 +17,7 @@ using personal_project.Models.FormModels;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using personal_project.Models.Dtos;
+using personal_project.Services;
 
 namespace personal_project.Controllers
 {
@@ -29,19 +30,25 @@ namespace personal_project.Controllers
     private readonly IMapper _mapper;
     private readonly GetUserDataFromJWTHelper _jwtHelper;
     private readonly IAmazonS3 _s3Client;
+    private readonly IFileUploadService _fileUploadService;
+    private readonly ITeacherService _teacherService;
 
     public TeacherController(
         ILogger<TeacherController> logger,
         WebDbContext db,
         IMapper mapper,
         GetUserDataFromJWTHelper jwtHelper,
-        IAmazonS3 s3Client)
+        IAmazonS3 s3Client,
+        IFileUploadService fileUploadService,
+        ITeacherService teacherService)
     {
       _logger = logger;
       _db = db;
       _mapper = mapper;
       _jwtHelper = jwtHelper;
       _s3Client = s3Client;
+      _fileUploadService = fileUploadService;
+      _teacherService = teacherService;
     }
 
     // Global variables
@@ -67,13 +74,9 @@ namespace personal_project.Controllers
       if (user is null)
         return BadRequest("Can't find user.");
 
-      var applicationExists = await _db.TeacherApplications
-                                      .Where(data => data.userId == user.id && data.status == "unapproved")
-                                      .AnyAsync();
+      var applicationExists = await _teacherService.CheckIfApplicationExists(user);
       if (applicationExists is true)
         return StatusCode(403, "Teacher role application is already exist.");
-
-      long userId = user.id;
 
       var newApplication = new TeacherApplication
       {
@@ -90,79 +93,26 @@ namespace personal_project.Controllers
         user = user
       };
 
-      try
-      {
-        var uploadCertifications = application.certificationFiles;
-        if (uploadCertifications is not null)
-        {
-          foreach (var formFile in uploadCertifications)
-          {
-            if (formFile.Length > 0)
-            {
-              var ext = Path.GetExtension(formFile.FileName);
-              var bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName);
-              if (!bucketExists)
-              {
-                var bucketRequest = new PutBucketRequest()
-                {
-                  BucketName = bucketName,
-                  UseClientRegion = true
-                };
-                await _s3Client.PutBucketAsync(bucketRequest);
-              }
-              else
-              {
-                var fileToS3 = certificationFileToS3Path + GenerateFilenameHelper.GenerateFileRandomName() + application.name + ext;
-                var objectRequest = new PutObjectRequest()
-                {
-                  BucketName = bucketName,
-                  Key = fileToS3,
-                  InputStream = formFile.OpenReadStream()
-                };
-                await _s3Client.PutObjectAsync(objectRequest);
-                var newCertifications = new Certification
-                {
-                  certification = filesLocateDomain + fileToS3,
-                  userId = user.id
-                };
-                newApplication.certifications.Add(newCertifications);
-              }
-            }
-          }
-        }
-        // user.teacherApplication = newApplication;
-        await _db.TeacherApplications.AddAsync(newApplication);
-        await _db.SaveChangesAsync();
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(new
-        {
-          error = ex.Message
-        });
-      }
-      return Ok(newApplication);
+      var uploadCertifications = application.certificationFiles;
+      var applicationToSave = await _fileUploadService.UploadCertificationsAsync(uploadCertifications, newApplication, user, bucketName, certificationFileToS3Path, filesLocateDomain);
+      var result = await _teacherService.SaveTeacherApplicationAsync(applicationToSave);
+      if (result.statusCode == 200)
+        return Ok(applicationToSave);
+      return StatusCode(result.statusCode, result.message);
     }
 
     [Authorize]
     [HttpGet("application")]
     public async Task<IActionResult> GetTeacherRoleApplication()
     {
-      try
-      {
-        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
-        if (user is null)
-          return BadRequest("Can't find user.");
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
 
-        var myTeacherRoleApplication = await _db.TeacherApplications
-                                                .Where(data => data.userId == user.id && data.status == "unapproved")
-                                                .FirstOrDefaultAsync();
+      var myTeacherRoleApplication = await _teacherService.GetTeacherRoleApplicationAsync(user);
+      if (myTeacherRoleApplication is not null)
         return Ok(myTeacherRoleApplication);
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      return NotFound("Can't get the application");
     }
 
     //POST: api/teacher/publishCourse
@@ -174,86 +124,8 @@ namespace personal_project.Controllers
       if (user is null)
         return BadRequest("Can't find user.");
 
-      var existingTeacherData = await _db.Teachers
-                                      .Where(data => data.userId == user.id)
-                                      .AnyAsync();
-
-      if (existingTeacherData)
-        return StatusCode(403, "Teacher already has own course, please don't repeat publish.");
-
-      var newTeacher = new Models.Domain.Teacher
-      {
-        courseName = course.courseName,
-        courseCategory = course.courseCategory,
-        courseLocation = course.courseLocation,
-        courseWay = course.courseWay,
-        courseLanguage = course.courseLanguage,
-        courseIntro = course.courseIntro,
-        courseReminder = course.courseReminder,
-        userId = user.id
-      };
-
-      //處理單張照片上傳
-      var uploadCourseImage = course.courseImageFile;
-      if (uploadCourseImage != null)
-      {
-        var ext = System.IO.Path.GetExtension(uploadCourseImage.FileName);
-        var bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName);
-        if (!bucketExists)
-        {
-          var bucketRequest = new PutBucketRequest()
-          {
-            BucketName = bucketName,
-            UseClientRegion = true
-          };
-          await _s3Client.PutBucketAsync(bucketRequest);
-        }
-        else
-        {
-          var fileToS3 = courseImageFileToS3Path + GenerateFilenameHelper.GenerateFileRandomName() + ext;
-          var objectRequest = new PutObjectRequest()
-          {
-            BucketName = bucketName,
-            Key = fileToS3,
-            InputStream = uploadCourseImage.OpenReadStream()
-          };
-          await _s3Client.PutObjectAsync(objectRequest);
-          newTeacher.courseImage = filesLocateDomain + fileToS3;
-        }
-      }
-
-      try
-      {
-        await _db.Teachers.AddAsync(newTeacher);
-        await _db.SaveChangesAsync();
-
-        var teacher = await _db.Teachers
-                        .Where(data => data.userId == user.id)
-                        .FirstOrDefaultAsync();
-
-        // Process course's data
-        foreach (var courseData in course.courses)
-        {
-          if (courseData.startTime is not null && courseData.endTime is not null)
-          {
-            var newCourse = new Course
-            {
-              startTime = courseData.startTime,
-              endTime = courseData.endTime,
-              price = courseData.price,
-            };
-            // await _db.Courses.AddAsync(newCourse);
-            teacher.courses.Add(newCourse);
-          }
-        }
-        await _db.SaveChangesAsync();
-
-        return Ok("publish success.");
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      var result = await _teacherService.PublishTeacherCourseAsync(user, course);
+      return StatusCode(result.statusCode, result.message);
     }
 
     [HttpPut("updateCourse")]
@@ -263,275 +135,83 @@ namespace personal_project.Controllers
       if (user is null)
         return BadRequest("Can't find user.");
 
-      var existingTeacherData = await _db.Teachers.FirstOrDefaultAsync(data => data.userId == user.id);
-
-      if (existingTeacherData is null)
-        return NotFound("No course data for the teacher");
-
-      existingTeacherData.courseName = course.courseName;
-      existingTeacherData.courseCategory = course.courseCategory;
-      existingTeacherData.courseLocation = course.courseLocation;
-      existingTeacherData.courseWay = course.courseWay;
-      existingTeacherData.courseLanguage = course.courseLanguage;
-      existingTeacherData.courseIntro = course.courseIntro;
-      existingTeacherData.courseReminder = course.courseReminder;
-
-      //處理單張照片上傳
-      var uploadCourseImage = course.courseImageFile;
-      if (uploadCourseImage != null)
-      {
-        var ext = System.IO.Path.GetExtension(uploadCourseImage.FileName);
-        var bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName);
-        if (!bucketExists)
-        {
-          var bucketRequest = new PutBucketRequest()
-          {
-            BucketName = bucketName,
-            UseClientRegion = true
-          };
-          await _s3Client.PutBucketAsync(bucketRequest);
-        }
-        else
-        {
-          var fileToS3 = courseImageFileToS3Path + GenerateFilenameHelper.GenerateFileRandomName() + ext;
-          var objectRequest = new PutObjectRequest()
-          {
-            BucketName = bucketName,
-            Key = fileToS3,
-            InputStream = uploadCourseImage.OpenReadStream()
-          };
-          await _s3Client.PutObjectAsync(objectRequest);
-          existingTeacherData.courseImage = filesLocateDomain + fileToS3;
-        }
-      }
-      try
-      {
-        await _db.SaveChangesAsync();
-
-        var teacher = await _db.Teachers
-                        .Where(data => data.userId == user.id)
-                        .FirstOrDefaultAsync();
-
-        // Process course's data
-        foreach (var courseData in course.courses)
-        {
-          if (courseData.startTime is not null && courseData.endTime is not null)
-          {
-            var newCourse = new Course
-            {
-              startTime = courseData.startTime,
-              endTime = courseData.endTime,
-              price = courseData.price,
-            };
-            // await _db.Courses.AddAsync(newCourse);
-            teacher.courses.Add(newCourse);
-          }
-        }
-        await _db.SaveChangesAsync();
-
-        return Ok();
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      var result = await _teacherService.UpdateTeacherCourseAsync(user, course);
+      return StatusCode(result.statusCode, result.message);
     }
 
 
     [HttpGet("getTeacherFormData")]
     public async Task<IActionResult> GetTeacherFormData()
     {
-      try
-      {
-        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
-        if (user is null)
-          return BadRequest("Can't find user.");
 
-        var formData = await _db.Teachers
-                            .Where(data => data.userId == user.id)
-                            .FirstOrDefaultAsync();
-        if (formData is not null)
-          return Ok(formData);
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
+
+      var result = await _teacherService.GetTeacherFormDataAsync(user);
+
+      if (result.statusCode == 200)
+        return Ok(result.data);
+      else if (result.statusCode == 204)
         return NoContent();
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      else
+        return BadRequest(result.message);
     }
 
     [HttpGet("myCourses")]
     public async Task<IActionResult> GetMyCourses()
     {
-      try
-      {
-        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
-        if (user is null)
-          return BadRequest("Can't find user.");
 
-        var coursesData = await _db.Courses
-                                .Where(data => data.teacher.userId == user.id)
-                                .Where(data => data.isBooked == true)
-                                .Include(data => data.teacher)
-                                .ToListAsync();
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
 
-        var responseData = _mapper.Map<List<CoursesResponseDto>>(coursesData);
-
-        foreach (var course in responseData)
-        {
-          course.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.startTime);
-          course.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.endTime);
-        }
-        responseData = responseData.OrderBy(data => data.startTime).ToList();
-
-        return Ok(responseData);
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      var result = await _teacherService.GetMyCoursesAsync(user);
+      if (result.statusCode == 200)
+        return Ok(result.data);
+      return BadRequest(result.message);
     }
 
     [HttpGet("teachingFeeData")]
     public async Task<IActionResult> GetTeachingFee(string start, string end)
     {
-      try
-      {
-        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
-        if (user is null)
-          return BadRequest("Can't find user.");
 
-        if (!DateTime.TryParse(start, out DateTime startDate) || !DateTime.TryParse(end, out DateTime endDate))
-        {
-          return BadRequest("Invalid date format.");
-        }
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
 
-        var estimatedAmountData = await _db.Courses
-                                        .Where(data => data.teacher.userId == user.id)
-                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
-                                        .SumAsync(data => data.price);
-        var originEstimatedAmount = estimatedAmountData;
-        estimatedAmountData = estimatedAmountData - estimatedAmountData * 0.05;
-
-        var teachingFeeData = await _db.Courses
-                                        .Where(data => data.teacher.userId == user.id)
-                                        .Where(data => data.isBooked == true)
-                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
-                                        .Where(data => data.bookings.Any(booking => booking.status == "paid"))
-                                        .SumAsync(data => data.price);
-        var originTeachingFee = teachingFeeData;
-        teachingFeeData = teachingFeeData - teachingFeeData * 0.05;
-
-
-        decimal achievementRate = 0;
-        if (estimatedAmountData != 0)
-        {
-          achievementRate = Math.Round((decimal)((teachingFeeData / estimatedAmountData)), 2);
-        }
-
-        var platformFeeOfTeachingFee = Math.Round((decimal)(originTeachingFee * 0.05));
-
-        var platformFeeOfEstimatedAmount = Math.Round((decimal)(originEstimatedAmount * 0.05));
-
-        return Ok(new
-        {
-          originTeachingFee = originTeachingFee,
-          originEstimatedAmount = originEstimatedAmount,
-          estimatedAmountData = estimatedAmountData,
-          teachingFeeData = teachingFeeData,
-          achievementRate = achievementRate,
-          platformFeeOfTeachingFee = platformFeeOfTeachingFee,
-          platformFeeOfEstimatedAmount = platformFeeOfEstimatedAmount,
-        });
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      var result = await _teacherService.GetTeachingFeeAsync(user, start, end);
+      if (result.statusCode == 200)
+        return Ok(result.data);
+      return BadRequest(result.message);
     }
 
     [HttpGet("CourseData")]
     public async Task<IActionResult> GetCourseData(string start, string end)
     {
-      try
-      {
-        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
-        if (user is null)
-          return BadRequest("Can't find user.");
 
-        if (!DateTime.TryParse(start, out DateTime startDate) || !DateTime.TryParse(end, out DateTime endDate))
-        {
-          return BadRequest("Invalid date format.");
-        }
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
 
-        var taughtCourseAmount = await _db.Courses
-                                        .Where(data => data.teacher.userId == user.id)
-                                        .Where(data => data.isBooked == true)
-                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
-                                        .Where(data => data.bookings.Any(booking => booking.status == "paid"))
-                                        .CountAsync();
-
-        var openCourseAmount = await _db.Courses
-                                        .Where(data => data.teacher.userId == user.id)
-                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
-                                        .CountAsync();
-        decimal achievementRate = 0;
-        if (openCourseAmount != 0)
-        {
-          achievementRate = Math.Round(((decimal)taughtCourseAmount / (decimal)openCourseAmount), 2);
-        }
-
-        return Ok(new
-        {
-          taughtCourseAmount = taughtCourseAmount,
-          openCourseAmount = openCourseAmount,
-          achievementRate = achievementRate,
-        });
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      var result = await _teacherService.GetCourseDataAsync(user, start, end);
+      if (result.statusCode == 200)
+        return Ok(result.data);
+      return BadRequest(result.message);
     }
 
     [HttpGet("teachingTimeData")]
     public async Task<IActionResult> GetTeachingTime(string start, string end)
     {
-      try
-      {
-        var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
-        if (user is null)
-          return BadRequest("Can't find user.");
 
-        if (!DateTime.TryParse(start, out DateTime startDate) || !DateTime.TryParse(end, out DateTime endDate))
-        {
-          return BadRequest("Invalid date format.");
-        }
+      var user = await _jwtHelper.GetUserDataFromJWTAsync(Request.Headers["Authorization"]);
+      if (user is null)
+        return BadRequest("Can't find user.");
 
-        var teachingTimeData = await _db.Courses
-                                        .Where(data => data.teacher.userId == user.id)
-                                        .Where(data => data.isBooked == true)
-                                        .Where(data => data.startTime >= startDate && data.endTime <= endDate.AddDays(1))
-                                        .Where(data => data.bookings.Any(booking => booking.status == "paid"))
-                                        .Select(data => data.duration)
-                                        .ToListAsync();
-
-        TimeSpan? totalDuration = TimeSpan.Zero;
-
-        foreach (var duration in teachingTimeData)
-        {
-          totalDuration += duration;
-        }
-
-        return Ok(new
-        {
-          totalDuration = totalDuration
-        });
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
+      var result = await _teacherService.GetTeachingTimeAsync(user, start, end);
+      if (result.statusCode == 200)
+        return Ok(result.data);
+      return BadRequest(result.message);
     }
 
     [HttpGet("offeringCourses")]
@@ -541,23 +221,10 @@ namespace personal_project.Controllers
       if (user is null)
         return BadRequest("Can't find user.");
 
-      var afterThreeHours = DateTime.Now.AddHours(3);
-      var offeringCoursesData = await _db.Courses
-                                        .Where(data => data.teacher.userId == user.id)
-                                        .Where(data => data.startTime >= afterThreeHours)
-                                        .Include(data => data.teacher)
-                                        .ToListAsync();
-      if (offeringCoursesData is null || offeringCoursesData.Count() <= 0)
-        return NoContent();
-
-      var resultDto = _mapper.Map<List<CourseOfferingDto>>(offeringCoursesData);
-      foreach (var course in resultDto)
-      {
-        course.startTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.startTime);
-        course.endTime = ConvertDateTimeFormatHelper.ConvertDateTimeFormat(course.endTime);
-      }
-      resultDto = resultDto.OrderBy(course => course.startTime).ToList();
-      return Ok(resultDto);
+      var result = await _teacherService.GetOfferingCoursesAsync(user);
+      if (result.statusCode == 200)
+        return Ok(result.data);
+      return BadRequest(result.message);
     }
 
     [HttpDelete("cancelCourse/{courseId}")]
@@ -567,17 +234,13 @@ namespace personal_project.Controllers
       if (user is null)
         return BadRequest("Can't find user.");
 
-      var courseData = await _db.Courses
-                                .Where(data => data.id == courseId)
-                                .Where(data => data.teacher.userId == user.id)
-                                .FirstOrDefaultAsync();
-      if (courseData is null)
-        return NotFound();
-
-      _db.Courses.Remove(courseData);
-      await _db.SaveChangesAsync();
-
-      return Ok();
+      var result = await _teacherService.DeleteCourseAsync(user, courseId);
+      if (result.statusCode == 200)
+        return Ok();
+      else if (result.statusCode == 204)
+        return NoContent();
+      else
+        return BadRequest(result.message);
     }
   }
 }

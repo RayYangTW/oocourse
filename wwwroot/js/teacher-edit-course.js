@@ -212,7 +212,7 @@ function submitEditForm() {
       const startTime = new Date(startTimeInputs[i].value).getTime();
       const endTime = new Date(endTimeInputs[i].value).getTime();
 
-      if (isNaN(startTime) || isNaN(endTime) || endTime <= startTime) {
+      if (endTime < startTime) {
         Swal.fire({
           icon: "error",
           title: "資料錯誤",

@@ -13,7 +13,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const roomId = urlParams.get("id");
 
 axios
-  .get(`${host}${endpoint}?id=${roomId}`, config)
+  .get(`${host}${endpoint}?roomId=${roomId}`, config)
   .then((response) => {
     if (response.status === 200) {
       initializeOnlineCourse();

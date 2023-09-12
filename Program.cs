@@ -74,9 +74,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<ILinePayService, LinePayService>();
 builder.Services.AddScoped<ICheckoutService, CheckoutService>();
-
-
-
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 
 // Cors
 builder.Services.AddCors(options =>
