@@ -92,7 +92,7 @@ namespace personal_project.Services
         }
         return application;
       }
-      return null;
+      return application;
     }
   }
 }
