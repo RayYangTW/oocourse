@@ -271,44 +271,44 @@ namespace personal_project.Seed
                   teacher = mathCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-29 18:00"),
-                  endTime = DateTime.Parse("2023-09-29 19:00"),
+                  startTime = DateTime.Parse("2023-09-15 18:00"),
+                  endTime = DateTime.Parse("2023-09-15 19:00"),
                   price = 700,
                   teacher = mathCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-30 18:00"),
-                  endTime = DateTime.Parse("2023-09-30 19:00"),
+                  startTime = DateTime.Parse("2023-09-16 18:00"),
+                  endTime = DateTime.Parse("2023-09-16 19:00"),
                   price = 700,
                   teacher = mathCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-01 18:00"),
-                  endTime = DateTime.Parse("2023-09-01 19:00"),
+                  startTime = DateTime.Parse("2023-09-17 18:00"),
+                  endTime = DateTime.Parse("2023-09-17 19:00"),
                   price = 700,
                   teacher = mathCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-03 18:00"),
-                  endTime = DateTime.Parse("2023-09-03 19:00"),
+                  startTime = DateTime.Parse("2023-09-18 18:00"),
+                  endTime = DateTime.Parse("2023-09-18 19:00"),
                   price = 700,
                   teacher = mathCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-05 18:00"),
-                  endTime = DateTime.Parse("2023-09-05 19:00"),
+                  startTime = DateTime.Parse("2023-09-19 18:00"),
+                  endTime = DateTime.Parse("2023-09-19 19:00"),
                   price = 700,
                   teacher = mathCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-07 18:00"),
-                  endTime = DateTime.Parse("2023-09-07 19:00"),
+                  startTime = DateTime.Parse("2023-09-20 18:00"),
+                  endTime = DateTime.Parse("2023-09-20 19:00"),
                   price = 700,
                   teacher = mathCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-10 18:00"),
-                  endTime = DateTime.Parse("2023-09-10 19:00"),
+                  startTime = DateTime.Parse("2023-09-21 18:00"),
+                  endTime = DateTime.Parse("2023-09-21 19:00"),
                   price = 700,
                   teacher = mathCourse
                 }
@@ -376,81 +376,81 @@ namespace personal_project.Seed
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-09-10 09:00"),
-                  endTime = DateTime.Parse("2023-09-10 10:00"),
+                  startTime = DateTime.Parse("2023-09-16 09:00"),
+                  endTime = DateTime.Parse("2023-09-16 10:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-09-10 13:00"),
-                  endTime = DateTime.Parse("2023-09-10 14:00"),
+                  startTime = DateTime.Parse("2023-09-16 13:00"),
+                  endTime = DateTime.Parse("2023-09-16 14:00"),
                   price = 300,
                   teacher = yogaCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-10 16:00"),
-                  endTime = DateTime.Parse("2023-09-10 17:00"),
+                  startTime = DateTime.Parse("2023-09-16 16:00"),
+                  endTime = DateTime.Parse("2023-09-16 17:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-09-05 09:00"),
-                  endTime = DateTime.Parse("2023-09-05 10:00"),
+                  startTime = DateTime.Parse("2023-09-17 09:00"),
+                  endTime = DateTime.Parse("2023-09-17 10:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-09-05 13:00"),
-                  endTime = DateTime.Parse("2023-09-05 14:00"),
+                  startTime = DateTime.Parse("2023-09-17 13:00"),
+                  endTime = DateTime.Parse("2023-09-17 14:00"),
                   price = 300,
                   teacher = yogaCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-05 16:00"),
-                  endTime = DateTime.Parse("2023-09-05 17:00"),
+                  startTime = DateTime.Parse("2023-09-17 16:00"),
+                  endTime = DateTime.Parse("2023-09-17 17:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-09-06 09:00"),
-                  endTime = DateTime.Parse("2023-09-06 10:00"),
+                  startTime = DateTime.Parse("2023-09-23 09:00"),
+                  endTime = DateTime.Parse("2023-09-23 10:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-09-06 13:00"),
-                  endTime = DateTime.Parse("2023-09-06 14:00"),
+                  startTime = DateTime.Parse("2023-09-23 13:00"),
+                  endTime = DateTime.Parse("2023-09-23 14:00"),
                   price = 300,
                   teacher = yogaCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-06 16:00"),
-                  endTime = DateTime.Parse("2023-09-06 17:00"),
+                  startTime = DateTime.Parse("2023-09-23 16:00"),
+                  endTime = DateTime.Parse("2023-09-23 17:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-09-30 09:00"),
-                  endTime = DateTime.Parse("2023-09-30 10:00"),
+                  startTime = DateTime.Parse("2023-09-24 09:00"),
+                  endTime = DateTime.Parse("2023-09-24 10:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-09-30 13:00"),
-                  endTime = DateTime.Parse("2023-09-30 14:00"),
+                  startTime = DateTime.Parse("2023-09-24 13:00"),
+                  endTime = DateTime.Parse("2023-09-24 14:00"),
                   price = 300,
                   teacher = yogaCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-09-30 16:00"),
-                  endTime = DateTime.Parse("2023-09-30 17:00"),
+                  startTime = DateTime.Parse("2023-09-24 16:00"),
+                  endTime = DateTime.Parse("2023-09-24 17:00"),
                   price = 300,
                   teacher = yogaCourse
                 }
