@@ -112,7 +112,7 @@ namespace personal_project.Controllers
       var myTeacherRoleApplication = await _teacherService.GetTeacherRoleApplicationAsync(user);
       if (myTeacherRoleApplication is not null)
         return Ok(myTeacherRoleApplication);
-      return NotFound("Can't get the application");
+      return NoContent();
     }
 
     //POST: api/teacher/publishCourse
