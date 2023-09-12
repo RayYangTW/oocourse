@@ -72,6 +72,8 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
+builder.Services.AddScoped<ILinePayService, LinePayService>();
+builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 
 
 
