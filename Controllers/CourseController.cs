@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using personal_project.Data;
@@ -15,6 +16,7 @@ using static personal_project.Models.Dtos.CourseDetailDto;
 namespace personal_project.Controllers
 {
   [ApiController]
+  [Authorize]
   [Route("api/[controller]")]
   public class CourseController : ControllerBase
   {
@@ -29,6 +31,7 @@ namespace personal_project.Controllers
       _courseService = courseService;
     }
 
+    [AllowAnonymous]
     [HttpGet("search/all")]
     public async Task<IActionResult> SearchCourse()
     {
@@ -36,6 +39,7 @@ namespace personal_project.Controllers
       return Ok(courseData);
     }
 
+    [AllowAnonymous]
     [HttpGet("search")]
     public async Task<IActionResult> SearchCourse(string keyword)
     {
@@ -45,6 +49,7 @@ namespace personal_project.Controllers
       return Ok(courseData);
     }
 
+    [AllowAnonymous]
     [HttpGet("search/{id}")]
     public async Task<IActionResult> GetSearchCourseDetail(long id)
     {

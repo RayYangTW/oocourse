@@ -22,6 +22,7 @@ using personal_project.Services;
 namespace personal_project.Controllers
 {
   [ApiController]
+
   [Route("api/[controller]")]
   public class TeacherController : ControllerBase
   {
@@ -116,7 +117,7 @@ namespace personal_project.Controllers
     }
 
     //POST: api/teacher/publishCourse
-    [Authorize]
+    [Authorize(Roles = "teacher")]
     [HttpPost("publishCourse")]
     public async Task<IActionResult> PublishCourse([FromForm] TeacherPublishCourseFormModel course)
     {
@@ -128,6 +129,7 @@ namespace personal_project.Controllers
       return StatusCode(result.statusCode, result.message);
     }
 
+    [Authorize(Roles = "teacher")]
     [HttpPut("updateCourse")]
     public async Task<IActionResult> UpdateCourse([FromForm] TeacherPublishCourseFormModel course)
     {
@@ -139,7 +141,7 @@ namespace personal_project.Controllers
       return StatusCode(result.statusCode, result.message);
     }
 
-
+    [Authorize(Roles = "teacher")]
     [HttpGet("getTeacherFormData")]
     public async Task<IActionResult> GetTeacherFormData()
     {
@@ -158,6 +160,7 @@ namespace personal_project.Controllers
         return BadRequest(result.message);
     }
 
+    [Authorize(Roles = "teacher")]
     [HttpGet("myCourses")]
     public async Task<IActionResult> GetMyCourses()
     {
@@ -172,6 +175,7 @@ namespace personal_project.Controllers
       return BadRequest(result.message);
     }
 
+    [Authorize(Roles = "teacher")]
     [HttpGet("teachingFeeData")]
     public async Task<IActionResult> GetTeachingFee(string start, string end)
     {
@@ -186,6 +190,7 @@ namespace personal_project.Controllers
       return BadRequest(result.message);
     }
 
+    [Authorize(Roles = "teacher")]
     [HttpGet("CourseData")]
     public async Task<IActionResult> GetCourseData(string start, string end)
     {
@@ -200,6 +205,7 @@ namespace personal_project.Controllers
       return BadRequest(result.message);
     }
 
+    [Authorize(Roles = "teacher")]
     [HttpGet("teachingTimeData")]
     public async Task<IActionResult> GetTeachingTime(string start, string end)
     {
@@ -214,6 +220,7 @@ namespace personal_project.Controllers
       return BadRequest(result.message);
     }
 
+    [Authorize(Roles = "teacher")]
     [HttpGet("offeringCourses")]
     public async Task<IActionResult> GetOfferingCourses()
     {
@@ -227,6 +234,7 @@ namespace personal_project.Controllers
       return BadRequest(result.message);
     }
 
+    [Authorize(Roles = "teacher")]
     [HttpDelete("cancelCourse/{courseId}")]
     public async Task<IActionResult> DeleteCourse(long courseId)
     {

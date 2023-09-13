@@ -7,9 +7,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using personal_project.Models.Dtos;
 using personal_project.Services;
+using Microsoft.AspNetCore.Authorization;
+
 namespace personal_project.Controllers
 {
   [ApiController]
+  [Authorize]
   [Route("api/[controller]")]
   public class CheckoutController : ControllerBase
   {

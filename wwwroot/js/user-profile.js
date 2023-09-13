@@ -126,6 +126,7 @@ function updateProfile(profile) {
       .put(host + endpoint, formData, config)
       .then((response) => {
         localStorage.setItem("isProfileCompleted", true);
+        localStorage.setItem("userName", $("#name").val());
         Swal.fire({
           icon: "success",
           title: "修改成功",

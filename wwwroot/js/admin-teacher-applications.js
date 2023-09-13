@@ -1,5 +1,11 @@
 import { host } from "./config.js";
 const endpoint = "/api/admin/teacher/applications";
+const jwt = localStorage.getItem("JWT");
+const config = {
+  headers: {
+    Authorization: "Bearer " + jwt,
+  },
+};
 
 // ====================== Applications ======================
 // Get the applications container element
@@ -258,7 +264,7 @@ $(document).ready(function () {
   // If value !== null, shows the application
   if (idValue !== null && idValue.length > 0) {
     axios
-      .get(`${host}${endpoint}/${idValue}`)
+      .get(`${host}${endpoint}/${idValue}`, config)
       .then((response) => {
         const application = response.data;
         renderApplicationDetail(application);
@@ -271,7 +277,7 @@ $(document).ready(function () {
   } else {
     // If value === null, shows the list of applications
     axios
-      .get(host + endpoint)
+      .get(host + endpoint, config)
       .then((response) => {
         const applications = response.data;
         renderApplications(applications);
