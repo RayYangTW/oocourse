@@ -99,6 +99,12 @@ function initRemoveButton() {
         denyButtonText: `返回`,
       }).then((result) => {
         if (result.isConfirmed) {
+          const loadingImg = document.querySelector(".loading");
+          const htmlBody = document.querySelector("html");
+          htmlBody.style.backgroundColor = "black";
+          htmlBody.style.opacity = "0.5";
+          loadingImg.style.display = "flex";
+
           const courseId = button.getAttribute("course-id");
           axios
             .delete(`${host}${cancelEndpoint}/${courseId}`, config)
@@ -117,6 +123,11 @@ function initRemoveButton() {
               Swal.fire("取消失敗", "", "error").then(() => {
                 console.error("Error canceling course:", error);
               });
+            })
+            .finally(() => {
+              htmlBody.style.backgroundColor = "";
+              htmlBody.style.opacity = "1";
+              loadingImg.style.display = "none";
             });
         } else if (result.isDenied) {
           Swal.fire("課程未取消", "", "info").then(() => {

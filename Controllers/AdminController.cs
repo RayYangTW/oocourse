@@ -28,6 +28,7 @@ namespace personal_project.Controllers
 
 
     // GET: api/Admin/teacher/applications
+    [Authorize(Roles = "admin")]
     [HttpGet("teacher/applications")]
     public async Task<IActionResult> GetAllTeacherApplications()
     {

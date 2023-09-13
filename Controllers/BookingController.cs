@@ -11,10 +11,12 @@ using personal_project.Helpers;
 using personal_project.Models.Domain;
 using personal_project.Models.Dtos;
 using personal_project.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace personal_project.Controllers
 {
   [ApiController]
+  [Authorize]
   [Route("api/[controller]")]
   public class BookingController : ControllerBase
   {
