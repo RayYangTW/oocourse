@@ -35,10 +35,10 @@ namespace personal_project.Seed
 
             db.Profiles.Add(new Profile
             {
-              name = "Ray",
-              nickname = "Ray",
+              name = "Denny",
+              nickname = "Denny",
               gender = "男",
-              interest = "滑雪",
+              interest = "游泳",
               user = demoUser1
             });
 
@@ -139,6 +139,24 @@ namespace personal_project.Seed
 
             db.SaveChanges();
 
+            var demoUser7 = new User
+            {
+              email = "ray1992.tw@gmail.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              isProfileCompleted = true
+            };
+            db.Users.Add(demoUser7);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Profile
+            {
+              name = "Ray",
+              nickname = "Ray",
+              gender = "男",
+              interest = "滑雪",
+              user = demoUser7
+            });
             /************
             Teacher1
             ************/
@@ -356,21 +374,21 @@ namespace personal_project.Seed
             db.Courses.AddRange(
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-08-30 09:00"),
-                  endTime = DateTime.Parse("2023-08-30 10:00"),
+                  startTime = DateTime.Parse("2023-09-30 09:00"),
+                  endTime = DateTime.Parse("2023-09-30 10:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
                 new Course
                 {
-                  startTime = DateTime.Parse("2023-08-30 13:00"),
-                  endTime = DateTime.Parse("2023-08-30 14:00"),
+                  startTime = DateTime.Parse("2023-09-30 13:00"),
+                  endTime = DateTime.Parse("2023-09-30 14:00"),
                   price = 300,
                   teacher = yogaCourse
                 }, new Course
                 {
-                  startTime = DateTime.Parse("2023-08-30 16:00"),
-                  endTime = DateTime.Parse("2023-08-30 17:00"),
+                  startTime = DateTime.Parse("2023-09-30 16:00"),
+                  endTime = DateTime.Parse("2023-09-30 17:00"),
                   price = 300,
                   teacher = yogaCourse
                 },
@@ -456,6 +474,301 @@ namespace personal_project.Seed
                 }
             );
 
+            var user4 = new Models.Domain.User
+            {
+              email = "teacher4@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              role = "teacher",
+              isProfileCompleted = true
+            };
+            db.Users.Add(user4);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Models.Domain.Profile
+            {
+              name = "Gina",
+              nickname = "Gigi",
+              gender = "女",
+              interest = "芭蕾",
+              user = user4
+            });
+            db.SaveChanges();
+
+            var balletCourse = new Teacher
+            {
+              courseImage = "https://d3n4wxuzv8xzhg.cloudfront.net/teacher/course/images/20230904224844401.jpg",
+              courseName = "優雅之舞 — 芭蕾舞初級班",
+              courseWay = "實體",
+              courseLanguage = "中文",
+              courseCategory = "芭蕾",
+              courseLocation = "星光芭蕾舞學院市中心分校",
+              courseIntro = "歡迎來到星光芭蕾舞學院的「優雅之舞」芭蕾舞初級班！這堂課程將帶領你進入芭蕾舞的精彩世界，讓你感受到優雅、力量和藝術的完美結合。不論你是初學者，還是已經有些基礎，都歡迎參加本課程，我們將提供專業的指導，讓你不斷進步。",
+              courseReminder = "帶水和毛巾，以確保在課程期間保持身體舒適。",
+              userId = user4.id
+            };
+            db.Teachers.Add(balletCourse);
+            db.SaveChanges();
+
+            db.Courses.AddRange(
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-09-15 09:00"),
+                  endTime = DateTime.Parse("2023-09-15 11:00"),
+                  price = 1000,
+                  teacher = balletCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-09-16 09:00"),
+                  endTime = DateTime.Parse("2023-09-16 11:00"),
+                  price = 1000,
+                  teacher = balletCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-17 09:00"),
+                  endTime = DateTime.Parse("2023-10-17 11:00"),
+                  price = 1000,
+                  teacher = balletCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-18 09:00"),
+                  endTime = DateTime.Parse("2023-10-18 11:00"),
+                  price = 1000,
+                  teacher = balletCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-19 09:00"),
+                  endTime = DateTime.Parse("2023-10-19 11:00"),
+                  price = 1000,
+                  teacher = balletCourse
+                }
+            );
+
+            var user5 = new Models.Domain.User
+            {
+              email = "teacher5@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              role = "teacher",
+              isProfileCompleted = true
+            };
+            db.Users.Add(user5);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Models.Domain.Profile
+            {
+              name = "Angela",
+              nickname = "Angel",
+              gender = "女",
+              interest = "語言",
+              user = user5
+            });
+            db.SaveChanges();
+
+            var kidsEnglishCourse = new Teacher
+            {
+              courseImage = "https://d3n4wxuzv8xzhg.cloudfront.net/teacher/course/images/20230904225203692.jpg",
+              courseName = "童趣美語探險",
+              courseWay = "實體",
+              courseLanguage = "中文",
+              courseCategory = "兒童美語",
+              courseLocation = "彩虹小學美語教室",
+              courseIntro = "歡迎來到童趣美語探險！這是一個專為兒童度身打造的有趣而互動的美語課程。我們相信學習語言應該是一場冒險，讓孩子們在快樂中探索世界，同時培養語言技能。",
+              courseReminder = "帶上筆記本和筆，讓孩子可以記錄他們在課堂上學到的英語詞彙和故事。",
+              userId = user5.id
+            };
+            db.Teachers.Add(kidsEnglishCourse);
+            db.SaveChanges();
+
+            db.Courses.AddRange(
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-09-15 09:00"),
+                  endTime = DateTime.Parse("2023-09-15 10:00"),
+                  price = 800,
+                  teacher = kidsEnglishCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-09-16 09:00"),
+                  endTime = DateTime.Parse("2023-09-16 10:00"),
+                  price = 800,
+                  teacher = kidsEnglishCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-17 09:00"),
+                  endTime = DateTime.Parse("2023-10-17 10:00"),
+                  price = 800,
+                  teacher = kidsEnglishCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-18 09:00"),
+                  endTime = DateTime.Parse("2023-10-18 10:00"),
+                  price = 800,
+                  teacher = kidsEnglishCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-19 09:00"),
+                  endTime = DateTime.Parse("2023-10-19 10:00"),
+                  price = 800,
+                  teacher = kidsEnglishCourse
+                }
+            );
+
+            var user6 = new Models.Domain.User
+            {
+              email = "teacher6@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              role = "teacher",
+              isProfileCompleted = true
+            };
+            db.Users.Add(user6);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Models.Domain.Profile
+            {
+              name = "Shawn",
+              nickname = "S哥",
+              gender = "男",
+              interest = "程式語言",
+              user = user6
+            });
+            db.SaveChanges();
+
+            var codingCourse = new Teacher
+            {
+              courseImage = "https://d3n4wxuzv8xzhg.cloudfront.net/teacher/course/images/20230912173240660.jpg",
+              courseName = "Coding大冒險",
+              courseWay = "線上",
+              courseLanguage = "中文",
+              courseCategory = "程式語言",
+              courseLocation = "台北",
+              courseIntro = "歡迎來到「Coding大冒險」！這是一個讓你踏上學習編程的奇妙之旅的機會。不論你是初學者，還是已經有一些編程經驗，這個課程都將啟發你的創造力，讓你掌握程式語言的神奇力量。",
+              courseReminder = "準備好一顆充滿好奇心的心，我們將一起探索編程的無限可能性！",
+              userId = user6.id
+            };
+            db.Teachers.Add(codingCourse);
+            db.SaveChanges();
+
+            db.Courses.AddRange(
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-09-15 09:00"),
+                  endTime = DateTime.Parse("2023-09-15 10:00"),
+                  price = 800,
+                  teacher = codingCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-09-16 09:00"),
+                  endTime = DateTime.Parse("2023-09-16 10:00"),
+                  price = 800,
+                  teacher = codingCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-17 09:00"),
+                  endTime = DateTime.Parse("2023-10-17 10:00"),
+                  price = 800,
+                  teacher = codingCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-18 09:00"),
+                  endTime = DateTime.Parse("2023-10-18 10:00"),
+                  price = 800,
+                  teacher = codingCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-19 09:00"),
+                  endTime = DateTime.Parse("2023-10-19 10:00"),
+                  price = 800,
+                  teacher = codingCourse
+                }
+            );
+
+            var user7 = new Models.Domain.User
+            {
+              email = "teacher7@example.com",
+              provider = "native",
+              password = "$2a$11$a6XTHe4Z576lMuBU4zZNIO7sriKmfTV/.2n906WNe/g9FOf3CG91m",
+              role = "teacher",
+              isProfileCompleted = true
+            };
+            db.Users.Add(user7);
+            db.SaveChanges();
+
+            db.Profiles.Add(new Models.Domain.Profile
+            {
+              name = "Lucy",
+              nickname = "Lulu",
+              gender = "女",
+              interest = "成人美語",
+              user = user7
+            });
+            db.SaveChanges();
+
+            var adultEnglishCourse = new Teacher
+            {
+              courseImage = "https://d3n4wxuzv8xzhg.cloudfront.net/teacher/course/images/20230912173854090.jpg",
+              courseName = "成人美語精英班",
+              courseWay = "線上",
+              courseLanguage = "中文",
+              courseCategory = "成人美語",
+              courseLocation = "台北",
+              courseIntro = "歡迎參加我們的成人美語精英班！這是一個專為成年學習者打造的高效美語課程，無論你是為了職業需要、旅遊還是個人成長，都能在這裡找到最佳的語言學習體驗。",
+              courseReminder = "請攜帶筆記本、電子設備或筆記工具，以便參與課堂互動和練習。",
+              userId = user7.id
+            };
+            db.Teachers.Add(adultEnglishCourse);
+            db.SaveChanges();
+
+            db.Courses.AddRange(
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-09-15 09:00"),
+                  endTime = DateTime.Parse("2023-09-15 10:00"),
+                  price = 800,
+                  teacher = adultEnglishCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-09-16 09:00"),
+                  endTime = DateTime.Parse("2023-09-16 10:00"),
+                  price = 800,
+                  teacher = adultEnglishCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-17 09:00"),
+                  endTime = DateTime.Parse("2023-10-17 10:00"),
+                  price = 800,
+                  teacher = adultEnglishCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-18 09:00"),
+                  endTime = DateTime.Parse("2023-10-18 10:00"),
+                  price = 800,
+                  teacher = adultEnglishCourse
+                },
+                new Course
+                {
+                  startTime = DateTime.Parse("2023-10-19 09:00"),
+                  endTime = DateTime.Parse("2023-10-19 10:00"),
+                  price = 800,
+                  teacher = adultEnglishCourse
+                }
+            );
             /************
             Admin
             ************/

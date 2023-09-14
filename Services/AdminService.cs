@@ -25,7 +25,7 @@ namespace personal_project.Services
       _config = config;
       _emailService = emailService;
     }
-    public async Task<object> GetAllUnapprovedTeacherApplicationsAsync()
+    public async Task<AdminResult> GetAllUnapprovedTeacherApplicationsAsync()
     {
       try
       {
@@ -39,15 +39,19 @@ namespace personal_project.Services
               description = data.description
             })
             .ToListAsync();
-        return applications;
+        return new AdminResult
+        {
+          statusCode = 200,
+          data = applications
+        };
       }
       catch (Exception ex)
       {
-        return new { message = "Error retrieving teacher applications.", ex.Message };
+        return new AdminResult { statusCode = 400, message = ex.Message };
       }
     }
 
-    public async Task<object> GetTeacherApplicationByIdAsync(long id)
+    public async Task<AdminResult> GetTeacherApplicationByIdAsync(long id)
     {
       try
       {
@@ -56,15 +60,19 @@ namespace personal_project.Services
             .Include(data => data.certifications)
             .SingleOrDefaultAsync();
 
-        return application;
+        return new AdminResult
+        {
+          statusCode = 200,
+          data = application
+        };
       }
       catch (Exception ex)
       {
-        return new { message = "Error retrieving teacher application.", ex.Message };
+        return new AdminResult { statusCode = 400, message = ex.Message };
       }
     }
 
-    public async Task<object> ApproveTeacherApplicationAsync(long id)
+    public async Task<AdminResult> ApproveTeacherApplicationAsync(long id)
     {
       var application = await _db.TeacherApplications
                       .Where(data => data.id == id)
@@ -86,15 +94,18 @@ namespace personal_project.Services
       {
         await _db.SaveChangesAsync();
         await _emailService.SendApproveApplicationMailAsync(id);
-        return application;
+        return new AdminResult
+        {
+          statusCode = 200
+        };
       }
       catch (Exception ex)
       {
-        return new { message = "Error retrieving teacher application.", ex.Message };
+        return new AdminResult { statusCode = 400, message = ex.Message };
       }
     }
 
-    public async Task<object> DenyTeacherApplicationAsync(long id)
+    public async Task<AdminResult> DenyTeacherApplicationAsync(long id)
     {
       var application = await _db.TeacherApplications
                       .Where(data => data.id == id)
@@ -108,11 +119,14 @@ namespace personal_project.Services
       {
         await _db.SaveChangesAsync();
         await _emailService.SendDenyApplicationMailAsync(id);
-        return application;
+        return new AdminResult
+        {
+          statusCode = 200
+        };
       }
       catch (Exception ex)
       {
-        return new { message = "Error retrieving teacher application.", ex.Message };
+        return new AdminResult { statusCode = 400, message = ex.Message };
       }
     }
 

@@ -266,7 +266,7 @@ $(document).ready(function () {
     axios
       .get(`${host}${endpoint}/${idValue}`, config)
       .then((response) => {
-        const application = response.data;
+        const application = response.data.data;
         renderApplicationDetail(application);
         activateButtons(application);
       })
@@ -279,7 +279,7 @@ $(document).ready(function () {
     axios
       .get(host + endpoint, config)
       .then((response) => {
-        const applications = response.data;
+        const applications = response.data.data;
         renderApplications(applications);
       })
       .catch((error) => {

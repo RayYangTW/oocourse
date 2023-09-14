@@ -10,10 +10,10 @@ namespace personal_project.Services
 {
   public interface IAdminService
   {
-    Task<object> GetAllUnapprovedTeacherApplicationsAsync();
-    Task<object> GetTeacherApplicationByIdAsync(long id);
-    Task<object> ApproveTeacherApplicationAsync(long id);
-    Task<object> DenyTeacherApplicationAsync(long id);
+    Task<AdminResult> GetAllUnapprovedTeacherApplicationsAsync();
+    Task<AdminResult> GetTeacherApplicationByIdAsync(long id);
+    Task<AdminResult> ApproveTeacherApplicationAsync(long id);
+    Task<AdminResult> DenyTeacherApplicationAsync(long id);
     Task<AdminResult> GetPlatformDataAsync();
     Task<AdminResult> GetTransactionDataAsync(string start, string end);
     Task<AdminResult> GetCourseDataAsync(string start, string end);
