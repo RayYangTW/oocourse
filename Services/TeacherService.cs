@@ -214,6 +214,7 @@ namespace personal_project.Services
       {
         var coursesData = await _db.Courses
                                 .Where(data => data.teacher.userId == user.id)
+                                .Where(data => data.startTime >= DateTime.Now)
                                 .Where(data => data.isBooked == true)
                                 .Include(data => data.teacher)
                                 .ToListAsync();
